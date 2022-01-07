@@ -1,0 +1,18 @@
+local ok, null_ls = pcall(require, "null-ls")
+local lspconfig = require "lspconfig"
+
+if not ok then
+   return
+end
+
+local b = null_ls.builtins
+
+
+null_ls.config = {
+	sources = {
+		b.formatting.prettierd,
+		b.formatting.eslint_d,
+		},
+}
+
+lspconfig["null-ls"].setup {}

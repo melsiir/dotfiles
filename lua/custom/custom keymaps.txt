@@ -1,0 +1,11 @@
+   -- move text up and down
+   map("n", "<A-j>", ":m +1 <CR>", opt)
+   map("n", "<A-k>", ":m -2 <CR>", opt)
+   -- copy text up and down
+   map("n", "<C-A-j>", "m`yy<ESC>p``", opt)
+   map("i", "<C-A-j>", "<ESC>m`yyp``i", opt)
+   map("n", "<C-A-k>", "m`yy<ESC>[p``", opt)
+   map("i", "<C-A-k>", "<ESC>m`yy[p``i", opt)
+   
+
+ map("n", "<leader>ft", "<leader>fm", opt)
