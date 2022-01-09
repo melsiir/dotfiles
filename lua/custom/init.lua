@@ -18,6 +18,9 @@ local map = require("core.utils").map
    map("i", "<C-A-k>", "<ESC>m`yy[p``i", opt)
    map("n", "<leader>ft", ":lua vim.lsp.buf.formatting() <CR>", opt)
    map("n", "<leader>fp", ":Telescope projects<CR>", opt)
+   map("n", "<leader>gl", ":Glow <CR>", opt)
+
+
 -- NOTE: the 4th argument in the map function can be a table i.e options but its most likely un-needed so dont worry about it
 
 -- Install plugins
@@ -85,13 +88,13 @@ customPlugins.add(function(use)
             },
 })
 
-  --  use({
-  --   "folke/which-key.nvim",
-  --   event = "VimEnter",
-  --   config = function()
-  --     require("custom.plugins.keys")
-  --   end,
-  -- })
+   use({
+    "folke/which-key.nvim",
+    event = "VimEnter",
+    -- config = function()
+    --   require("custom.plugins.keys")
+    -- end,
+  })
     
 
     use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
@@ -110,6 +113,9 @@ customPlugins.add(function(use)
       requires = { "nvim-telescope/telescope.nvim" },
       config = "require('custom.plugins.project')",
     })
+    -- require pkg install glow
+    use({ "ellisonleao/glow.nvim", cmd = "Glow", config = "require('custom.plugins.glow')" })
+
 
 
    use 'folke/tokyonight.nvim'
