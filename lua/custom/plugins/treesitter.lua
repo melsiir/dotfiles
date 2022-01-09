@@ -13,7 +13,7 @@ ts_config.setup {
       "tsx", "graphql", "html",
       "scss", "python", "dockerfile",
       "dot", "json", "bash", "fish",
-      "hjson",
+      "hjson", "vue", "svelt",
    },
    highlight = {
       enable = true,
