@@ -1,0 +1,3 @@
+function udot --wraps='rsync -aupP --progress --delete /data/data/com.termux/files/home/.config/nvim/ /data/data/com.termux/files/home/.config/dotfiles/ --exclude .git --exclude .github --exclude  .gitignore --exclude README.md' --description 'alias udot=rsync -aupP --progress --delete /data/data/com.termux/files/home/.config/nvim/ /data/data/com.termux/files/home/.config/dotfiles/ --exclude .git --exclude .github --exclude  .gitignore --exclude README.md'
+  rsync -aupP --progress --delete /data/data/com.termux/files/home/.config/nvim/ /data/data/com.termux/files/home/.config/dotfiles/ --exclude .git --exclude .github --exclude  .gitignore --exclude README.md $argv; 
+end
