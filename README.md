@@ -1,4 +1,5 @@
-#My neovim config
+# My fish and neovim dotFiles
 
 
-#this config is based on [nvChad](https://github.com/NvChad/NvChad)
+nvim config is based on [nvChad](https://github.com/NvChad/NvChad)
+
