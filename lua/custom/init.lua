@@ -1,16 +1,7 @@
--- This is an example init file , its supposed to be placed in /lua/custom dir
--- lua/custom/init.lua
+local map = require("core.utils").map
 
-
-local hooks = require "core.hooks"
-local override_req = require("core.utils").override_req
-
--- MAPPINGS
--- To add new plugins, use the "setup_mappings" hook,
-
-hooks.add("setup_mappings", function(map)
-   map("n", "<leader>cc", ":Telescope <CR>", opt)
-   map("n", "<leader>q", ":q <CR>", opt)
+   map("n", "<leader>cc", ":Telescope <CR>")
+   map("n", "<leader>q", ":q <CR>")
    map("n", "<leader>qq", ":q! <CR>", opt)
    map("n", "<leader>zm", ":TZMinimalist <CR>", opt)
    map("n", "<leader>zz", ":TZAtaraxis <CR>", opt)
@@ -26,12 +17,16 @@ hooks.add("setup_mappings", function(map)
    map("n", "<C-A-k>", "m`yy<ESC>[p``", opt)
    map("i", "<C-A-k>", "<ESC>m`yy[p``i", opt)
    map("n", "<leader>ft", ":lua vim.lsp.buf.formatting() <CR>", opt)
-   
-end)
+   map("n", "<leader>fp", ":Telescope projects<CR>", opt)
+-- NOTE: the 4th argument in the map function can be a table i.e options but its most likely un-needed so dont worry about it
 
+-- Install plugins
 
-hooks.add("install_plugins", function(use)
-   use {
+local customPlugins = require "core.customPlugins"
+
+customPlugins.add(function(use)
+    
+    use {
       "karb94/neoscroll.nvim",
        opt = true,
        config = function()
@@ -77,21 +72,10 @@ hooks.add("install_plugins", function(use)
       end,
    }
 
---    use {
---   'nvim-lualine/lualine.nvim',
---   after = 'nvim-web-devicons',
---   config = "require('custom.plugins.lualine')"
---    -- config = function()
---    -- require('custom.plugins.line').setup()
--- end
--- }
-    
  
   use({ {
     "nvim-lualine/lualine.nvim",
-    -- requires = { "rlch/github-notifications.nvim" },
-    -- event = "VimEnter",
-    --
+     event = "VimEnter",
     config = [[require('custom.plugins.evil_lualine')]],
     after = "nvim-web-devicons",
   },
@@ -109,10 +93,15 @@ hooks.add("install_plugins", function(use)
   --   end,
   -- })
     
-    -- use {"ellisonleao/glow.nvim"}
-    use({ "ellisonleao/glow.nvim", cmd = "Glow", config = "require('custom.plugins.glow')" })
 
     use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
+    
+    use {
+  "blackCauldron7/surround.nvim",
+  config = function()
+    require("custom.plugins.surround")
+  end,
+}
 
 
 
@@ -129,18 +118,13 @@ hooks.add("install_plugins", function(use)
    
    use 'rmehri01/onenord.nvim'
 
-   use({
-	"catppuccin/nvim",
-	as = "catppuccin"
-})
+   use 'shaunsingh/nord.nvim'
 
-   -- If you are using Packer
-      use 'shaunsingh/nord.nvim'
-
-end)
+ end)
 
 
-   -- Stop sourcing filetype.vim
+
+ 
+-- Stop sourcing filetype.vim
 vim.g.did_load_filetypes = 1
-
 
