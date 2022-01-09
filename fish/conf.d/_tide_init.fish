@@ -45,7 +45,7 @@ function _tide_init_uninstall --on-event _tide_init_uninstall
 end
 set -g tide_git_icon 
 #set -g tide_character_icon '  '
-#set -g tide_character_icon '   '
+#set -g tide_character_icon '   ➜'
 set -g tide_character_icon '▲'
 #set -g tide_character_icon '  '
 set -g tide_status_icon_failure ''
