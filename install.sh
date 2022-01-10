@@ -91,11 +91,36 @@ webdiv ()
   fi
 }
 
+font () {
+  echo "Do you want to install nerd fonts ? (y, n) :"
+  read -r fon 
+  if [[ $fon == "y" ]]; then
+  echo "choose your font :"
+  echo "[ 1 ] Jetbrain Mono"
+  echo "[ 2 ] Fira Mono"
+  echo "[ 3 ] Hack"
+  echo "[ 4 ] Noto Mono"
+  read -r num
 
+  if [[ $num > 0 || $num < 5 ]]; then 
+    mv $HOME/.termux/font.ttf $HOME/.termux/font.ttf.bak
+    if [[ $num == 1 ]]; then
+      cp -p ./Fonts/jetbrain-mono.ttf $HOME/.termux/font.ttf
+    elif [[ $num == 2 ]]; then
+      cp -p ./Fonts/fira.ttf $HOME/.termux/font.ttf
+    elif [[ $num == 3 ]]; then
+      cp ./Fonts/hack.ttf $HOME/.termux/font.ttf
+    elif [[ $num == 4 ]]; then
+      cp ./Fonts/noto.ttf $HOME/.termux/font.ttf
+    fi
+  fi 
+ fi
+}
 
 
 installPackages
 installConfigs
+font
 lsp
 webdiv
 
