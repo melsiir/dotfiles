@@ -97,7 +97,11 @@ customPlugins.add(function(use)
   })
     
 
-    use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" })
+    use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter",
+  config = function ()
+  require('nvim-ts-autotag').setup()
+  end, 
+})
     
     use {
   "blackCauldron7/surround.nvim",
@@ -116,7 +120,11 @@ customPlugins.add(function(use)
     -- require pkg install glow
     use({ "ellisonleao/glow.nvim", cmd = "Glow", config = "require('custom.plugins.glow')" })
 
-
+   use({
+     "hrsh7th/cmp-cmdline",
+     after = "cmp-buffer",
+     config = "require('custom.plugins.cmdline')",
+   })
 
    use 'folke/tokyonight.nvim'
 
