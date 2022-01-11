@@ -20,7 +20,9 @@ M.plugins = {
       nvim_web_devicons = "custom.plugins.icons",
       dashboard = "custom.plugins.dashboard",
       treesitter = "custom.plugins.treesitter",
-      telescope = "custom.plugins.telescope"
+      telescope = "custom.plugins.telescope",
+
+      colorizer = "custom.plugins.colorizer"
       
    },
 -- disable plugins by set it to false

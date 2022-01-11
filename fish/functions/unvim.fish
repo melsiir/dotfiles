@@ -1,0 +1,3 @@
+function unvim --wraps='rsync -aupP --progress --delete /data/data/com.termux/files/home/.config/nvim/ /data/data/com.termux/files/home/.config/dotfiles/nvim --exclude .git --exclude .github --exclude  .gitignore --exclude README.md' --description 'alias unvim=rsync -aupP --progress --delete /data/data/com.termux/files/home/.config/nvim/ /data/data/com.termux/files/home/.config/dotfiles/nvim --exclude .git --exclude .github --exclude  .gitignore --exclude README.md'
+  rsync -aupP --progress --delete /data/data/com.termux/files/home/.config/nvim/ /data/data/com.termux/files/home/.config/dotfiles/nvim --exclude .git --exclude .github --exclude  .gitignore --exclude README.md $argv; 
+end

@@ -63,7 +63,8 @@ customPlugins.add(function(use)
    }
    
    use {
-   	"mattn/emmet-vim"
+   	"mattn/emmet-vim",
+        event = "VimEnter",
    }
 
 
@@ -76,17 +77,25 @@ customPlugins.add(function(use)
    }
 
  
-  use({ {
+  use({
     "nvim-lualine/lualine.nvim",
      event = "VimEnter",
     config = [[require('custom.plugins.evil_lualine')]],
     after = "nvim-web-devicons",
-  },
-            {
-                'arkav/lualine-lsp-progress',
-                after = 'lualine.nvim',
-            },
-})
+  })
+
+--   use({ {
+--     "nvim-lualine/lualine.nvim",
+--      event = "VimEnter",
+--     config = [[require('custom.plugins.evil_lualine')]],
+--     after = "nvim-web-devicons",
+--   },
+--             {
+--                 'arkav/lualine-lsp-progress',
+--                 after = 'lualine.nvim',
+--             },
+-- })
+
 
    use({
     "folke/which-key.nvim",
