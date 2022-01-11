@@ -6,13 +6,13 @@ installConfigs() {
   echo "Do you want to install fish config type y or Y to eccept?"
   read -r fish
   if [[ $nvim == "y" || $nvim == "Y" ]]; then
-    cp -Rvup ./nvim/ $HOME/.config/nvim/
+    cp -Rvup ./nvim/. $HOME/.config/nvim/
   else
     true
   fi
   
   if [[ $fish == "y" || $fish == "Y" ]]; then
-     cp -Rvup ./fish/ $HOME/.config/fish/
+     cp -Rvup ./fish/. $HOME/.config/fish/
   else
     true
   fi
