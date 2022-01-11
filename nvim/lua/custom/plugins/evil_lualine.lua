@@ -2,7 +2,6 @@
 -- Author: shadmansaleh
 -- Credit: glepnir
 local lualine = require('lualine')
-require('custom.plugins.lsp_progress')
 
 local function diff_source()
   local gitsigns = vim.b.gitsigns_status_dict
