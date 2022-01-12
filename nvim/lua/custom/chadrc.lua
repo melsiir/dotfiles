@@ -35,6 +35,9 @@ M.plugins = {
       lspconfig = {
          setup_lspconf = "custom.plugins.lspconfig",
       },
+      -- cmp = {
+      --   lazy_load = false,
+      -- },
    },
 }
 

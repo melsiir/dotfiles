@@ -10,14 +10,18 @@ ts_config.setup {
       "vim",
       "css",
       "typescript", "javascript",
-      "tsx", "graphql", "html",
+      "tsx", "graphql",
       "scss", "python", "dockerfile",
       "dot", "json", "bash", "fish",
       "hjson", "vue", "svelt",
+      --i disabled html because it has an issue with 
+      --paresing html page
+      -- "html",
    },
    highlight = {
       enable = true,
-      use_languagetree = true,
+      -- use_languagetree = true,
+       disable = { "html" },
    },
    autotag = {
     enable = true,

@@ -131,7 +131,8 @@ customPlugins.add(function(use)
 
    use({
      "hrsh7th/cmp-cmdline",
-     after = "cmp-buffer",
+     -- after = "cmp-buffer",
+     after = "nvim-cmp",
      config = "require('custom.plugins.cmdline')",
    })
 
