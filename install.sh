@@ -1,5 +1,28 @@
 #!/bin/bash
 
+
+
+installAll ()
+{
+  echo "install neccassry packages ....."
+  pkg update && pkg upgrade
+  pkg install neovim nodejs clang make ripgrep python glow fish zip rsync tsu openssh tree curl
+ 
+  echo "Install Config and font ......"
+ cp -Rvup ./nvim/. $HOME/.config/nvim/
+ cp -Rvup ./fish/. $HOME/.config/fish/
+ cp -p ./Fonts/jetbrain-mono.ttf $HOME/.termux/font.ttf
+
+   echo "Install language servers and formaters ......"
+  npm install -g typescript-language-server  typescript vscode-langservers-extracted pyright @tailwindcss/language-server graphql-language-service-cli @fsouza/prettierd;
+  pip install --upgrade pip
+  pip install black
+  echo "install install essensial node development tools ........."
+  pnpm install -g dotenv lite-server live-server nodemon esm;
+
+}
+
+
 installConfigs() {
   echo "Do you want to install nvim config type y or Y to eccept ?"
   read -r nvim
@@ -12,6 +35,12 @@ installConfigs() {
   fi
   
   if [[ $fish == "y" || $fish == "Y" ]]; then
+    echo "Do you want to install fish and set it as your default shell ? y, n"  
+    read -r installFish
+    if [[ $installFish == "y" || $installFish == "Y" ]]; then
+      pkg install fish 
+      chsh -s fish
+    fi
      cp -Rvup ./fish/. $HOME/.config/fish/
   else
     true
@@ -140,11 +169,43 @@ font () {
 }
 
 
+
+startNeovim ()
+{
+   echo "do you want to launch nvim ? (y, n)"
+   read -r launch
+   if [[ $launch == "y" || $launch == "Y" ]]; then
+     nvim +'hi NormalFloat guibg=#1e222a' +PackerSync 
+   else
+    true
+   fi 
+}
+
+
+
+#funcions envoking
+
 installPackages
 installConfigs
 font
 lsp
-webdiv
+webdiv 
 
 
-nvim +'hi NormalFloat guibg=#1e222a' +PackerSync
+
+# installMethod ()
+# {
+#   echo "choose Installation type:"
+#   echo "[ 1 ] full install"
+#   echo "[ 2 ] custom install"
+#   read -r insType
+#   if [[ insType == "1" ]]; then
+#     $(installAll)
+#   elif [[ insType == "2" ]]; then
+#     $(installCustom)
+#   fi
+# }
+
+# installMethod
+
+startNeovim
