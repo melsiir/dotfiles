@@ -28,6 +28,11 @@ installConfigs() {
  installPackages ()
 {
   echo "Do you want to install neccassry linux packages (y or n) ?"
+  echo "[ * ] Neovim"
+  echo "[ * ] Nodejs"
+  echo "[ * ] Clang"
+  echo "[ * ] Make"
+  echo "[ * ] ripgrep"
   read -r pkg
   if [[ $pkg == "y" ]]; then
     pkg update && pkg upgrade;
@@ -56,13 +61,18 @@ installConfigs() {
 
 
     echo "Do you want install some essensial packages ? ( y, n)"
+    echo "[ * ] zip"
+    echo "[ * ] tsu"
+    echo "[ * ] rsync"
+    echo "[ * ] openssh"
+    echo "[ * ] tree"
+    echo "[ * ] curl"
     read -r essensial
     if [[ $essensial == "y" ]]; then
       pkg install zip rsync tsu openssh tree curl
       else
         true
     fi
-
 
   else
     true
@@ -72,6 +82,13 @@ installConfigs() {
 lsp ()
 {
   echo "Do you want to install language servers ? (y, n)"
+  echo "[ * ] typescript-language-server"
+  echo "[ * ] typescript"
+  echo "[ * ] vscode-langservers-extracted"
+  echo "[ * ] @tailwindcss/language-server"
+  echo "[ * ] prettierd"
+  echo "[ * ] pyright"
+  echo "[ * ] graphql-language-service-cli"
   read -r lsp
   if [[ $lsp == "y" ]]; then
     npm install -g typescript-language-server  typescript vscode-langservers-extracted pyright @tailwindcss/language-server graphql-language-service-cli @fsouza/prettierd
@@ -83,9 +100,14 @@ lsp ()
 webdiv ()
 {
   echo "do you want to install web development tool with pnpm ? (y, n)"
+  echo "[ * ] dotenv"
+  echo "[ * ] lite-server"
+  echo "[ * ] live-server"
+  echo "[ * ] nodemon"
+  echo "[ * ] esm"
   read -r web
   if [[ $web == "y" ]]; then
-    pnpm i -g dotenv lite-server live-server nodemon esm;
+    pnpm install -g dotenv lite-server live-server nodemon esm;
   else
     true
   fi
