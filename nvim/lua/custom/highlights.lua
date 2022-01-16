@@ -53,6 +53,7 @@ fg("DashboardShortcut", mc.white)
 -- fg('HtmlTag',colors.blue)
 -- fg('HtmlTagname',mc.purple)
 fg('HtmlEndtag',colors.blue)
+fg('HtmlLink',colors.cyan)
 -- fg('HtmlString',mc.blue)
 -- fg('HtmlValue',mc.blue)
 

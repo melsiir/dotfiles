@@ -68,7 +68,7 @@ return packer.startup(function()
 
    use {
       "nvim-treesitter/nvim-treesitter",
-       event = "BufRead",
+      event = "BufRead",
       config = override_req("nvim_treesitter", "plugins.configs.treesitter"),
    }
 
@@ -126,8 +126,7 @@ return packer.startup(function()
    use {
       "rafamadriz/friendly-snippets",
       disable = not plugin_settings.status.cmp,
-      -- event = "InsertEnter",
-      event = "BufRead",
+      event = "InsertEnter",
    }
 
    use {
