@@ -63,4 +63,7 @@ cmp.setup {
       { name = "nvim_lua" },
       { name = "path" },
    },
+   experimental = {
+    ghost_text = true,
+  },
 }

@@ -84,7 +84,8 @@ local config = {
     -- Disable sections and component separators
     component_separators = '',
     section_separators = '',
-    theme = 'tokyonight'
+    theme = 'tokyonight',
+    disabled_filetypes = {dashboard='dashboard'},
     -- theme = {
     --   
     --   -- We are going to use lualine_c an lualine_x as left and

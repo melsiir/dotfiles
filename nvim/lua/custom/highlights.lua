@@ -68,7 +68,7 @@ fg('HtmlLink',colors.cyan)
 -- color for selected item
 bg('PmenuSel', colors.blue)
 
-
+-- item that does not have color 
 fg('CmpItemAbbrDeprecated', colors.blue)
 fg('CmpItemKind', colors.blue)
 -- change the colors of the cmp sources exaple [BUF]

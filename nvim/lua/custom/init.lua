@@ -151,4 +151,7 @@ customPlugins.add(function(use)
  
 -- Stop sourcing filetype.vim
 vim.g.did_load_filetypes = 1
+-- vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50i\,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor"
+
+
 
