@@ -22,7 +22,8 @@ M.plugins = {
       treesitter = "custom.plugins.treesitter",
       telescope = "custom.plugins.telescope",
 
-      colorizer = "custom.plugins.colorizer"
+      colorizer = "custom.plugins.colorizer",
+      nvim_cmp = "custom.plugins.cmp",
       
    },
 -- disable plugins by set it to false
