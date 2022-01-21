@@ -62,7 +62,7 @@ fg('HtmlLink',colors.cyan)
 -- cmp
 
 
--- fg('CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080')
+
 
 -- fg('CmpItemAbbr','#FFFFFF')
 -- color for selected item

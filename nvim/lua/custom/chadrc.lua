@@ -7,7 +7,7 @@ local M = {}
 -- example of changing theme:
 
 M.ui = {
-   theme = "onedark",
+   theme = "catppuccin",
    hl_override = "custom.highlights",
 }
 
@@ -24,6 +24,7 @@ M.plugins = {
 
       colorizer = "custom.plugins.colorizer",
       nvim_cmp = "custom.plugins.cmp",
+      -- comment = "custom.plugins.comment",
       
    },
 -- disable plugins by set it to false

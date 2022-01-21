@@ -136,6 +136,14 @@ customPlugins.add(function(use)
      config = "require('custom.plugins.cmdline')",
    })
 
+ --   use({ 'JoosepAlviste/nvim-ts-context-commentstring',
+ --   -- requires = {  "nvim-treesitter/nvim-treesitter" },
+ -- after = "nvim-teesitter",
+ -- -- config = "require('custom.plugins.context')",
+ -- 
+ --    
+ --  })
+
    use 'folke/tokyonight.nvim'
 
    use 'ful1e5/onedark.nvim'
