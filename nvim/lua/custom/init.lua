@@ -145,12 +145,12 @@ customPlugins.add(function(use)
  --  })
 
    use 'folke/tokyonight.nvim'
-
-   use 'ful1e5/onedark.nvim'
-   
-   use 'rmehri01/onenord.nvim'
-
-   use 'shaunsingh/nord.nvim'
+   --
+   -- use 'ful1e5/onedark.nvim'
+   -- 
+   -- use 'rmehri01/onenord.nvim'
+   --
+   -- use 'shaunsingh/nord.nvim'
 
  end)
 
