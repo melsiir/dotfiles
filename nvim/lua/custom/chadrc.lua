@@ -2,7 +2,6 @@
 -- lua/custom/chadrc.lua
 
 local M = {}
-
 -- make sure you maintain the structure of `core/default_config.lua` here,
 -- example of changing theme:
 
@@ -19,7 +18,7 @@ M.plugins = {
       bufferline = "custom.plugins.bufferline",
       nvim_web_devicons = "custom.plugins.icons",
       dashboard = "custom.plugins.dashboard",
-      treesitter = "custom.plugins.treesitter",
+      nvim_treesitter = "custom.plugins.treesitter",
       telescope = "custom.plugins.telescope",
 
       colorizer = "custom.plugins.colorizer",

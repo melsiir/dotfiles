@@ -13,19 +13,23 @@ ts_config.setup {
       "tsx", "graphql",
       "scss", "python", "dockerfile",
       "dot", "json", "bash", "fish",
-      "hjson", "vue", "svelt",
+      "hjson", "vue", "svelte",
       --i disabled html because it has an issue with 
       --paresing html page
       -- "html",
    },
    highlight = {
       enable = true,
-      -- use_languagetree = true,
-       disable = { "html" },
+      use_languagetree = true,
+       disable = {},
    },
-   autotag = {
+   context_commentstring = {
     enable = true,
-  }, 
+    enable_autocmd = false,
+  },
+  autotag = {
+    enable = true,
+  },
   -- context_commentstring 
   -- context_commentstring = {
   --   enable = true,
@@ -41,4 +45,5 @@ ts_config.setup {
   --   }
   -- },
 }
+
 

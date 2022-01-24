@@ -10,7 +10,11 @@ M.setup_lsp = function(attach, capabilities)
 
    for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
-         on_attach = attach,
+         -- on_attach = attach,
+         on_attach = function(client, bufnr)
+        -- disable default lsp formatter
+         client.resolved_capabilities.document_formatting = false
+      end,
          capabilities = capabilities,
          flags = {
             debounce_text_changes = 150,

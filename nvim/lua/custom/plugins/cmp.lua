@@ -62,6 +62,7 @@ cmp.setup {
       { name = "buffer" },
       { name = "nvim_lua" },
       { name = "path" },
+      { name = "emoji" },
    },
    experimental = {
     ghost_text = true,
