@@ -118,9 +118,11 @@ lsp ()
   echo "[ * ] prettierd"
   echo "[ * ] pyright"
   echo "[ * ] graphql-language-service-cli"
+  echo "[ * ] lua-language-server"
   read -r lsp
   if [[ $lsp == "y" ]]; then
-    npm install -g typescript-language-server  typescript vscode-langservers-extracted pyright @tailwindcss/language-server graphql-language-service-cli @fsouza/prettierd
+    npm install -g typescript-language-server  typescript vscode-langservers-extracted pyright @tailwindcss/language-server graphql-language-service-cli @fsouza/prettierd;
+    pkg install lua-language-server;
   else
     true
   fi

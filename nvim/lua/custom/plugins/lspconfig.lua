@@ -1,36 +1,18 @@
-local M = {}
+require("plugins.configs.others").lsp_handlers()
 
-
-M.setup_lsp = function(attach, capabilities)
-   local lspconfig = require "lspconfig"
-
-
-
-   local servers = { "html", "cssls", "pyright"}
-
-   for _, lsp in ipairs(servers) do
-      lspconfig[lsp].setup {
-         -- on_attach = attach,
-         on_attach = function(client, bufnr)
-        -- disable default lsp formatter
-         client.resolved_capabilities.document_formatting = false
-      end,
-         capabilities = capabilities,
-         flags = {
-            debounce_text_changes = 150,
-         },
-      }
+local function on_attach(_, bufnr)
+   local function buf_set_option(...)
+      vim.api.nvim_buf_set_option(bufnr, ...)
    end
-   
 
- lspconfig.tsserver.setup {
-      on_attach = function(client, bufnr)
-         client.resolved_capabilities.document_formatting = false
-      end,
-   }
+   -- Enable completion triggered by <c-x><c-o>
+   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+   require("core.mappings").lspconfig()
+end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local lspconfig = require "lspconfig"
 
- --lspconfig.tailwindcss.setup{}
 
 --custom float diagnostics 
 
@@ -44,7 +26,18 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 vim.cmd "autocmd CursorHold * lua vim.diagnostic.open_float()"
 vim.cmd "autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()"
 
+
+
+
+-- lspservers with default config
+local servers = { "html", "cssls", "tsserver","pyright", "sumneko_lua" }
+
+for _, lsp in ipairs(servers) do
+   lspconfig[lsp].setup {
+      on_attach = on_attach,
+      capabilities = capabilities,
+      flags = {
+         debounce_text_changes = 150,
+      },
+   }
 end
-
-return M
-

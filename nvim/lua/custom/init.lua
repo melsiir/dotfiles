@@ -1,4 +1,3 @@
-
 local map = require("core.utils").map
 
 map("n", "<leader>cc", ":Telescope <CR>")
@@ -30,7 +29,103 @@ local customPlugins = require "core.customPlugins"
 customPlugins.add(function(use)
    -- use { "lewis6991/impatient.nvim" }
 
+   --lsp-config
+   use {
+      "neovim/nvim-lspconfig",
+      module = "lspconfig",
+
+      config = function()
+         require "custom.plugins.lspconfig"
+      end,
+
+      -- lazy load!
+      setup = function()
+         require("core.utils").packer_lazy_load "nvim-lspconfig"
+         vim.defer_fn(function()
+            vim.cmd 'if &ft == "packer" | echo "" | else | silent! e %'
+         end, 0)
+      end,
+      opt = true,
+   }
+
+   use {
+      "ray-x/lsp_signature.nvim",
+      after = "nvim-lspconfig",
+      config = function()
+         require "custom.plugins.signature"
+      end,
+   }
+
    use { "nvim-treesitter/playground", after = "nvim-treesitter" }
+
+   -- completion 
+
+   -- load luasnips + cmp related in insert mode only
+   use {
+      "rafamadriz/friendly-snippets",
+      event = "InsertEnter",
+   }
+
+   use {
+      "hrsh7th/nvim-cmp",
+      after = "friendly-snippets",
+      config = function()
+         require "custom.plugins.cmp"
+      end,
+   }
+
+   use {
+      "L3MON4D3/LuaSnip",
+      wants = "friendly-snippets",
+      after = "nvim-cmp",
+      config = function()
+         local luasnip = require "luasnip"
+         luasnip.config.set_config {
+            history = true,
+            updateevents = "TextChanged,TextChangedI",
+         }
+         require("luasnip/loaders/from_vscode").load()
+      end,
+   }
+
+   use {
+      "saadparwaiz1/cmp_luasnip",
+      after = "LuaSnip",
+   }
+
+   use {
+      "hrsh7th/cmp-nvim-lua",
+      after = "cmp_luasnip",
+   }
+
+   use {
+      "hrsh7th/cmp-nvim-lsp",
+      after = "cmp-nvim-lua",
+   }
+
+   use {
+      "hrsh7th/cmp-buffer",
+      after = "cmp-nvim-lsp",
+   }
+
+   use {
+      "hrsh7th/cmp-path",
+      after = "cmp-buffer",
+   }
+
+   use {
+      "windwp/nvim-autopairs",
+      after = "nvim-cmp",
+      config = function()
+         local autopairs = require "nvim-autopairs"
+         local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+
+         autopairs.setup { fast_wrap = {} }
+
+         local cmp = require "cmp"
+         cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+      end,
+   }
 
    use { "hrsh7th/cmp-emoji", after = { "nvim-cmp" } }
 
@@ -107,8 +202,8 @@ customPlugins.add(function(use)
 
    use { "windwp/nvim-ts-autotag", after = "nvim-treesitter" }
 
- use { "JoosepAlviste/nvim-ts-context-commentstring", after = { "nvim-treesitter", "Comment.nvim" } }
---
+   use { "JoosepAlviste/nvim-ts-context-commentstring", after = { "nvim-treesitter", "Comment.nvim" } }
+   --
    use {
       "blackCauldron7/surround.nvim",
       config = function()
