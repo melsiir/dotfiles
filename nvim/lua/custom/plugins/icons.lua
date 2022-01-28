@@ -143,5 +143,26 @@ icons.setup {
          color = colors.sun,
          name = "zip",
       },
+      ["webpack.dev.js"] = {
+        icon = " ﰩ ",
+        color = colors.blue,
+        name = "webpack",
+      },
+      ["webpack.pro.js"] = {
+        icon = " ﰩ ",
+        color = colors.blue,
+        name = "webpack",
+      },
+      ["webpack.config.js"] = {
+        icon = " ﰩ ",
+        color = colors.blue,
+        name = "webpack",
+      },
+      ["webpack.common.js"] = {
+        icon = " ﰩ ",
+        color = colors.blue,
+        name = "webpack",
+      },
+
    },
 }

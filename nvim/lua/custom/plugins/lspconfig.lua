@@ -1,8 +1,12 @@
 require("plugins.configs.others").lsp_handlers()
 
-local function on_attach(_, bufnr)
+-- local function on_attach(_, bufnr)
+local function on_attach(client, bufnr)
    local function buf_set_option(...)
       vim.api.nvim_buf_set_option(bufnr, ...)
+      -- disable default lsp formater cause i want to us null.ls
+      client.resolved_capabilities.document_formatting = false
+
    end
 
    -- Enable completion triggered by <c-x><c-o>
@@ -30,7 +34,7 @@ vim.cmd "autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()"
 
 
 -- lspservers with default config
-local servers = { "html", "cssls", "tsserver","pyright", "sumneko_lua" }
+local servers = { "html", "cssls", "tsserver","pyright", "sumneko_lua", "sqlls"}
 
 for _, lsp in ipairs(servers) do
    lspconfig[lsp].setup {
