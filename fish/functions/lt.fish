@@ -1,3 +1,7 @@
-function lt --wraps=lite-server --description 'alias lt=lite-server'
-  lite-server $argv; 
+function lt --wraps=lite-server
+if [  $argv  ];
+cd $argv && lite-server
+else
+lite-server
+end
 end
