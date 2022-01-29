@@ -170,7 +170,13 @@ font () {
  fi
 }
 
+checkIfUseTermux () {
+  D=$PWD
 
+if [[ "$D" =~ .*"termux".* ]]; then
+  termux-setup-storage
+fi
+}
 
 startNeovim ()
 {
@@ -188,6 +194,7 @@ startNeovim ()
 #funcions envoking
 
 installPackages
+checkIfUseTermux
 installConfigs
 font
 lsp
