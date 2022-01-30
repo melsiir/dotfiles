@@ -64,12 +64,13 @@ customPlugins.add(function(use)
    -- load luasnips + cmp related in insert mode only
    use {
       "rafamadriz/friendly-snippets",
-      event = "InsertEnter",
+      -- event = "InsertEnter",
    }
 
    use {
       "hrsh7th/nvim-cmp",
       after = "friendly-snippets",
+      -- event = "InsertEnter",
       config = function()
          require "custom.plugins.cmp"
       end,
