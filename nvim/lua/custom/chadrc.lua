@@ -1,7 +1,7 @@
-
--- lua/custom/chadrc.lua
+-- This is an example chadrc file , its supposed to be placed in /lua/custom/
 
 local M = {}
+
 -- make sure you maintain the structure of `core/default_config.lua` here,
 -- example of changing theme:
 
@@ -10,10 +10,19 @@ M.ui = {
    hl_override = "custom.highlights",
 }
 
-M.plugins = {
-	-- change pre installed plugins default config
+-- Install plugins
+local userPlugins = require "custom.plugins" -- path to table
 
-	default_plugin_config_replace = {
+M.plugins = {
+   install = userPlugins,
+
+   options = {
+      lspconfig = {
+         setup_lspconf = "custom.plugins.lspconfig",
+      },
+   },
+
+   default_plugin_config_replace = {
       -- feline = "custom.plugins.statusline",
       bufferline = "custom.plugins.bufferline",
       nvim_web_devicons = "custom.plugins.icons",
@@ -22,25 +31,20 @@ M.plugins = {
       telescope = "custom.plugins.telescope",
 
       colorizer = "custom.plugins.colorizer",
-      nvim_cmp = "custom.plugins.cmp",
+      -- nvim_cmp = "custom.plugins.cmp",
       -- comment = "custom.plugins.comment",
       
    },
--- disable plugins by set it to false
-	status = {
+
+   status = {
 		dashboard = true,
 		colorizer = true,
+		snippets = true,
 		feline = false,
            },
-   options = {
-      lspconfig = {
-         setup_lspconf = "custom.plugins.lspconfig",
-      },
-      -- cmp = {
-      --   lazy_load = false,
-      -- },
-   },
+
 }
+
 
 M.mappings = {
 	terminal = {
@@ -49,5 +53,8 @@ M.mappings = {
 }
 
 
+-- NOTE: we heavily suggest using Packer's lazy loading (with the 'event','cmd' fields)
+-- see: https://github.com/wbthomason/packer.nvim
+-- https://nvchad.github.io/config/walkthrough
 
 return M

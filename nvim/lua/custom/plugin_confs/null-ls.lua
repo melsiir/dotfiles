@@ -18,6 +18,7 @@ M.setup = function()
   -- debug = false,
   sources = {
     -- formatting.eslint_d,
+    formatting.fish_indent,
     formatting.prettierd,
     -- .with {
     --   filetypes = {

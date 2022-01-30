@@ -169,7 +169,7 @@ default.git_branch = {
 }
 
 default.diagnostic = {
-   errors = {
+   error = {
       provider = "diagnostic_errors",
       enabled = function()
          return default.lsp.diagnostics_exist(default.lsp_severity.ERROR)
@@ -387,7 +387,6 @@ local function add_table(a, b)
 end
 
 local M = {}
-
 M.setup = function(override_flag)
    if override_flag then
       default = require("core.utils").tbl_override_req("feline", default)

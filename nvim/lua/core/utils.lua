@@ -249,11 +249,9 @@ end
 -- override flag being true tells the plugin to call tbl_override_req as part of configuration
 
 M.override_req = function(name, default_config, config_function)
-   local override = require("core.utils").load_config().plugins.default_plugin_config_replace[name]
-   local apply_table_override = "false"
-
+   local override, apply_table_override =
+      require("core.utils").load_config().plugins.default_plugin_config_replace[name], "false"
    local result = default_config
-
    if type(override) == "string" and override ~= "" then
       return "require('" .. override .. "')"
    elseif type(override) == "table" then
@@ -263,7 +261,6 @@ M.override_req = function(name, default_config, config_function)
    end
 
    result = "('" .. result .. "')"
-
    if type(config_function) == "string" and config_function ~= "" then
       -- add the . to call the functions and concatenate true or false as argument
       result = result .. "." .. config_function .. "(" .. apply_table_override .. ")"
