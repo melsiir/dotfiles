@@ -1,6 +1,7 @@
 local M = {}
 
 M.setup_lsp = function(attach, capabilities)
+  -- capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
    local lspconfig = require "lspconfig"
    require("plugins.configs.others").lsp_handlers()
    lspconfig.tsserver.setup {
@@ -9,10 +10,10 @@ M.setup_lsp = function(attach, capabilities)
          vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>fm", "<cmd>lua vim.lsp.buf.formatting()<CR>", {})
       end,
    }
-   local capabilities = vim.lsp.protocol.make_client_capabilities()
+
    
    -- lspservers with default config
-   local servers = { "html", "cssls", "bashls", "clangd" }
+   local servers = { "html", "cssls", "bashls", "clangd", "pyright" }
 
    for _, lsp in ipairs(servers) do
       lspconfig[lsp].setup {
@@ -27,6 +28,9 @@ M.setup_lsp = function(attach, capabilities)
       }
    end
 
+
+
+
    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
       virtual_text = false,
       underline = true,
@@ -36,6 +40,7 @@ M.setup_lsp = function(attach, capabilities)
    --vim.cmd "autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()"
    vim.cmd "autocmd CursorHold * lua vim.diagnostic.open_float()"
    vim.cmd "autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()"
+
 end
 
 return M

@@ -170,6 +170,11 @@ icons.setup {
         color = colors.red,
         name = "npmrc",
       },
+      ["tsconfig.json"] = {
+        icon = "",
+        color = colors.blue,
+        name = "tsconfig"
+      }
 
 
    },

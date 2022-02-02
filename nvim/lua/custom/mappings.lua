@@ -28,3 +28,8 @@ map("n", "<leader>gl", ":Glow <CR>", opt)
 
 -- NOTE: the 4th argument in the map function is be a table i.e options but its most likely un-needed so dont worry about it
 
+-- vim.g.matchup_matchparen_enabled = 1
+-- vim.g.loaded_matchit = 1
+-- vim.g.matchup_matchparen_deferred = 1
+-- vim.g.matchup_matchparen_hi_surround_always = 1
+vim.cmd("hi MatchParen guifg=#EBCB8B")
