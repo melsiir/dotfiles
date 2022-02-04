@@ -3,14 +3,24 @@ local present, cmp = pcall(require, "cmp")
 if not present then
    return
 end
+local snippets_status = require("core.utils").load_config().plugins.status.snippets
+
 
 vim.opt.completeopt = "menuone,noselect"
 
 cmp.setup {
-   snippet = {
+  completion = {
+      completeopt = "menuone,noselect",
+   },
+   documentation = {
+      border = "rounded",
+   },
+snippet = (snippets_status and {
       expand = function(args)
          require("luasnip").lsp_expand(args.body)
       end,
+   }) or {
+      expand = function(_) end,
    },
    formatting = {
       format = function(entry, vim_item)
@@ -21,6 +31,10 @@ cmp.setup {
             nvim_lsp = "[LSP]",
             nvim_lua = "[Lua]",
             buffer = "[BUF]",
+            path = "[Path]",
+            cmdline = "[cmdline]",
+            emoji = "[emoji]",
+
          })[entry.source.name]
 
          return vim_item
@@ -63,6 +77,7 @@ cmp.setup {
       { name = "nvim_lua" },
       { name = "path" },
       { name = "emoji" },
+      { name = "cmdline" },
    },
    experimental = {
     ghost_text = true,

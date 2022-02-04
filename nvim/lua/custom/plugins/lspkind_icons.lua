@@ -26,7 +26,7 @@ local icons = {
    Struct = "פּ",
    Event = "",
    Operator = "",
-   TypeParameter = "",
+   TypeParameter = "",
 }
 
 local vs_icons = {

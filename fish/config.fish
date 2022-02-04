@@ -7,5 +7,6 @@ if status is-interactive
          export NODE_PATH='/data/data/com.termux/files/usr/pnpm-global/5/node_modules'
          # NodeJS
          set -gx PATH node_modules/.bin $PATH
+         # export PATH=~/.npm-global/bin:$PATH
          # spaceship init fish | source
 end
