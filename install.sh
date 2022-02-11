@@ -6,7 +6,7 @@ installAll ()
 {
   echo "install neccassry packages ....."
   pkg update && pkg upgrade
-  pkg install neovim nodejs clang make ripgrep python glow fish zip rsync tsu openssh tree curl
+  pkg install neovim nodejs clang make ripgrep python glow fish zip rsync tsu openssh tree curl exa
  
   echo "Install Config and font ......"
  cp -Rvup ./nvim/. $HOME/.config/nvim/
