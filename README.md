@@ -14,4 +14,5 @@ git clone https://github.com/melsiir/dotFiles
 cd dotFiles
 chmod +x install.sh
 ./install.sh
+and choose you preference ⚙️
 ```
