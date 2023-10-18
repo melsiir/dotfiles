@@ -1,0 +1,47 @@
+
+set -xU repo "/storage/0A56-1B19/backup/Termux"
+set debdir "$HOME/../usr/var/cache/apt/archives"
+
+function app
+  dbn $argv > dbn.txt
+  sed -i "/Recommends/d" dbn.txt
+  sed -i "/Suggests/d" dbn.txt
+  sed -i "/Replaces/d" dbn.txt
+  sed -i "/Breaks/d" dbn.txt
+  sed -i "s/Depends://" dbn.txt
+  # remove tags 
+  sed -i -E "s/\((.*?)\)//g" dbn.txt
+  #remove white space at the start of the lines
+  sed -i 's/^[[:blank:]]*//g' dbn.txt
+  # cat dbn.txt
+
+  cat dbn.txt | while read -l dep
+  find $repo -type f -name "$dep\_*.deb" | while read -l pkg
+  cp $pkg $debdir
+end
+  end
+  rm dbn.txt
+  apt install $argv
+
+  rm -r $debdir/*
+end
+
+
+function appu --description "uninstall packages with all dependencies"
+
+  dbn $argv > dbn.txt
+  sed -i "/Recommends/d" dbn.txt
+  sed -i "/Suggests/d" dbn.txt
+  sed -i "/Replaces/d" dbn.txt
+  sed -i "/Breaks/d" dbn.txt
+  sed -i "s/Depends://" dbn.txt
+  # remove tags 
+  sed -i -E "s/\((.*?)\)//g" dbn.txt
+  #remove white space at the start of the lines
+  sed -i 's/^[[:blank:]]*//g' dbn.txt
+  #replace newline with space
+  sed -i ':a;N;$!ba;s/\n/ /g' dbn.txt
+  set pkgslist (cat dbn.txt)
+  pkg uninstall $pkgslist
+  rm dbn.txt
+end

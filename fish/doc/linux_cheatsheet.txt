@@ -1,0 +1,53 @@
+
+
+print the the first line from file
+head -1 file
+sed -n 1 file
+awk "NR == 1" test.txt
+print from line 1 to line 50 from file
+
+head -50 file
+sed -n 1,50p file
+
+remove the first line
+
+sed -i '1d' file
+
+remove last line
+sed -i '$d' file
+
+
+remove from 5th line to the last line
+
+sed -i '5,$d' file
+
+remove all empty lines
+
+sed -i '/^$/d' filename
+
+remove line contain word panther
+
+sed -i "/panther/d"
+
+remove line start with word panther
+
+sed -i "/^panther/d"
+
+remove line end with word panther
+sed -i "/panther$/d"
+
+in fish you want find file and do something withit
+use read -l instead of read -r
+
+
+return only line contain .deb
+sift  "_(.*?).deb" file1.txt > file2.txt
+
+selecting from certain charactar to end of something
+usefull with nvim replace and maybe sed
+
+for example replace for the _ sign to .deb 
+_.*.deb
+ncurses_6.4.20231001-1_arm.deb
+the result after replacing selection with whitespace:
+ncurses

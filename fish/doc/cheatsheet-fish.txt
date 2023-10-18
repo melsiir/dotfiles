@@ -1,0 +1,17 @@
+
+# check if sring contain substring
+
+  set y "help"
+  set z "i am asking for help"
+ if   echo $z|grep -q $y
+   echo "yes"
+ else
+   echo "no"
+ end
+
+
+# extract the id from html or svg file
+ sift -m --only-matching 'id(="(.*?)")' file.svg | sed 's/id="//g' | sed 's/\"//g');
+
+
+
