@@ -142,27 +142,27 @@ function cpp
 
   # github
   function setupgit
-  git config --global user.name "$argv[1]"
-  git config --global user.email "$argv[2]"
-  #store credential in cache 
-  # security flow !
-  git config --global credential.helper cache
-  # check existing ssh key
-  # ls -al ~/.ssh
-  # generate new key
-   ssh-keygen -t ed25519 -C "$argv[1]"
+    git config --global user.name "$argv[1]"
+    git config --global user.email "$argv[2]"
+    #store credential in cache 
+    # security flow !
+    git config --global credential.helper cache
+    # check existing ssh key
+    # ls -al ~/.ssh
+    # generate new key
+    ssh-keygen -t ed25519 -C "$argv[1]"
 
-   #start ssh agent
-   eval (ssh-agent -c)
-   # private ssh key ssh agent
+    #start ssh agent
+    eval (ssh-agent -c)
+    # private ssh key ssh agent
     ssh-add ~/.ssh/id_ed25519
-
+    echo "copy the the following public key to make personal access token in github"
+    echo "at https://github.com/settings/ssh/new"
+    echo \n
     cat ~/.ssh/id_ed25519.pub
-
-    echo "copy the the public key to make personal access token in github"
-    echo "at \n https://github.com/settings/ssh/new"
-
-end
+    echo "to auth with github make sure to add the the remote url as ssh url like:"
+    echo "git remote add origin git@github.com:githubUserName/repoName.git"
+  end
   # is it a `main` or a `master` repo?
   alias gitmainormaster="git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1"
   alias main="git checkout (gitmainormaster)"
