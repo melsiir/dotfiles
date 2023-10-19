@@ -8,6 +8,7 @@ alias linecount "wc -l"
 
 # edit  config
 alias ealiases 'vi ~/.config/fish/aliases.fish'
+alias epaks 'vi ~/.config/fish/onDemand/packages.fish'
 alias efunctions 'vi ~/.config/fish/functions.fish'
 alias eweb 'vi ~/.config/fish/web.fish'
 alias efish "vi $HOME/.config/fish/config.fish"
@@ -23,8 +24,10 @@ end
 
 # package managing
 alias dbn "apt depends"
+alias rdbn "apt rdepends"
 alias paki "pkg install"
 alias ap "apt-get install"
+alias aps "apt search"
 alias uninstall "pkg uninstall"
 # alias debs "cd $HOME/../usr/var/cache/apt/archives"
 alias debs "cd $HOME/../../cache/apt/archives"

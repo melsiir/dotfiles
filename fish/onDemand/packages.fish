@@ -1,14 +1,26 @@
 #!/path/to/fish
 
+set pkgUpdate "ed,liblzma,xz-utils,zlib,zstd,libbz2,bzip2,libgmp,coreutils,libmd,diffutils,gzip,less,libandroid-glob,tar,dpkg,findutils,libgpg-error,libassuan,libgcrypt,libnpth,gpgv,grep,ca-certificates,openssl,libcurl,curl,libnghttp2,libssh2,resolv-conf,libexpat,libevent,libunbound,unbound,libnettle,libunistring,libidn2,libgnutls,liblz4,sed,termux-am-socket,dash,libmpfr,readline,gawk,procps,psmisc,termux-am,termux-exec,libsmartcols,libcap-ng,dialog,util-linux,termux-tools,termux-keyring,termux-licenses,xxhash,apt,bash,libcrypt,bash-completion,busybox,command-not-found,debianutils,dos2unix,inetutils2,libtirpc,lsof,nano,unzip,libtirpc,inetutils,unzip,libexpat,net-tools"
+
 set cmake "binutils,ndk-sysroot,libffi,libllvm,clang,libxml2,libarchive,jsoncpp,rhash,cmake"
 
 set make "make"
 
+set fish "libc++,ncurses,libandroid-support,ncurses-utils,man,m4,flex,bc,pcre2,libandroid-spawn,fish"
+
+set lua "lua53"
+
+set neovim "libmsgpack,libiconv,libluajit,libuv,luv,libandroid-support,libvterm,libunibilium,libtermkey,libtreesitter,neovim"
+
 set gnupg "pinentry,libsqlite,libnpth,libksba,libgnutls,gnupg"
+
+set fastfetch "vulkan-loader-android,vulkan-loader,fastfetch"
+
+set aria2 "c-ares,libxml2,aria2"
 
 set imagemagick "brotli,fftw,fontconfig,freetype,fribidi,gdk-pixbuf,giflib,glib,harfbuzz,imagemagick,imath,libandroid-posix-semaphore,libandroid-shmem,libaom,libcairo,libdav1d,libde265,libffi,libgraphite,libheif,libjpeg-turbo,libjxl,liblzo,libpixman,libpng,librav1e,librsvg,libtiff,libwebp,libx11,libx265,libxau,libxcb,libxdmcp,libxext,libxft,libxml2,libxrender,littlecms,openexr,openjpeg,pango,ttf-dejavu,liblzma"
 
-set openssh "libdb,krb5,ldns,libedit,termux-auth,openssh"
+set openssh "libdb,krb5,ldns,libedit,termux-auth,openssl-1.1,openssh"
 
 set libqrencode "libpng,libqrencode"
 
@@ -38,9 +50,9 @@ set fd "fd"
 
 set hugo "hugo"
 
-set jq "jq"
+set jq "oniguruma,jq"
 
-set strace "strace"
+set strace "argp,libelf,libdw,strace"
 
 set p7zip "p7zip"
 
@@ -49,6 +61,8 @@ set zip "libandroid-support,zip"
 set bat "bat"
 
 set git "git"
+
+set tree "tree"
 
 set sift "sift"
 

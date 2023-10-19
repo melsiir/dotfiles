@@ -4,6 +4,7 @@ source ~/.config/fish/onDemand/packages.fish
 
 
 function app
+  set toInstall
   #loop through given arguments
   for i in $argv
     # set packageToInstall
@@ -11,9 +12,27 @@ function app
       case "cmake"
         set packageToInstall = $cmake
         set packagedir "cmake"
+      case "pkgUpdate"
+        set packageToInstall = $pkgUpdate
+        set packagedir "pkgUpdate"
       case "make"
         set packageToInstall = $make
         set packagedir "make"
+      case "fish"
+        set packageToInstall = $fish
+        set packagedir "fish"
+      case "neovim"
+        set packageToInstall = $neovim
+        set packagedir "neovim"
+      case "lua"
+        set packageToInstall = $lua
+        set packagedir "lua"
+      case "tree"
+        set packageToInstall = $tree
+        set packagedir "tree"
+      case "aria2"
+        set packageToInstall = $aria2
+        set packagedir "aria2"
       case "gnupg"
         set packageToInstall = $gnupg
         set packagedir "gnupg"
@@ -44,6 +63,9 @@ function app
       case "fzf"
         set packageToInstall = $fzf
         set packagedir "fzf"
+      case "fastfetch"
+        set packageToInstall = $fastfetch
+        set packagedir "fastfetch"
       case "ripgrep"
         set packageToInstall = $ripgrep
         set packagedir "ripgrep"
@@ -91,10 +113,10 @@ function app
         set packagedir "a_semi_dependent"
       case "jq"
         set packageToInstall = $jq
-        set packagedir "a_semi_dependent"
+        set packagedir "jq"
       case "strace"
         set packageToInstall = $strace
-        set packagedir "a_semi_dependent"
+        set packagedir "strace"
       case "shfmt"
         mkdir $HOME/.local/bin
         cp $repo/offline-repo/shfmt/bin/shfmt $HOME/.local/bin
@@ -110,12 +132,16 @@ function app
     for package in (string split , $packageToInstall)
       find $phone/temp/$packagedir -name "$package\_*.deb" | while read pkg
       # find $repo/offline-repo/$packagedir -name "$package\_*.deb" | while read pkg
-      dpkg -i $pkg
+      # dpkg -i $pkg
+      set toInstall $toInstall $pkg
     end
   end
-  rm -r $phone/temp
 end
+ dpkg -i $toInstall
+rm -r $phone/temp
 end
+
+
 
 function appu --description "uninstall packages with all dependencies"
   set pkgtorm (string split , $$argv)
@@ -126,8 +152,9 @@ end
 
 # make to folder on called old and the other new
 # and put pkgs inside theme
-function updateorepo
-  set -l pkgs "ncurses,ncurses-utils,readline,termux-am-socket,termux-keyring,libbz2,bzip2,libgmp,coreutils,openssl,openssl-tool,ca-certificates,zlib,libnghttp2,libcurl,curl,dash,diffutils,findutils,libmpfr,gawk,grep,gzip,procps,psmisc,sed,libandroid-glob,tar,termux-am,termux-exec,liblzma,xz-utils,termux-tools,bash,dpkg,termux-licenses,libcrypt,libgpg-error,libgcrypt,pcre2,busybox,command-not-found,dos2unix,exa,fzf,inetutils,libpng,libqrencode,libtirpc,libunbound,unbound,neovim,net-tools,starship,termux-api,unzip"
+function updaterepo
+  # here type downloaded packges
+  set -l pkgs "plallapla"
   for i in (string split , $pkgs)
     find "./old" -name "$i\_*.deb" | while read -l pkg
     if test -f $pkg
