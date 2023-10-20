@@ -165,6 +165,7 @@ function cpp
     echo "to auth with github make sure to add the the remote url as ssh url like:"
     echo "git remote add origin git@github.com:githubUserName/repoName.git"
   end
+
   # is it a `main` or a `master` repo?
   alias gitmainormaster="git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1"
   alias main="git checkout (gitmainormaster)"
@@ -264,7 +265,9 @@ function cpp
   function ctd -d "clean completed todo"
     sed -i "/[x]/d" "$obsidian/todo 📝.md"
     #remove emptylines
-    sed -i '/^$/d' "$obsidian/todo 📝.md"
+    # sed -i '/^$/d' "$obsidian/todo 📝.md"
+    #replace multiple emtpy line with on empty line
+    sed -i '/^$/N;/^\n$/D' "$obsidian/todo 📝.md"
   end
 
   function td --description "Add to todo list"
@@ -280,6 +283,10 @@ function cpp
     echo (set_color (string trim -c '#' "$argv"))"██"
   end
 
+  function checktd -d "check todo task"
+    set linenumber (grep -in $argv ./td.md | cut -d':' -f1)
+    sed ""$linenumber"s/\[ \]/\[x\]/" ./td.md 
+  end
 
   function run --description "Make file executable, then run it"
     chmod +x "$argv"
@@ -492,24 +499,8 @@ function cpp
 
   end
 
-  function gpass -d "cheap password manager"
-    set passfile $HOME/bitward.csv
-    set linenumber (grep -in $argv $passfile | head -n 1 | cut -d':' -f1)
-    set passline (sed -n {$linenumber}p $passfile)
-    set passArray
-    for i in (string split ","  $passline)
-      set passArray $passArray $i
-    end
-    echo "Link:    $passArray[4]"
-    echo "Email:    $passArray[9]"
-    echo "Password:    $passArray[10]"
-    echo \n
-    echo "email@password"
-    echo "$passArray[9]@$passArray[10]"
-  end
-  #   if  string length $argv[2]
 
-  function mpass -d "cheap password manager"
+  function gpass -d "cheap password manager"
     set passfile $HOME/bitward.csv
     set linenumber (grep -in $argv[1] $passfile | cut -d':' -f1)
     set 2dentry (sed -n {$linenumber[2]}p $passfile)

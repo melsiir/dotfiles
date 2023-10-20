@@ -14,10 +14,12 @@ alias eweb 'vi ~/.config/fish/web.fish'
 alias efish "vi $HOME/.config/fish/config.fish"
 alias cvim "cd $HOME/.config/nvim"
 alias cfish "cd $HOME/.config/fish"
+alias config "cd $HOME/.config"
 alias opm "open README.md"
 alias noswap 'rm -r ~/.local/state/nvim/swap'
 alias vf 'vi (fzf)'
 set -xU fon "$HOME/.termux/font.ttf"
+
 function tryfont
   cp $argv $fon
 end
@@ -88,21 +90,21 @@ alias rg='rg -p'
 # alias lf "ls -l | egrep -v '^d'" # files only
 # alias ldir "ls -l | egrep '^d'" # directories only
 
-
-# alias ls="eza --color=always --icons --group-directories-first"
-# alias la 'eza --color=always --icons --group-directories-first --all'
-# alias ll 'eza --color=always --icons --group-directories-first --all --long'
-
-
 # Use eza instead of ls.
 if type -q eza
   alias l="eza -al --color=always  --icons --group-directories-first"
   alias ls="eza --color=auto  --icons --group-directories-first"
   alias la="eza -a --color=auto --icons --group-directories-first"
   alias ll="eza -l --color=auto --icons --group-directories-first"
-  alias lt="eza -aT --color=always  --icons --group-directories-first"
+  # alias lt="eza -aT --color=always  --icons --group-directories-first"
   alias l.='eza -a | egrep "^\."'
   alias dir="eza -al --color=always --icons --group-directories-first"
+  alias lx 'eza --sort ext --color=auto --icons --group-directories-first' # sort by extension
+  alias lk 'eza --sort size --color=auto --icons --group-directories-first' # sort by size
+  alias lc 'eza --sort changed --color=auto --icons --group-directories-first' # sort by change time
+  alias lu 'eza --sort accessed --color=auto --icons --group-directories-first' # sort by access time
+  alias lr 'eza -R --color=auto --icons --group-directories-first' # recursive ls
+  alias lt 'eza --sort date --color=auto --icons --group-directories-first' # sort by date
 
 else
   alias lla 'ls -Alh' # show hidden files
@@ -180,10 +182,7 @@ alias unbz2='tar -xvjf'
 alias ungz='tar -xvzf'
 
 
-
 # SHA1
 alias sha1='openssl sha1'
 alias md5='openssl md5'
-
-
 
