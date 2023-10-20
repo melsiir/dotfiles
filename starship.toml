@@ -33,7 +33,9 @@ command_timeout = 5000
 show_always = true
 style_user = "bg:#3B4252"
 style_root = "bg:#3B4252"
+#this mook one to use your real user name uncomment the second line
 format = '[melsir ]($style)'
+# format = '[$user ]($style)'
 
 [directory]
 style = "bg:#434C5E"

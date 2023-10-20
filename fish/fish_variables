@@ -48,3 +48,4 @@ SETUVAR --export fon:/data/data/com\x2etermux/files/home/\x2etermux/font\x2ettf
 SETUVAR --export obsidian:/storage/emulated/0/Documents/My\x20obsidian
 SETUVAR --export phone:/storage/emulated/0
 SETUVAR --export repo:/storage/0A56\x2d1B19/backup/Termux
+SETUVAR --export sdcard:/data/data/com\x2etermux/files/home/storage/external\x2d1

@@ -84,6 +84,7 @@ if status is-interactive
     set -gx PATH node_modules/.bin $PATH
     #  storage
     set -xU phone /storage/emulated/0
+    set -xU sdcard $HOME/storage/external-1
     set -xU documents /storage/emulated/0/Documents
     set -xU downloads /storage/emulated/0/Download
     set -xU obsidian /storage/emulated/0/Documents/My\ obsidian

@@ -8,7 +8,7 @@ set make "make"
 
 set fish "libc++,ncurses,libandroid-support,ncurses-utils,man,m4,flex,bc,pcre2,libandroid-spawn,fish"
 
-set lua "lua53"
+set lua "liblua54,lua54"
 
 set neovim "libmsgpack,libiconv,libluajit,libuv,luv,libandroid-support,libvterm,libunibilium,libtermkey,libtreesitter,neovim"
 
@@ -20,7 +20,7 @@ set aria2 "c-ares,libxml2,aria2"
 
 set imagemagick "brotli,fftw,fontconfig,freetype,fribidi,gdk-pixbuf,giflib,glib,harfbuzz,imagemagick,imath,libandroid-posix-semaphore,libandroid-shmem,libaom,libcairo,libdav1d,libde265,libffi,libgraphite,libheif,libjpeg-turbo,libjxl,liblzo,libpixman,libpng,librav1e,librsvg,libtiff,libwebp,libx11,libx265,libxau,libxcb,libxdmcp,libxext,libxft,libxml2,libxrender,littlecms,openexr,openjpeg,pango,ttf-dejavu,liblzma"
 
-set openssh "libdb,krb5,ldns,libedit,termux-auth,openssl-1.1,openssh"
+set openssh "libdb,libresolv-wrapper,krb5,ldns,libedit,termux-auth,openssh-sftp-server,openssl-1.1,openssh"
 
 set libqrencode "libpng,libqrencode"
 

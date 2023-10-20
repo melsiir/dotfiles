@@ -1,7 +1,7 @@
 
 # aliases
 alias shrug "echo '¯\_(ツ)_/¯'"
-alias xx "exit"
+alias xx "exit 0"
 alias linecount "wc -l"
 
 # empty obsidian trash

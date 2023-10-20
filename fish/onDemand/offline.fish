@@ -137,7 +137,7 @@ function app
     end
   end
 end
- dpkg -i $toInstall
+dpkg -i $toInstall
 rm -r $phone/temp
 end
 
@@ -150,19 +150,49 @@ function appu --description "uninstall packages with all dependencies"
 end
 
 
-# make to folder on called old and the other new
-# and put pkgs inside theme
-function updaterepo
-  # here type downloaded packges
-  set -l pkgs "plallapla"
-  for i in (string split , $pkgs)
-    find "./old" -name "$i\_*.deb" | while read -l pkg
-    if test -f $pkg
-      rm $pkg
-      set npkg (find "./new" -name "$i\_*.deb")
-      mv $npkg "./newd"
-    end
-  end
+# make folder called new and put all updated packages inside it
+ # and put pkgs inside theme
+function updateOfflineRepo
+  set repodir $repo/offline-repo
+  set -l pkgs ""
+  # extract package name from new dir
+  find "./new" -name "*.deb" | while read -l fullnewPkg
+  set nonew (string replace "./new/" "" $fullnewPkg)
+  set newpkg (string replace -r "_(.)*.deb" "" $nonew)
+  set pkgs "$pkgs,$newpkg"
 end
 
+# copy all matching dirs
+set dirstocopy
+set dirstoloop ","
+set curdir (pwd)
+for i in (string split , $pkgs)
+  find $repodir -name "$i\_*.deb" | while read -l pkg
+  # set repoPkgDir (echo $pkg | awk -F/ '{nlast = NF -1;print $nlast}')
+  set repoPkgDir (dirname $pkg )
+  if string match -q "*$repoPkgDir*" $dirstocopy
+    #do nothing
+  else 
+    set dirstoloop "$dirstoloop,$curdir/$repoPkgDir"
+    set dirstocopy $dirstocopy $repodir/$repoPkgDir
+  end
+end
+ end
+
+ cp  $dirstocopy ./
+ #remove the first comma in the string
+ set dirstoloop (string replace ",," "" $dirstoloop)
+
+
+ for olddir in (string split , $dirstoloop)
+   for i in (string split , $pkgs)
+     find $olddir -name "$i\_*.deb" | while read -l pkg
+     if test -f $pkg
+       rm $pkg
+       set npkg (find "./new" -name "$i\_*.deb")
+       mv $npkg $olddir
+     end
+   end
+ end
+end
 end

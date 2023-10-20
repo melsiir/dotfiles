@@ -62,7 +62,7 @@ function cpp
     end
 
     function trimallmd
-      find . -type f -name "*.md" | while read -l mds;
+      find . -type f -name "*.md" | while read -l mds
       trimstart $mds
       trimend $mds
     end
@@ -88,7 +88,8 @@ function cpp
 
   # Copy and go to the directory
   function cpg
-    if [ -d "$2" ];then
+    if [ -d "$2" ]
+      then
       cp "$1" "$2" && cd "$2"
     else
       cp "$1" "$2"
@@ -97,7 +98,8 @@ function cpp
 
   # Move and go to the directory
   function mvg
-    if [ -d "$2" ];then
+    if [ -d "$2" ]
+      then
       mv "$1" "$2" && cd "$2"
     else
       mv "$1" "$2"
@@ -126,7 +128,7 @@ function cpp
       # set d "$d/"
       set d "$d/"".."
     end
-    set d  $(echo $d | sed 's/^\///')
+    set d $(echo $d | sed 's/^\///')
     if [ -f "$d" ]
       set d ".."
     end
@@ -136,7 +138,7 @@ function cpp
 
   # Returns the last 2 fields of the working directory
   function pwdtail
-    pwd|awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
+    pwd | awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
   end
 
 
@@ -204,35 +206,50 @@ function cpp
   function ex
     switch $argv
       case *.tar.bz2
-        tar xjf $argv		;;
+        tar xjf $argv
+
       case *.tar.gz
-        tar xzf $argv 		;;
+        tar xzf $argv
+
       case *.bz2
-        bunzip2 $argv		;;
+        bunzip2 $argv
+
       case *.rar
-        unrar x $argv		;;
+        unrar x $argv
+
       case *.gz
-        gunzip $argv		;;
+        gunzip $argv
+
       case *.tar
-        tar xf $argv		;;
+        tar xf $argv
+
       case *.tbz2
-        tar xjf $argv		;;
+        tar xjf $argv
+
       case *.tgz
-        tar xzf $argv		;;
+        tar xzf $argv
+
       case *.zip
-        unzip $argv			;;
+        unzip $argv
+
       case *.Z
-        uncompress $argv	;;
+        uncompress $argv
+
       case *.7z
-        7z x $argv			;;
+        7z x $argv
+
       case *.deb
-        ar x $argv			;;
+        ar x $argv
+
       case *.tar.xz
-        tar xf $argv		;;
+        tar xf $argv
+
       case *.tar.zst
-        unzstd $argv		;;
+        unzstd $argv
+
       case *
-        echo "'$argv' cannot be extracted via ex" ;;
+        echo "'$argv' cannot be extracted via ex"
+
     end
     set_color normal
   end
@@ -251,7 +268,7 @@ function cpp
   end
 
   function td --description "Add to todo list"
-    echo -e "\n- [ ] $argv" >> "$obsidian/todo 📝.md"
+    echo -e "\n- [ ] $argv" >>"$obsidian/todo 📝.md"
   end
 
 
@@ -336,23 +353,23 @@ function cpp
     cd $dir
   end
 
-  abbr -ag obrs	obsResdots
+  abbr -ag obrs obsResdots
 
   # get package urls to download for offline
   function pkgurl
-    apt --print-uris install $argv > out
-    cat out | grep 'http' | tr -d \' | awk '{print $1}' > deblist
+    apt --print-uris install $argv >out
+    cat out | grep http | tr -d \' | awk '{print $1}' >deblist
     rm out
     echo "the pkg(s) url(s) are listed in deblist"
   end
 
   function pkgdown
-    apt --print-uris install $argv > out
-    cat out | grep 'http' | tr -d \' | awk '{print $1}' > deblist
+    apt --print-uris install $argv >out
+    cat out | grep http | tr -d \' | awk '{print $1}' >deblist
     rm out
     echo "the pkg(s) url(s) are listed in deblist"
 
-    for line in  (cat ./deblist)
+    for line in (cat ./deblist)
       curl -O $line
     end
   end
@@ -365,20 +382,20 @@ function cpp
   function genbulk
     while true
       # echo "dep: dont know" >> bulk.txt
-      echo $argv >> bulk.txt
+      echo $argv >>bulk.txt
     end
   end
 
 
 
   function getdeps
-    dbn $argv > dbn.txt
+    dbn $argv >dbn.txt
     #remove the first line
-    sed -i "1d" dbn.txt
-    sed -i "/Recommends/d" dbn.txt
-    sed -i "/Suggests/d" dbn.txt
-    sed -i "/Replaces/d" dbn.txt
-    sed -i "/Breaks/d" dbn.txt
+    sed -i 1d dbn.txt
+    sed -i /Recommends/d dbn.txt
+    sed -i /Suggests/d dbn.txt
+    sed -i /Replaces/d dbn.txt
+    sed -i /Breaks/d dbn.txt
     sed -i "s/Depends://" dbn.txt
     # remove tags 
     sed -i -E "s/\((.*?)\)//g" dbn.txt
@@ -392,11 +409,11 @@ function cpp
   end
 
 
-  function getlogs
+  function getlog
     cp /data/data/com.termux/files/usr/var/log/apt/term.log ./
   end
-  function extdebs -d "extract packges names from log file" 
-    sift  "_(.*?).deb" $argv[1] > deb.txt
+  function extdebs -d "extract packges names from log file"
+    sift "_(.*?).deb" $argv[1] >deb.txt
     sed -i "s/Preparing to unpack ...\///g" deb.txt
     sed -i "s/archives\///g" deb.txt
     sed -i "s/apt\///g" deb.txt
@@ -410,20 +427,20 @@ function cpp
 
   function spinner
     echo " The proccess is running"
-    while true;
-      for X in '-' '/' '|' '\\';
+    while true
+      for X in - / '|' '\\'
         # echo -en "\b$X";
-        echo -en "\b$X";
-        sleep 0.1;
-      end;
+        echo -en "\b$X"
+        sleep 0.1
+      end
     end
   end
 
-  function toggleship
+  function toggleship -d "switch on and off starship theme"
     if test -f "$HOME/.config/fish/functions/fish_prompt.fish.bak"
       mv "$HOME/.config/fish/functions/fish_prompt.fish.bak" "$HOME/.config/fish/functions/fish_prompt.fish"
     else if test -f "$HOME/.config/fish/functions/fish_prompt.fish"
-      mv "$HOME/.config/fish/functions/fish_prompt.fish"  "$HOME/.config/fish/functions/fish_prompt.fish.bak"
+      mv "$HOME/.config/fish/functions/fish_prompt.fish" "$HOME/.config/fish/functions/fish_prompt.fish.bak"
     end
   end
 
@@ -431,11 +448,119 @@ function cpp
     app pkgUpdate neovim fzf eza lua make zip git
   end
 
-  #  function oii
-  #    set aa "liblzma,xz-utils,zlib,zstd,libbz2,bzip2,libgmp,coreutils,libmd,diffutils,gzip,less,libandroid-glob,tar,dpkg,findutils,libgpg-error,libassuan,libgcrypt,gpgv,grep,ca-certificates,openssl,libcurl,curl,libnghttp2,libssh2,resolv-conf,libexpat,unbound,libevent,bunbound,libunbound,libnettle,libunistring,libidn2,libgnutls,liblz4,sed,termux-am-socket,dash,libmpfr,readline,gawk,procps,psmisc,termux-am,termux-exec,util-linux,libsmartcols,libcap-ng,dialog,util-linux,termux-tools,termux-keyring,termux-licenses,xxhash,apt,bash,libcrypt,bash-completion,busybox,command-not-found,debianutils,dos2unix,inetutils2,libtirpc,lsof,nano,unzip,libtirpc,inetutils,unzip,libexpat,net-tools"
-  #      for i in (string split , $aa)
-  #     find "./bold" -name "$i\_*.deb" | while read -l pkg
-  #     rm $pkg
-  #   end
-  # end
-  #  end
+  function tt -d "uninstall pkgs"
+    set toUninstall ""
+    dbn $argv >dbn.txt
+    sed -i "/$argv/d" dbn.txt
+    sed -i /Recommends/d dbn.txt
+    sed -i /Suggests/d dbn.txt
+    sed -i /Replaces/d dbn.txt
+    sed -i /Breaks/d dbn.txt
+    sed -i "s/Depends://" dbn.txt
+    # remove tags 
+    sed -i -E "s/\((.*?)\)//g" dbn.txt
+    #remove white space at the start of the lines
+    sed -i 's/^[[:blank:]]*//g' dbn.txt
+    #replace newline with space
+    sed -i ':a;N;$!ba;s/\n/ /g' dbn.txt
+    #replace space with comma
+    sed -i -E "s/\s/,/g" dbn.txt
+    #replace any duplicated commas
+    sed -i -E "s/,{2,5}/,/g" dbn.txt
+    set pkgslist (cat dbn.txt)
+    # echo $pkgslist
+    for veno in (string split , $pkgslist)
+      set unis false
+      set sitiuation (dpkg -s $veno )
+      if string match -q "*install ok installed*" $sitiuation
+        #do nothing
+      else
+        set unis true
+      end
+      if $unis
+        set toUninstall $toUninstall $veno
+        set unis false
+      end
+    end
+    echo $toUninstall
+    # pkg uninstall $pkgslist
+    rm dbn.txt
+
+  end
+
+  function ts
+
+  end
+
+  function gpass -d "cheap password manager"
+    set passfile $HOME/bitward.csv
+    set linenumber (grep -in $argv $passfile | head -n 1 | cut -d':' -f1)
+    set passline (sed -n {$linenumber}p $passfile)
+    set passArray
+    for i in (string split ","  $passline)
+      set passArray $passArray $i
+    end
+    echo "Link:    $passArray[4]"
+    echo "Email:    $passArray[9]"
+    echo "Password:    $passArray[10]"
+    echo \n
+    echo "email@password"
+    echo "$passArray[9]@$passArray[10]"
+  end
+  #   if  string length $argv[2]
+
+  function mpass -d "cheap password manager"
+    set passfile $HOME/bitward.csv
+    set linenumber (grep -in $argv[1] $passfile | cut -d':' -f1)
+    set 2dentry (sed -n {$linenumber[2]}p $passfile)
+    if string match -q "*$argv[1]*" $2dentry
+      if string length -q $argv[2]
+        for k in $linenumber
+          if string match -q "*$argv[2]*" (sed -n {$k}p $passfile)
+            set passline (sed -n {$k}p $passfile)
+            set passArray
+            for i in (string split ","  $passline)
+              set passArray $passArray $i
+            end
+            echo \n
+            echo " Link:    $passArray[4]"
+            echo " Email:    $passArray[9]"
+            echo " Password:    $passArray[10]"
+            echo " email@password"
+            echo " $passArray[9]@$passArray[10]"
+            echo \n
+          end
+        end
+      else
+
+        for j in $linenumber
+          set passline (sed -n {$j}p $passfile)
+          set passArray
+          for i in (string split ","  $passline)
+            set passArray $passArray $i
+          end
+          echo \n
+          echo " Link:    $passArray[4]"
+          echo " Email:    $passArray[9]"
+          echo " Password:    $passArray[10]"
+          echo " email@password"
+          echo " $passArray[9]@$passArray[10]"
+          echo \n
+        end
+      end
+    else
+      echo not
+      set passline (sed -n {$linenumber}p $passfile)
+      set passArray
+      for i in (string split ","  $passline)
+        set passArray $passArray $i
+      end
+      echo \n
+      echo "Link:    $passArray[4]"
+      echo "Email:    $passArray[9]"
+      echo "Password:    $passArray[10]"
+      echo "email@password"
+      echo "$passArray[9]@$passArray[10]"
+      echo \n
+    end
+  end
