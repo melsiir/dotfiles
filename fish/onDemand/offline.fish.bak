@@ -27,9 +27,6 @@ function app
       case "lua"
         set packageToInstall = $lua
         set packagedir "lua"
-      case "nodejs"
-        set packageToInstall = $nodejs
-        set packagedir "nodejs"
       case "tree"
         set packageToInstall = $tree
         set packagedir "tree"
@@ -304,42 +301,6 @@ function apprm -d "remove packages and all thair dependencies"
 
   #check if dependencies has other programs need's it
   for dependency in (string split "," $dependencies)
-
-
-    dbn $dependency > subdeb.txt
-    trimdpn subdeb.txt
-    set subDebs (cat subdeb.txt)
-    for subdeb in (string split "," $subDebs)
-      rdbn $subdeb > rsubdpns.txt
-      # sed -i "s/$subdeb//" rsubdpns.txt
-      #if reverse dependency contain one of dependencies of package that you want remove  then remove that string
-      set list (string replace ",$subdeb," "," $list)      
-      trimdpn rsubdpns.txt
-      set subCanBeRemoved true
-      set rsubdps (cat rsubdpns.txt)
-      # echo $rsubdps
-      for reverseSubDependency in (string split "," $rsubdps)
-        if string match -q "*,$reverseSubDependency,*" $list
-          # echo $reverseDependency
-          set subCanBeRemoved false
-        end
-      end
-      if string match -q "*$subdeb*" $toremove
-        set notExisting false
-      else
-        set notExisting true
-      end
-        if $subCanBeRemoved and  $notExisting
-        set toremove "$toremove $subdeb"
-        rm rsubdpns.txt
-      end
-    end
-
-
-
-
-
-
     rdbn $dependency > rdpns.txt
     sed -i "s/$argv//" rdpns.txt
     #if reverse dependency contain one of dependencies of package that you want remove  then remove that string
@@ -353,12 +314,7 @@ function apprm -d "remove packages and all thair dependencies"
         set canBeRemoved false
       end
     end
-          if string match -q "*$dependency*" $toremove
-        set notExisting false
-      else
-        set notExisting true
-      end
-    if $canBeRemoved and $notExisting
+    if $canBeRemoved
       set toremove $toremove $dependency
       rm rdpns.txt
     end

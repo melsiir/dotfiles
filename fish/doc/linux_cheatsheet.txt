@@ -35,6 +35,12 @@ sed -i "/^panther/d"
 remove line end with word panther
 sed -i "/panther$/d"
 
+replace text at specific line
+
+replace at line 3
+
+sed -i "3s/cool/nice/" file.txt
+
 in fish you want find file and do something withit
 use read -l instead of read -r
 

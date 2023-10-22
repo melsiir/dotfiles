@@ -10,6 +10,8 @@ set fish "libc++,ncurses,libandroid-support,ncurses-utils,man,m4,flex,bc,pcre2,l
 
 set lua "liblua54,lua54"
 
+set nodejs "libicu,nodejs"
+
 set neovim "libmsgpack,libiconv,libluajit,libuv,luv,libandroid-support,libvterm,libunibilium,libtermkey,libtreesitter,neovim"
 
 set gnupg "pinentry,libsqlite,libnpth,libksba,libgnutls,gnupg"
@@ -18,7 +20,15 @@ set fastfetch "vulkan-loader-android,vulkan-loader,fastfetch"
 
 set aria2 "c-ares,libxml2,aria2"
 
+set newsboat "json-c,stfl,newsboat"
+
+set dua "dua"
+
+set duf "duf"
+
 set imagemagick "brotli,fftw,fontconfig,freetype,fribidi,gdk-pixbuf,giflib,glib,harfbuzz,imagemagick,imath,libandroid-posix-semaphore,libandroid-shmem,libaom,libcairo,libdav1d,libde265,libffi,libgraphite,libheif,libjpeg-turbo,libjxl,liblzo,libpixman,libpng,librav1e,librsvg,libtiff,libwebp,libx11,libx265,libxau,libxcb,libxdmcp,libxext,libxft,libxml2,libxrender,littlecms,openexr,openjpeg,pango,ttf-dejavu,liblzma"
+
+set uimagemagick "brotli fftw fontconfig freetype fribidi gdk-pixbuf giflib glib harfbuzz imagemagick imath libandroid-posix-semaphore libandroid-shmem libaom libcairo libdav1d libde265 libffi libgraphite libheif libjpeg-turbo libjxl liblzo libpixman libpng librav1e librsvg libtiff libwebp libx11 libx265 libxau libxcb libxdmcp libxext libxft libxrender littlecms openexr openjpeg pango ttf-dejavu"
 
 set openssh "libdb,libresolv-wrapper,krb5,ldns,libedit,termux-auth,openssh-sftp-server,openssl-1.1,openssh"
 

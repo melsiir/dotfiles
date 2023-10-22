@@ -283,9 +283,17 @@ function cpp
     echo (set_color (string trim -c '#' "$argv"))"██"
   end
 
-  function checktd -d "check todo task"
-    set linenumber (grep -in $argv ./td.md | cut -d':' -f1)
-    sed ""$linenumber"s/\[ \]/\[x\]/" ./td.md 
+  function tdck -d "check todo task"
+    if test -z $argv
+      echo "please type text from your note!"
+      return
+    end
+    set linenumber (grep -in $argv "$obsidian/todo 📝.md"  | cut -d':' -f1) 
+    # replace text at that specific
+    sed -i ""$linenumber"s/\[ \]/\[x\]/" "$obsidian/todo 📝.md"
+    set noteline (sed -n {$linenumber}p "$obsidian/todo 📝.md")
+    echo \n "the task is checked 🏁"
+    echo $noteline
   end
 
   function run --description "Make file executable, then run it"
