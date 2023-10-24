@@ -12,6 +12,7 @@ alias epaks 'vi ~/.config/fish/onDemand/packages.fish'
 alias efunctions 'vi ~/.config/fish/functions.fish'
 alias eweb 'vi ~/.config/fish/web.fish'
 alias efish "vi $HOME/.config/fish/config.fish"
+alias estar "vi $HOME/.config/starship.toml"
 alias cvim "cd $HOME/.config/nvim"
 alias cfish "cd $HOME/.config/fish"
 alias config "cd $HOME/.config"
@@ -19,10 +20,6 @@ alias opm "open README.md"
 alias noswap 'rm -r ~/.local/state/nvim/swap'
 alias vf 'vi (fzf)'
 set -xU fon "$HOME/.termux/font.ttf"
-
-function tryfont
-  cp $argv $fon
-end
 
 # package managing
 alias dbn "apt depends"

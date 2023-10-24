@@ -6,6 +6,8 @@ set cmake "binutils,ndk-sysroot,libffi,libllvm,clang,libxml2,libarchive,jsoncpp,
 
 set make "make"
 
+set zoxide "zoxide"
+
 set fish "libc++,ncurses,libandroid-support,ncurses-utils,man,m4,flex,bc,pcre2,libandroid-spawn,fish"
 
 set lua "liblua54,lua54"

@@ -166,6 +166,17 @@ function cpp
     echo "git remote add origin git@github.com:githubUserName/repoName.git"
   end
 
+  function setupgit2
+    git config --global user.name "$argv[1]"
+    git config --global user.email "$argv[2]"
+    #store credential in cache 
+    # security flow !
+    git config --global credential.helper cache
+    #start ssh agent
+    eval (ssh-agent -c)
+    # private ssh key ssh agent
+    ssh-add ~/.ssh/id_ed25519
+  end
   # is it a `main` or a `master` repo?
   alias gitmainormaster="git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1"
   alias main="git checkout (gitmainormaster)"
@@ -173,12 +184,17 @@ function cpp
 
   alias gst "git status"
 
-
+  function githistory
+    git log --oneline --graph  --color=always | nl | fzf --ansi --track --no-sort --layout=reverse-list
+  end
   function gcom
     git add .
     git commit -m "$argv"
   end
 
+  function hfzf -d "fuzzy search the command history"
+    history | fzf --no-sort --border sharp
+  end
   function lazyg
     git add .
     git commit -m "$argv"
@@ -460,56 +476,13 @@ function cpp
   end
 
   function freshstart
-    app pkgUpdate neovim fzf eza lua make zip git
-  end
-
-  function tt -d "uninstall pkgs"
-    set toUninstall ""
-    dbn $argv >dbn.txt
-    sed -i "/$argv/d" dbn.txt
-    sed -i /Recommends/d dbn.txt
-    sed -i /Suggests/d dbn.txt
-    sed -i /Replaces/d dbn.txt
-    sed -i /Breaks/d dbn.txt
-    sed -i "s/Depends://" dbn.txt
-    # remove tags 
-    sed -i -E "s/\((.*?)\)//g" dbn.txt
-    #remove white space at the start of the lines
-    sed -i 's/^[[:blank:]]*//g' dbn.txt
-    #replace newline with space
-    sed -i ':a;N;$!ba;s/\n/ /g' dbn.txt
-    #replace space with comma
-    sed -i -E "s/\s/,/g" dbn.txt
-    #replace any duplicated commas
-    sed -i -E "s/,{2,5}/,/g" dbn.txt
-    set pkgslist (cat dbn.txt)
-    # echo $pkgslist
-    for veno in (string split , $pkgslist)
-      set unis false
-      set sitiuation (dpkg -s $veno )
-      if string match -q "*install ok installed*" $sitiuation
-        #do nothing
-      else
-        set unis true
-      end
-      if $unis
-        set toUninstall $toUninstall $veno
-        set unis false
-      end
-    end
-    echo $toUninstall
-    # pkg uninstall $pkgslist
-    rm dbn.txt
-
-  end
-
-  function ts
-
+    app pkgUpdate neovim fzf eza lua make zip \
+      tree git sift bat fd
   end
 
 
   function gpass -d "cheap password manager"
-    set passfile $HOME/bitward.csv
+    set passfile $phone/Aaaa/bitward.csv
     set linenumber (grep -in $argv[1] $passfile | cut -d':' -f1)
     set 2dentry (sed -n {$linenumber[2]}p $passfile)
     if string match -q "*$argv[1]*" $2dentry
@@ -562,4 +535,29 @@ function cpp
       echo "$passArray[9]@$passArray[10]"
       echo \n
     end
+  end
+
+  function cfont -d "change termux font"
+    rm  $HOME/.termux/font.ttf
+    cp -R $argv $fon
+  end
+
+  function ctheme -d "change termux theme"
+    # rm $HOME/.termux/colors.properties
+    cp -Rf $argv $HOME/.termux/colors.properties
+  end
+
+
+  function tertheme -d "change termux theme with fuzzy finder"
+    set themedir $HOME/.stuff/termux-themes
+    set selectedTheme ( ls  $themedir | fzf --border rounded)
+    if test -z $selectedTheme
+      echo "no theme selected"
+      return
+    end
+    set selectednoprop (string replace ".properties" "" $selectedTheme)
+    echo "successfully selected $selectednoprop"
+    rm $HOME/.termux/colors.properties
+    ctheme $themedir/$selectedTheme
+    # cm (fzf --preview='head -$LINES {}' ls)
   end

@@ -99,6 +99,9 @@ function app
       case "bat"
         set packageToInstall = $bat
         set packagedir "a_semi_dependent"
+      case "zoxide"
+        set packageToInstall = $zoxide
+        set packagedir "a_semi_dependent"
       case "duf"
         set packageToInstall = $duf
         set packagedir "a_semi_dependent"
@@ -140,14 +143,16 @@ function app
 
     # find the package and install it 
     mkdir $phone/temp
-    cp -r $repo/offline-repo/$packagedir $phone/temp
+    if test ! -d $phone/temp/$packagedir
+      cp -r $repo/offline-repo/$packagedir $phone/temp
+    end
     for package in (string split , $packageToInstall)
-      if string match "libxml2" $package or string match "glib" $package or string match "libandroid-support" $package \
-        or string match "libdav1d" $package or string match "libaom" $package or string match "libde265" $package\
-        or string match "libffi" $package or string match "libheif" $package or string match "libgnutls" $package \
-        or string match "libjpeg-turbo" $package or string match "liblzma" $package or string match "libpng" $package\
-        or string match "libnpth" $package or string match "libtiff" $package or string match "librav1e" $package \
-        or string match "libwebp" $package or string match "libx265" $package 
+      if string match "libxml2" $package; or string match "glib" $package; or string match "libandroid-support" $package; \
+        or string match "libdav1d" $package; or string match "libaom" $package; or string match "libde265" $package;\
+        or string match "libffi" $package; or string match "libheif" $package; or string match "libgnutls" $package; \
+        or string match "libjpeg-turbo" $package; or string match "liblzma" $package; or string match "libpng" $package;\
+        or string match "libnpth" $package; or string match "libtiff" $package; or string match "librav1e" $package; \
+        or string match "libwebp" $package; or string match "libx265" $package
         find $repo/offline-repo/libs -name "$package\_*.deb" | while read -l pkg
         cp $pkg $phone/temp
         set toInstall $toInstall $pkg
@@ -165,12 +170,91 @@ rm -r $phone/temp
 end
 
 
+function apprm -d "remove packages and all thair dependencies"
+  set toremove ""
+  # list all installed pkgs
+  set list (printf %s (pkg list-installed | sed "s/\/.*//g" | sed "/Listing.../d" | sed ':a;N;$!ba;s/\n/,/g'))
+  #add comma to the end and the start of lsed -i "/Lsed -i "/Listing.../d"isting.../d"ist
+  set list ",$list"
+  set list "$list,"
 
-function appu --description "uninstall packages with all dependencies"
-  set pkgtorm (string split , $$argv)
-  # string replace -a "liblzma" "" $pkgtorm
-  pkg uninstall (echo $pkgtorm | string replace "liblzma" "")
+
+
+  for argument in $argv
+    #list pkg dependencies
+    set dependencies (trimdbnstring dbn $argument)
+    #check if dependencies has other programs need's it
+    for dependency in (string split "," $dependencies)
+      #============================ 
+      #remove dependencies
+      set rdps (trimdbnstring rdbn $dependency)
+      set rdps (printf %s $rdps | sed "s/$argument//" | sed "s/,,/,/g")
+
+      #if reverse dependency contain one of dependencies of package that you want remove  then remove that string 
+      set list (string replace ",$dependency," "," $list)
+      # echo $dependency
+      # echo $rdps
+      set canBeRemoved true
+      for reverseDependency in (string split "," $rdps)
+        if string match -q "*,$reverseDependency,*" $list
+          set canBeRemoved false
+          break
+        end
+      end
+      if string match -q "*$dependency*" $toremove
+        set notExisting false
+      else
+        set notExisting true
+      end
+      if $canBeRemoved; and $notExisting
+        set toremove $toremove $dependency
+      end
+
+      #remove sub dependencies
+      set subDebs (trimdbnstring dbn $dependency)
+      # echo $subDebs
+      for subdeb in (string split "," $subDebs)
+        set rsubdps (trimdbnstring rdbn $subdeb)
+        # sed -i "s/$subdeb//" rsubdpns.txt
+        #if reverse dependency contain one of dependencies of package that you want remove  then remove that string
+        set list (string replace ",$subdeb," "," $list)      
+        set subCanBeRemoved true
+        # echo $rsubdps
+        for reverseSubDependency in (string split "," $rsubdps)
+          if string match -q "*,$reverseSubDependency,*" $list
+            # echo $reverseDependency
+            set subCanBeRemoved false
+            break
+          end
+        end
+
+        #make sure there no duplucates pkgs
+        if string match -q "*$subdeb*" $toremove
+          set notExisting false
+        else
+          set notExisting true
+        end
+        if $subCanBeRemoved; and  $notExisting
+          set toremove "$toremove $subdeb"
+        end
+      end
+      #=======================
+    end
+    set toremove $toremove $argument
+  end
+  echo $toremove
 end
+
+
+
+
+# function appu --description "uninstall packages with all dependencies"
+#   set pkgtorm (string split , $$argv)
+#   # string replace -a "liblzma" "" $pkgtorm
+#   pkg uninstall (echo $pkgtorm | string replace "liblzma" "")
+# end
+
+
 
 
 # make folder called new and put all updated packages inside it
@@ -229,7 +313,22 @@ end
 end
 
 
-
+function trimdbnstring
+  #first argument dbn or rdbn
+  #second is package name
+  printf %s ($argv[1] $argv[2]| sed  "/Recommends/d" \
+    |  sed  "/Suggests/d" \
+    |  sed  "/Replaces/d" \
+    |  sed  "/Breaks/d" \
+    |  sed  "/Reverse/d" \
+    |  sed  "/Conflicts/d" \
+    |  sed  "s/Depends://" \
+    |  sed  "1d" \
+    |  sed  -E "s/\((.*?)\)//g" \
+    |  sed  's/^[[:blank:]]*//g' \
+    |  sed  ':a;N;$!ba;s/\n/,/g' \
+    |  sed  's/ //g')
+end
 
 function trimdpn
   sed -i "/Recommends/d" $argv
@@ -253,127 +352,4 @@ function trimdpn
 end
 
 
-function apprm -d "remove packages and all thair dependencies"
-  set toremove ""
-
-  # list all installed pkgs
-  pkg list-installed > list.txt
-  sed -i "s/\/.*//g" list.txt
-  sed -i "/Listing.../d" list.txt
-  sed -i ':a;N;$!ba;s/\n/,/g' list.txt
-  set list (cat list.txt)
-  #add comma to the end and the start of list
-  set list ",$list"
-  set list "$list,"
-  #====================================
-  #list pkg dependencies
-  dbn $argv > dpns.txt
-  trimdpn dpns.txt
-  set dependencies (cat dpns.txt)
-
-
-  #remove sub dependences
-  #check dependecies sub dependences
-  # for debs in (string split "," $dependencies)
-  #   dbn $debs > subdeb.txt
-  #   trimdpn subdeb.txt
-  #   set subDebs (cat subdeb.txt)
-  #   for subdeb in (string split "," $subDebs)
-  #     rdbn $subdeb > rsubdpns.txt
-  #     # sed -i "s/$subdeb//" rsubdpns.txt
-  #     #if reverse dependency contain one of dependencies of package that you want remove  then remove that string
-  #     set list (string replace ",$subdeb," "," $list)      
-  #     trimdpn rsubdpns.txt
-  #     set subCanBeRemoved true
-  #     set rsubdps (cat rsubdpns.txt)
-  #     for reverseSubDependency in (string split "," $rsubdps)
-  #       if string match -q "*,$reverseSubDependency,*" $list
-  #         # echo $reverseDependency
-  #         set subCanBeRemoved false
-  #       end
-  #     end
-  #     if $subCanBeRemoved
-  #       set toremove $toremove $subdeb
-  #       rm rsubdpns.txt
-  #     end
-  #     #   ##$$$$$
-  #   end
-  # end
-
-
-
-  #check if dependencies has other programs need's it
-  for dependency in (string split "," $dependencies)
-
-
-    dbn $dependency > subdeb.txt
-    trimdpn subdeb.txt
-    set subDebs (cat subdeb.txt)
-    for subdeb in (string split "," $subDebs)
-      rdbn $subdeb > rsubdpns.txt
-      # sed -i "s/$subdeb//" rsubdpns.txt
-      #if reverse dependency contain one of dependencies of package that you want remove  then remove that string
-      set list (string replace ",$subdeb," "," $list)      
-      trimdpn rsubdpns.txt
-      set subCanBeRemoved true
-      set rsubdps (cat rsubdpns.txt)
-      # echo $rsubdps
-      for reverseSubDependency in (string split "," $rsubdps)
-        if string match -q "*,$reverseSubDependency,*" $list
-          # echo $reverseDependency
-          set subCanBeRemoved false
-        end
-      end
-      if string match -q "*$subdeb*" $toremove
-        set notExisting false
-      else
-        set notExisting true
-      end
-        if $subCanBeRemoved and  $notExisting
-        set toremove "$toremove $subdeb"
-        rm rsubdpns.txt
-      end
-    end
-
-
-
-
-
-
-    rdbn $dependency > rdpns.txt
-    sed -i "s/$argv//" rdpns.txt
-    #if reverse dependency contain one of dependencies of package that you want remove  then remove that string
-    set list (string replace ",$dependency," "," $list)      
-    trimdpn rdpns.txt
-    set canBeRemoved true
-    set rdps (cat rdpns.txt)
-    for reverseDependency in (string split "," $rdps)
-      if string match -q "*,$reverseDependency,*" $list
-        # echo $reverseDependency
-        set canBeRemoved false
-      end
-    end
-          if string match -q "*$dependency*" $toremove
-        set notExisting false
-      else
-        set notExisting true
-      end
-    if $canBeRemoved and $notExisting
-      set toremove $toremove $dependency
-      rm rdpns.txt
-    end
-
-
-
-
-
-
-
-
-  end
-  echo $toremove
-  rm list.txt
-  rm dpns.txt
-  rm subdeb.txt
-end
 
