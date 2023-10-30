@@ -1,4 +1,11 @@
 # Searches and replaces for text in all files in the current folder
+function log --description "git commit browser. uses fzf"
+  # todo add "$argv" in there without breaking the no-argv case.
+  git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"  | \
+  fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` --bind "ctrl-m:execute:
+                echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R'"
+end
 
 function ftext
   # -i case-insensitive
@@ -22,7 +29,7 @@ function rptext
 end
 
 function cpp
-  set -e
+  # set -e
   strace -q -ewrite cp -- "$argv[1]" "$argv[2]" 2>&1 \
     | awk '{
   count += $NF
@@ -38,6 +45,10 @@ function cpp
       end
       }
       END { print "" }' total_size="$(stat -c '%s' "$argv[1]")" count=0
+    end
+
+    function reload --description 'Reloads shell (i.e. invoke as a login shell)'
+      exec $SHELL -l
     end
 
 
@@ -141,6 +152,26 @@ function cpp
     pwd | awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
   end
 
+function match -d "check if string contain substring"
+  if  string match -q "*$argv[1]*" $argv[2]
+    echo "$argv[1] was found"
+  else
+    echo "$argv[1] was not found"
+  end
+end
+
+
+function sedmatch -d "check string matches with sed"
+  if [ -n "(sed -n "/$argv[1]/p" > $argv[2])" ]
+
+    echo "$argv[1] was found"
+
+  else
+    echo "$argv[1] was not found"
+
+  end
+end
+
 
   # github
   function setupgit
@@ -184,7 +215,7 @@ function cpp
 
   alias gst "git status"
 
-  function githistory
+  function githistory -d "list of all git repo commits piped into fzf"
     git log --oneline --graph  --color=always | nl | fzf --ansi --track --no-sort --layout=reverse-list
   end
   function gcom
@@ -325,6 +356,7 @@ function cpp
 
 
   function qr --description "Prints QR. E.g. super useful when you need to transfer private key to the phone without intermediaries `cat ~/.ssh/topsecret.pem | qr`"
+    cls
     # -t determine the output format for stdout better use ansi, ansi256, ansiutf8, utf8 the default is png
     if [ "$argv" = "" ]
       echo "Please give input file or string value"
@@ -484,6 +516,13 @@ function cpp
   function gpass -d "cheap password manager"
     set passfile $phone/Aaaa/bitward.csv
     set linenumber (grep -in $argv[1] $passfile | cut -d':' -f1)
+    if test -z $linenumber 
+      echo "entery not exist!"
+      return
+    else if test -z $argv 
+      echo "Please Enter username or email adress!"
+    return
+    end
     set 2dentry (sed -n {$linenumber[2]}p $passfile)
     if string match -q "*$argv[1]*" $2dentry
       if string length -q $argv[2]
@@ -550,14 +589,15 @@ function cpp
 
   function tertheme -d "change termux theme with fuzzy finder"
     set themedir $HOME/.stuff/termux-themes
-    set selectedTheme ( ls  $themedir | fzf --border rounded)
+    set selectedTheme ( ls -I "*.txt" $themedir  | fzf --border rounded --border-label="Termux Themes")
     if test -z $selectedTheme
       echo "no theme selected"
       return
     end
     set selectednoprop (string replace ".properties" "" $selectedTheme)
     echo "successfully selected $selectednoprop"
-    rm $HOME/.termux/colors.properties
+    rm -fR $HOME/.termux/colors.properties
     ctheme $themedir/$selectedTheme
+    termux-reload-settings
     # cm (fzf --preview='head -$LINES {}' ls)
   end

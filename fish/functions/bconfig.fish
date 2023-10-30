@@ -5,6 +5,7 @@ function bconfig
   end
   set -l cdir (pwd)
   mkdir $HOME/tmp
+  mkdir $HOME/tmp/packages
   if test -f $HOME/.bashrc
     cp $HOME/.bashrc $HOME/tmp
   end
@@ -13,6 +14,8 @@ function bconfig
   zip -r git.zip .git
   mv $HOME/.config/git.zip $HOME/tmp
   cp -r $HOME/.stuff/keys $HOME/tmp/keys
+  cp $HOME/../usr/var/lib/apt/lists/packages-cf.termux.dev_apt_termux-main_dists_stable_InRelease $HOME/tmp/packages
+  cp $HOME/../usr/var/lib/apt/lists/packages-cf.termux.dev_apt_termux-main_dists_stable_main_binary-arm_Packages $HOME/tmp/packages
   cd $HOME/tmp
   zip -r myConfig.zip *
   zip myConfig.zip .bashrc

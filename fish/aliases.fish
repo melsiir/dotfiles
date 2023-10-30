@@ -1,185 +1,342 @@
 
 # aliases
-alias shrug "echo '¯\_(ツ)_/¯'"
-alias xx "exit 0"
-alias linecount "wc -l"
+
+
+function shrug
+    echo "¯\_(ツ)_/¯"
+end
+function xx
+    exit 0
+end
+function linecount
+    wc -l
+end
 
 # empty obsidian trash
 
 # edit  config
-alias ealiases 'vi ~/.config/fish/aliases.fish'
-alias epaks 'vi ~/.config/fish/onDemand/packages.fish'
-alias efunctions 'vi ~/.config/fish/functions.fish'
-alias eweb 'vi ~/.config/fish/web.fish'
-alias efish "vi $HOME/.config/fish/config.fish"
-alias estar "vi $HOME/.config/starship.toml"
-alias cvim "cd $HOME/.config/nvim"
-alias cfish "cd $HOME/.config/fish"
-alias config "cd $HOME/.config"
-alias opm "open README.md"
-alias noswap 'rm -r ~/.local/state/nvim/swap'
-alias vf 'vi (fzf)'
-set -xU fon "$HOME/.termux/font.ttf"
+function ealiases
+    vi ~/.config/fish/aliases.fish
+end
+function epaks
+    vi ~/.config/fish/onDemand/packages.fish
+end
+function efunctions
+    vi ~/.config/fish/functions.fish
+end
+function eweb
+    vi ~/.config/fish/web.fish
+end
+function efish
+    vi $HOME/.config/fish/config.fish
+end
+function estar
+    vi $HOME/.config/starship.toml
+end
+function cvim
+    cd $HOME/.config/nvim
+end
+function cfish
+    cd $HOME/.config/fish
+end
+function config
+    cd $HOME/.config
+end
+function opm
+    open README.md
+end
+function noswap
+    rm -r ~/.local/state/nvim/swap
+end
+function vf
+    vi (fzf)
+end
+# set fon ; $HOME/.termux/font.ttf;end
 
 # package managing
-alias dbn "apt depends"
-alias rdbn "apt rdepends"
-alias paki "pkg install"
-alias ap "apt-get install"
-alias aps "apt search"
-alias uninstall "pkg uninstall"
-# alias debs "cd $HOME/../usr/var/cache/apt/archives"
-alias debs "cd $HOME/../../cache/apt/archives"
-alias nodebs "cd $HOME/../usr/var/cache/apt/archives/*"
-alias deblogs 'cd ‘/data/data/com.termux/files/usr/var/log/apt/'
+function dbn
+    apt-cache depends $argv
+end
+function rdbn
+    apt-cache rdepends $argv
+end
+function paki
+    pkg install $argv
+end
+function ap
+    apt-get install $argv
+end
+function aps
+    apt search $argv
+end
+function uninstall
+    pkg uninstall $argv
+end
+# alias debs ; cd $HOME/../usr/var/cache/apt/archives;end
+function debs
+    cd $HOME/../../cache/apt/archives
+end
+function nodebs
+    cd $HOME/../usr/var/cache/apt/archives/*
+end
+function deblogs
+    cd ‘/data/data/com.termux/files/usr/var/log/apt/
+end
 
 # Alias's to modified commands
-alias cp 'cp -ri'
-alias mv 'mv -i'
-alias mkdir 'mkdir -p'
-alias ps 'ps auxf'
-alias ping 'ping -c 10'
-alias less 'less -R'
-alias cls 'clear'
-alias del="rm -rfv"
+function cp
+    command cp -ri $argv
+end
+function mv
+    command mv -i $argv
+end
+function mkdir
+    command mkdir -p $argv
+end
+function ps
+    command ps auxf
+end
+function ping
+    command ping -c 10 $argv
+end
+function less
+    command less -R $argv
+end
+
+function cls
+    clear
+end
+function del
+    command rm -rfv $argv
+end
 
 #delete empty folders recursively
-alias noemptydir 'find . -type d -empty -delete'
-# alias multitail 'multitail --no-repeat -c'
+function noemptydir
+    find . -type d -empty -delete
+end
+# alias multitail ; multitail --no-repeat -c;end
 
 # Change directory aliases
-alias home 'cd ~'
-alias cd.. 'cd ..'
-alias .. 'cd ..'
-alias ... 'cd ../..'
-alias .... 'cd ../../..'
-alias ..... 'cd ../../../..'
+function home
+    cd ~
+end
+function cd..
+    cd ..
+end
+function ..
+    cd ..
+end
+function ...
+    cd ../..
+end
+function ....
+    cd ../../..
+end
+function .....
+    cd ../../../..
+end
 
 # cd into the old directory
-alias bd 'cd "$dirprev[-1]"'
+function bd
+    cd $dirprev[-1]
+end
 
 # Remove a directory and all files
-alias rmd '/bin/rm  --recursive --force --verbose '
-
-
-# grep	alias. Colorize grep output (good for log files)
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias rg='rg -p'
-# alias ip='ip -c[auto]'
-
-# Alias's for multiple directory listing commands
-# alias lla 'ls -Alh' # show hidden files
-# alias lls 'ls -aFh --color=always' # add colors and file type extensions
-# alias la 'ls -a' #overwrite fish default command
-# alias ls 'ls -Fh --color=always' # add colors and file type extensions
-# alias lx 'ls -lXBh --color=auto --group-directories-first' # sort by extension
-# alias lk 'ls -lSrh --color=auto --group-directories-first' # sort by size
-# alias lc 'ls -lcrh --color=auto --group-directories-first' # sort by change time
-# alias lu 'ls -lurh --color=auto --group-directories-first' # sort by access time
-# alias lr 'ls -lRh --color=auto --group-directories-first' # recursive ls
-# alias lt 'ls -ltrh --color=auto --group-directories-first' # sort by date
-# alias lm 'ls -alh --color=auto --group-directories-first |more' # pipe through 'more'
-# alias lw 'ls -xAh --group-directories-first' # wide listing format
-# alias ll 'ls -Fls --color=auto --group-directories-first' # long listing format
-# alias labc 'ls -lap --color=auto --group-directories-first' #alphabetical sort
-# alias lf "ls -l | egrep -v '^d'" # files only
-# alias ldir "ls -l | egrep '^d'" # directories only
-
-# Use eza instead of ls.
-if type -q eza
-  alias l="eza -al --color=always  --icons --group-directories-first"
-  alias ls="eza --color=auto  --icons --group-directories-first"
-  alias la="eza -a --color=auto --icons --group-directories-first"
-  alias ll="eza -l --color=auto --icons --group-directories-first"
-  # alias lt="eza -aT --color=always  --icons --group-directories-first"
-  alias l.='eza -a | egrep "^\."'
-  alias dir="eza -al --color=always --icons --group-directories-first"
-  alias lx 'eza --sort ext --color=auto --icons --group-directories-first' # sort by extension
-  alias lk 'eza --sort size --color=auto --icons --group-directories-first' # sort by size
-  alias lc 'eza --sort changed --color=auto --icons --group-directories-first' # sort by change time
-  alias lu 'eza --sort accessed --color=auto --icons --group-directories-first' # sort by access time
-  alias lr 'eza -R --color=auto --icons --group-directories-first' # recursive ls
-  alias lt 'eza --sort date --color=auto --icons --group-directories-first' # sort by date
-
-else
-  alias lla 'ls -Alh' # show hidden files
-  alias lls 'ls -aFh --color=always' # add colors and file type extensions
-  alias la 'ls -a' #overwrite fish default command
-  alias ls 'ls -Fh --color=always' # add colors and file type extensions
-  alias lx 'ls -lXBh --color=auto --group-directories-first' # sort by extension
-  alias lk 'ls -lSrh --color=auto --group-directories-first' # sort by size
-  alias lc 'ls -lcrh --color=auto --group-directories-first' # sort by change time
-  alias lu 'ls -lurh --color=auto --group-directories-first' # sort by access time
-  alias lr 'ls -lRh --color=auto --group-directories-first' # recursive ls
-  alias lt 'ls -ltrh --color=auto --group-directories-first' # sort by date
-  alias lm 'ls -alh --color=auto --group-directories-first |more' # pipe through 'more'
-  alias lw 'ls -xAh --group-directories-first' # wide listing format
-  alias ll 'ls -Fls --color=auto --group-directories-first' # long listing format
-  alias labc 'ls -lap --color=auto --group-directories-first' #alphabetical sort
-  alias lf "ls -l | egrep -v '^d'" # files only
-  alias ldir "ls -l | egrep '^d'" # directories only
-
+function rmd
+    /bin/rm --recursive --force --verbose $argv
 end
 
 
+# grep	alias. Colorize grep output (good for log files)
+function grep
+    command grep --color=auto $argv
+end
+function egrep
+    command egrep --color=auto $argv
+end
+function fgrep
+    command fgrep --color=auto $argv
+end
+function rg
+    command rg -p $argv
+end
+# alias ip='ip -c[auto]'
+
+
+# Use eza instead of ls.
+if type -q eza
+    alias l="eza -al --color=always  --icons --group-directories-first"
+    alias ls="eza --color=auto  --icons --group-directories-first"
+    alias la="eza -a --color=auto --icons --group-directories-first"
+    function ll
+        eza -l --color=auto --icons --group-directories-first
+    end
+    function lt
+        eza -aT --color=always --icons --group-directories-first
+    end
+    function l.
+        eza -a | egrep "^\."
+    end
+    function dir
+        eza -al --color=always --icons --group-directories-first
+    end
+    function lx
+        eza --sort ext --color auto --icons --group-directories-first
+    end # sort by extension
+    function lk
+        eza --sort size --color auto --icons --group-directories-first
+    end # sort by size
+    function lc
+        eza --sort changed --color auto --icons --group-directories-first
+    end # sort by change time
+    function lu
+        eza --sort accessed --color auto --icons --group-directories-first
+    end # sort by access time
+    function lr
+        eza -R --color auto --icons --group-directories-first
+    end
+    # recursive ls
+    function lt
+        eza --sort date --color auto --icons --group-directories-first
+    end # sort by date
+
+else
+    alias lla 'ls -Alh' # show hidden files
+    alias lls 'ls -aFh --color=always' # add colors and file type extensions
+    alias la 'ls -a' #overwrite fish default command
+    alias ls 'ls -Fh --color=always' # add colors and file type extensions
+    alias lx 'ls -lXBh --color=auto --group-directories-first' # sort by extension
+    alias lk 'ls -lSrh --color=auto --group-directories-first' # sort by size
+    alias lc 'ls -lcrh --color=auto --group-directories-first' # sort by change time
+    alias lu 'ls -lurh --color=auto --group-directories-first' # sort by access time
+    alias lr 'ls -lRh --color=auto --group-directories-first' # recursive ls
+    alias lt 'ls -ltrh --color=auto --group-directories-first' # sort by date
+    alias lm 'ls -alh --color=auto --group-directories-first |more' # pipe through 'more'
+    alias lw 'ls -xAh --group-directories-first' # wide listing format
+    alias ll 'ls -Fls --color=auto --group-directories-first' # long listing format
+    alias labc 'ls -lap --color=auto --group-directories-first' #alphabetical sort
+    alias lf "ls -l | egrep -v '^d'" # files only
+    alias ldir "ls -l | egrep '^d'" # directories only
+
+end
+
 # alias to show the date
-alias da='date "+%Y-%m-%d %A %T %Z"'
+function da
+    date +%Y-%m-%d %A %T %Z
+end
 
 # alias chmod commands
-alias mx 'chmod a+x'
-alias 000 'chmod -R 000'
-alias 644 'chmod -R 644'
-alias 666 'chmod -R 666'
-alias 755 'chmod -R 755'
-alias 777 'chmod -R 777'
-alias 700 'chmod -R 700'
+function mx
+    chmod a+x $argv
+end
+function 000
+    chmod -R 000 $argv
+end
+function 644
+    chmod -R 644 $argv
+end
+function 666
+    chmod -R 666 $argv
+end
+function 755
+    chmod -R 755 $argv
+end
+function 777
+    chmod -R 777 $argv
+end
+function 700
+    chmod -R 700 $argv
+end
 
 # Search command line history
-alias h "history | grep "
+function h
+    history | grep $argv
+end
 
 # Search running processes
-alias p "ps aux | grep "
-alias topcpu "/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
+function p
+    ps aux | grep $argv
+end
+function topcpu
+    /bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10
+end
 
 # Search files in the current folder
-alias f "find . | grep "
-# alias rptext 'find . -type f -exec sed -i "s/$argv[1]/bar/g" {} +'
+function f
+    find . | grep $argv
+end
+# alias rptext ; find . -type f -exec sed -i ; s/$argv[1]/bar/g" {} +;end
 
 # To see if a command is aliased, a file, or a built-in command
-alias checkcommand "type -t"
+function checkcommand
+    type -t $argv
+end
+
 
 # Alias's to show disk space and space used in a folder
-alias diskspace="du -S | sort -n -r |more"
-alias folders='du -h --max-depth=1'
-alias folderssort='find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn'
-alias tree='tree -CAhF --dirsfirst'
-alias treed='tree -CAFd'
-alias mountedinfo='df -hT'
+function diskspace
+    command du -S | sort -n -r | more $argv
+end
+function folders
+    command du -h --max-depth=1 $argv
+end
+function folderssort
+    command find . -maxdepth 1 -type d -print0 | xargs -0 du -sk | sort -rn $argv
+end
+function tree
+    command tree -CAhF --dirsfirst $argv
+end
+function treed
+    command tree -CAFd $argv
+end
+function mountedinfo
+    command df -hT $argv
+end
 # adding flags
-alias df='df -h'				# human-readable sizes
-alias free='free -m'			# show sizes in MB
+function df
+    command df -h $argv
+end # human-readable sizes
+function free
+    command free -m $argv
+end # show sizes in MB
 
 
 #  * `sizeof` command to show size of file or directory
-alias sizeof="du -hs"
+function sizeof
+    command du -hs $argv
+end
+
 
 # Show all logs in /var/log
-alias logs="find /data/data/com.termux/files/usr/var/log -type f -exec $file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/://g' | grep -v '[0-9]' | xargs tail -f"
+# alias logs="find /data/data/com.termux/files/usr/var/log -type f -exec $file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/://g' | grep -v '[0-9]' | xargs tail -f"
 # alias logs="bash (find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/://g' | grep -v '[0-9]' | xargs tail -f)"
 
 
-# Alias's for archives
-alias mktar='tar -cvf'
-alias mkbz2='tar -cvjf'
-alias mkgz='tar -cvzf'
-alias untar='tar -xvf'
-alias unbz2='tar -xvjf'
-alias ungz='tar -xvzf'
+# Alias; s for archives
+function mktar
+    tar -cvf $argv
+end
+function mkbz2
+    tar -cvjf $argv
+end
+function mkgz
+    tar -cvzf $argv
+end
+function untar
+    tar -xvf $argv
+end
+function unbz2
+    tar -xvjf $argv
+end
+function ungz
+    tar -xvzf $argv
+end
 
 
 # SHA1
-alias sha1='openssl sha1'
-alias md5='openssl md5'
-
+function sha1
+    openssl sha1 $argv
+end
+function md5
+    openssl md5 $argv
+end

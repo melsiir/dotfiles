@@ -1,5 +1,0 @@
-SHA1(/data/data/com.termux/files/home/.config/fish/conf.d/omf.fish)= 15604433ef3fb1a98bf9f41f5427f99aeb42085d
-SHA1(/data/data/com.termux/files/home/.config/fish/conf.d/fish-syntax-highlighting-colors.fish)= ff1e88fe2f2efad756f0c15028c2c8dc023ed58e
-SHA1(/data/data/com.termux/files/home/.config/fish/conf.d/fzf.fish)= 4b9123a751be366ac8ac323b3ab18ce17c30838d
-SHA1(/data/data/com.termux/files/home/.config/fish/conf.d/z.fish)= a1d87c09899cfd4643ffdd67a1a9ca1787bf8e4a
-SHA1(/data/data/com.termux/files/home/.config/fish/conf.d/list.txt)= 4061bbccf900b283c35054281e852a681d28884f

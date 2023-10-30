@@ -1,8 +1,10 @@
 #!/path/to/fish
 
-set pkgUpdate "ed,liblzma,xz-utils,zlib,zstd,libbz2,bzip2,libgmp,coreutils,libmd,diffutils,gzip,less,libandroid-glob,tar,dpkg,findutils,libgpg-error,libassuan,libgcrypt,libnpth,gpgv,grep,ca-certificates,openssl,libcurl,curl,libnghttp2,libssh2,resolv-conf,libexpat,libevent,libunbound,unbound,libnettle,libunistring,libidn2,libgnutls,liblz4,sed,termux-am-socket,dash,libmpfr,readline,gawk,procps,psmisc,termux-am,termux-exec,libsmartcols,libcap-ng,dialog,util-linux,termux-tools,termux-keyring,termux-licenses,xxhash,apt,bash,libcrypt,bash-completion,busybox,command-not-found,debianutils,dos2unix,inetutils2,libtirpc,lsof,nano,unzip,libtirpc,inetutils,unzip,libexpat,net-tools"
+set libs ",libxml2,glib,libandroid-support,libdav1d,libaom,libde265,libffi,libheif,libgnutls,libjpeg-turbo,liblzma,libpng,libnpth,libtiff,librav1e,libwebp,libx265,"
 
-set cmake "binutils,ndk-sysroot,libffi,libllvm,clang,libxml2,libarchive,jsoncpp,rhash,cmake"
+set pkgUpdate "ed,liblzma,xz-utils,zlib,zstd,libbz2,bzip2,libgmp,coreutils,libmd,diffutils,gzip,less,libandroid-glob,tar,dpkg,findutils,libgpg-error,libassuan,libgcrypt,libnpth,gpgv,grep,ca-certificates,openssl,libcurl,curl,libnghttp2,libssh2,resolv-conf,libexpat,libevent,libunbound,unbound,libnettle,libunistring,libidn2,libgnutls,liblz4,sed,termux-am-socket,dash,libmpfr,readline,gawk,procps,psmisc,termux-am,termux-exec,libsmartcols,libcap-ng,dialog,util-linux,termux-tools,termux-keyring,termux-licenses,xxhash,apt,bash,libcrypt,bash-completion,busybox,pcre,command-not-found,debianutils,dos2unix,inetutils2,libtirpc,lsof,nano,unzip,libtirpc,inetutils,unzip,libexpat,net-tools"
+
+set cmake "binutils,ndk-sysroot,libffi,libllvm,clang,libarchive,jsoncpp,rhash,cmake"
 
 set make "make"
 
@@ -28,6 +30,8 @@ set dua "dua"
 
 set duf "duf"
 
+set tealdeer "tealdeer"
+
 set imagemagick "brotli,fftw,fontconfig,freetype,fribidi,gdk-pixbuf,giflib,glib,harfbuzz,imagemagick,imath,libandroid-posix-semaphore,libandroid-shmem,libaom,libcairo,libdav1d,libde265,libffi,libgraphite,libheif,libjpeg-turbo,libjxl,liblzo,libpixman,libpng,librav1e,librsvg,libtiff,libwebp,libx11,libx265,libxau,libxcb,libxdmcp,libxext,libxft,libxml2,libxrender,littlecms,openexr,openjpeg,pango,ttf-dejavu,liblzma"
 
 set uimagemagick "brotli fftw fontconfig freetype fribidi gdk-pixbuf giflib glib harfbuzz imagemagick imath libandroid-posix-semaphore libandroid-shmem libaom libcairo libdav1d libde265 libffi libgraphite libheif libjpeg-turbo libjxl liblzo libpixman libpng librav1e librsvg libtiff libwebp libx11 libx265 libxau libxcb libxdmcp libxext libxft libxrender littlecms openexr openjpeg pango ttf-dejavu"
@@ -51,6 +55,8 @@ set w3m "libgc,w3m"
 set fzf "tmux,fzf"
 
 set ripgrep "pcre2,ripgrep"
+
+set rsync "openssl-tool,libpopt,rsync"
 
 set exa "libgit2,exa"
 
