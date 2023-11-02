@@ -306,6 +306,9 @@ function sizeof
     command du -hs $argv
 end
 
+function tersize -d "get the size of termux distro"
+    sizeof /data/data/com.termux/files
+end
 
 # Show all logs in /var/log
 # alias logs="find /data/data/com.termux/files/usr/var/log -type f -exec $file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/://g' | grep -v '[0-9]' | xargs tail -f"

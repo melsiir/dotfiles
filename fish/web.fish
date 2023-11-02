@@ -172,7 +172,7 @@ end
 #   curl --request POST \
 #     --url https://temp-mail44.p.rapidapi.com/api/v3/email/new \
 #     --header 'X-RapidAPI-Host: temp-mail44.p.rapidapi.com' \
-#     --header 'X-RapidAPI-Key: 74a5d34881msh5db02856f2ed85bp1a61d9jsne8534c02646e' \
+#     --header 'X-RapidAPI-Key: ' (cat ~/.stuff/keys/temp-mail44.p.rapidapi.com) \
 #     --header 'content-type: application/json' \
 #     --data '{"key1":"value","key2":"value"}'
 # end
@@ -181,7 +181,7 @@ end
 #   curl --request GET \
 #     --url https://temp-mail44.p.rapidapi.com/api/v3/email/p1amvpvxfh@bestparadize.com/messages \
 #     --header 'X-RapidAPI-Host: temp-mail44.p.rapidapi.com' \
-#     --header 'X-RapidAPI-Key: 74a5d34881msh5db02856f2ed85bp1a61d9jsne8534c02646e'
+#     --header 'X-RapidAPI-Key: '(cat ~/.stuff/keys/temp-mail44.p.rapidapi.com)
 # end
 
 

@@ -1,10 +1,14 @@
 -- Shorten function name
 local keymap = vim.keymap.set
+-- See `:help vim.keymap.set()`
 -- Silent keymap option
 local opts = { silent = true }
+keymap('', '<Space>', '<Nop>', opts)
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 -- neovim stocks maps
 -- w - jump curser to the next word
 -- -- o - append newline from normal mode
@@ -25,30 +29,9 @@ vim.g.mapleader = " "
 -- : %s/old/new/ - substitute "new" for "old" in every first match in every line
 -- : s/old/new/ - substitute "new" for "old" only in the first match
 -- : 2,6s/old/new/g - substitue new for old in all accurance between line 2 and line 6.
---
+-- use gcc to comment with comment.nvim
 
--- [[ Basic Keymaps ]]
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
-
----------------------------------
+--------------------------------------------
 
 keymap('n', 'x', '"_x')
 
@@ -67,7 +50,7 @@ keymap('n', 'cr', 'c$')
 keymap('n', '<C-a>', 'gg<S-v>G')
 
 -- Reload configuration without restart nvim
-keymap("n", "<leader>r", "<cmd>so %<CR>", {})
+keymap('n', '<leader>r', '<cmd>so %<CR>', {})
 
 -- Save with root permission (not working for now)
 --vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
@@ -76,13 +59,13 @@ keymap("n", "<leader>r", "<cmd>so %<CR>", {})
 keymap('n', 'tt', '<cmd>tabedit<Return>')
 
 -- keymap("n", "tt", "<cmd>tabnew %<cr>", opts)
-keymap("n", "tc", "<cmd>BufferClose<cr>", opts)
-keymap("n", "trs", "<cmd>>BufferRestore<cr>", opts)
-keymap("n", "tr", "<cmd>tabonly<cr>", opts)
-keymap("n", "<Tab>", "<cmd>BufferNext<CR>", opts)
-keymap("n", "tn", "<cmd>BufferNext<CR>", opts)
+keymap('n', 'tc', '<cmd>BufferClose<cr>', opts)
+keymap('n', 'trs', '<cmd>>BufferRestore<cr>', opts)
+keymap('n', 'tr', '<cmd>tabonly<cr>', opts)
+keymap('n', '<Tab>', '<cmd>BufferNext<CR>', opts)
+keymap('n', 'tn', '<cmd>BufferNext<CR>', opts)
 -- keymap("n", "tp", "<cmd>BufferPrevious<CR>", opts)
-keymap("n", "tp", "<cmd>BufferPin<CR>", opts)
+keymap('n', 'tp', '<cmd>BufferPin<CR>', opts)
 keymap('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
 keymap('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
 keymap('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
@@ -127,8 +110,6 @@ keymap('n', '<leader>j', '<cmd>move+<CR>==', { desc = 'Move line down' })
 keymap('x', '<leader>k', ":move'<-2<CR>gv=gv", { desc = 'Move selection up' })
 keymap('x', '<leader>j', ":move'>+<CR>gv=gv", { desc = 'Move selection down' })
 
-
-
 -- Duplicate lines without affecting PRIMARY and CLIPBOARD selections.
 keymap('n', '<leader>d', 'm`""Y""P``', { desc = 'Duplicate line' })
 keymap('x', '<leader>d', '""Y""Pgv', { desc = 'Duplicate selection' })
@@ -140,10 +121,10 @@ keymap('n', '<leader>cp', 'yap<S-}>p', { desc = 'Duplicate Paragraph' })
 keymap('n', '<leader>cw', '<cmd>lua MiniTrailspace.trim()<CR>', { desc = 'Erase Whitespace' })
 
 -- exit insert mode
-keymap("i", "jk", "<ESC>",{desc ='exit insert mode'})
+keymap('i', 'jk', '<ESC>', { desc = 'exit insert mode' })
 
 -- save from buffer
-keymap("v", "z", ":'<,'>w .svg<Left><Left><Left><Left>",{desc ='save text from buffer'})
+keymap('v', 'z', ":'<,'>w .svg<Left><Left><Left><Left>", { desc = 'save text from buffer' })
 
 -- Search & Replace
 -- ===
@@ -153,14 +134,11 @@ keymap('n', 'g*', '*')
 keymap('n', '#', 'g#')
 keymap('n', 'g#', '#')
 
-
 -- Clear search with <Esc>
 keymap('n', '<Esc>', '<cmd>noh<CR>', { desc = 'Clear Search Highlight' })
 
-
 -- Use backspace key for matching parens
 keymap({ 'n', 'x' }, '<BS>', '%', { remap = true, desc = 'Jump to Paren' })
-
 
 -- Select last paste
 keymap('n', 'gpp', "'`['.strpart(getregtype(), 0, 1).'`]'", { expr = true, desc = 'Select Paste' })
@@ -168,12 +146,10 @@ keymap('n', 'gpp', "'`['.strpart(getregtype(), 0, 1).'`]'", { expr = true, desc 
 -- Quick substitute within selected area
 keymap('x', 'sg', '<cmd>s//gc<Left><Left><Left>', { desc = 'Substitute Within Selection' })
 
-
-
 -- saves and leaves
-keymap("n", "<leader>q", "<cmd>q <CR>")
-keymap("n", "<leader>qq", "<cmd>q! <CR>", opt)
-keymap("n", "<leader>.", "<cmd>q! <CR>", opt)
+keymap('n', '<leader>q', '<cmd>q <CR>')
+keymap('n', '<leader>qq', '<cmd>q! <CR>', opt)
+keymap('n', '<leader>.', '<cmd>q! <CR>', opt)
 
 -- Fast saving from all modes
 keymap('n', '<leader>s', '<cmd>write<CR>', { desc = 'Save' })
@@ -183,22 +159,24 @@ keymap({ 'n', 'i', 'v' }, '<C-s>', '<cmd>write<CR>', { desc = 'Save' })
 keymap('n', '<C-n>l', '<cmd>set rnu!<CR>', opt)
 keymap('n', '<C-n>', '<cmd>set nu!<CR>', opt)
 
-
 -- plugin maps
 
 -- telescope
-keymap("n", "<leader>ff", '<cmd>Telescope find_files <CR>')
-keymap("n", "<leader>fw", '<cmd>Telescope live_grep <CR>')
-keymap("n", "<leader>fb", '<cmd>Telescope buffers <CR>')
-keymap("n", "<leader>fo", '<cmd> Telescope oldfiles <CR>')
-keymap("n", "<leader>fh", "<cmd> Telescope help_tags <CR>")
-keymap("n", "<leader>bm",  "<cmd> Telescope marks <CR>")
-keymap("n", "<leader>fq",  "<cmd> Telescope quickfix <CR>")
-keymap("n", "<leader>fd",  "<cmd> Telescope commands <CR>")
-keymap("n", "<leader>fs",  "<cmd> Telescope git_status  <CR>")
-keymap("n", "<leader>fc",  "<cmd> Telescope git_commits  <CR>")
-keymap("n", "<leader>fz", '<cmd> Telescope current_buffer_fuzzy_find <CR>')
-
+keymap('n', '<leader>ff', '<cmd>Telescope find_files <CR>', {desc = "find files"})
+keymap('n', '<leader>fw', '<cmd>Telescope live_grep <CR>', {desc = "find word in directory"})
+keymap('n', '<leader>fb', '<cmd>Telescope buffers <CR>' ,{desc = "find in current buffer"})
+keymap('n', '<leader>fo', '<cmd> Telescope oldfiles <CR>', {desc = "find old files"})
+keymap('n', '<leader>fg', '<cmd> Telescope find_files ({cwd="$HOME/.config/nvim"}) <CR>', {desc = "find config"})
+keymap('n', '<leader>ft', '<cmd> lua require("telescope.builtin").find_files({cwd="$HOME/.config/nvim"}) <CR>', {desc = "find config"})
+keymap('n', '<leader>fr', '<cmd> Telescope resume <CR>', {desc = "resume your last work"})
+keymap('n', '<leader>fh', '<cmd> Telescope help_tags <CR>', {desc = "find help tags"})
+keymap('n', '<leader>bm', '<cmd> Telescope marks <CR>', {desc = "find bookmarks"})
+keymap('n', '<leader>fq', '<cmd> Telescope quickfix <CR>', {desc = "find quickfix"})
+keymap('n', '<leader>fd', '<cmd> Telescope commands <CR>', {desc = "find commands"})
+keymap('n', '<leader>fs', '<cmd> Telescope git_status  <CR>', {desc = "find git status"})
+keymap('n', '<leader>fc', '<cmd> Telescope git_commits  <CR>', {desc = "find git commits"})
+keymap('n', '<leader>fz', '<cmd> Telescope current_buffer_fuzzy_find <CR>', {desc = "fuzzy find in current buffer"})
+-- vim.keymap.set('n', '<leader>fk', require('telescope.builtin').find_files({cwd="config"}), { desc = '[S]earch [c]onfig' })
 --  local status, telescope = pcall(require, "telescope.builtin")
 -- if status then
 -- 	-- Telescope
@@ -214,19 +192,45 @@ keymap("n", "<leader>fz", '<cmd> Telescope current_buffer_fuzzy_find <CR>')
 -- end
 
 -- nvim neo-tree
-keymap("n", "<leader>n", "<cmd>Neotree toggle<CR>", {}) -- open/close
-keymap("n", "<leader>nr", "<cmd>NvimTreeRefresh<CR>", {}) -- refresh
-keymap("n", "<leader>nf", "<cmd>NvimTreeFindFile<CR>", {}) -- search file
+keymap('n', '<leader>n', '<cmd>Neotree toggle<CR>', {}) -- open/close
+keymap('n', '<leader>nr', '<cmd>NvimTreeRefresh<CR>', {}) -- refresh
+keymap('n', '<leader>nf', '<cmd>NvimTreeFindFile<CR>', {}) -- search file
 
 -- keymap("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", {}) -- open/close
 -- keymap("n", "<leader>nr", "<cmd>NvimTreeRefresh<CR>", {}) -- refresh
 -- keymap("n", "<leader>nf", "<cmd>NvimTreeFindFile<CR>", {}) -- search file
 
 -- comment
-keymap("n", "<leader>/", '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', { desc = 'Toggle comment'})
-keymap("v", "<leader>/", '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', { desc = 'Toggle comment'})
+keymap('n', '<leader>/', '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', { desc = 'Toggle comment' })
+keymap('v', '<leader>/', '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', { desc = 'Toggle comment' })
 
 -- format buffer -- the function can be found in base.lua
- keymap('n', '<leader>fm', '<cmd>lua FormatBuffer()<CR>', { desc = 'format buffer' })
+-- keymap('n', '<leader>fm', '<cmd>lua FormatBuffer()<CR>', { desc = 'format buffer' })
+keymap('n', '<leader>fm', '<cmd>lua require("conform").format()<CR>', { desc = 'format buffer' })
+
 -- lunch lazy.nvim
 keymap('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Open Lazy UI' })
+
+
+-- Remap for dealing with word wrap
+keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
+
+-- Diagnostic keymaps
+keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+keymap('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
+

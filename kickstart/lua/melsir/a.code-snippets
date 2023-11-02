@@ -1,0 +1,96 @@
+{
+	// a comment, since `.code-snippets` may contain jsonc.
+	"function": {
+		"prefix": "func",
+			"body": [
+				"function ${1:name}",
+			"end"
+			],
+			"description": "define function",
+			"scope": "fish"
+	},
+		"echo": {
+			"prefix": "echo",
+			"body": "echo \"${0:message}\"",
+			"description": "Echo a message.",
+			"scope": "fish"
+		},
+		"if": {
+			"prefix": "if",
+			"body": [ "if ${1:condition}\nend"],
+			"description": "An IF statement.",
+			"scope": "fish"
+		},
+		"else if": {
+			"prefix": "elif",
+			"body": "else if ${1:condition}",
+			"description": "Add an else if to an if statement.",
+			"scope": "fish"
+
+		},
+		"else": {
+			"prefix": "else",
+			"body": "else\n\t${0:command}",
+			"description": "else",
+			"scope": "fish"
+		},
+		"read": {
+			"prefix": "read",
+			"body": "read -r ${0:VAR}",
+			"description": "Read ${VAR}.",
+			"scope": "fish"
+
+
+		},
+		"readl": {
+			"prefix": "readl",
+			"body": "read -l ${0:VAR}",
+			"description": "Read ${VAR}.",
+			"scope": "fish"
+
+		},
+		"for_in": {
+			"prefix": "for_in",
+			"body": "for ${1:i} in ${2:list}\n$3\nend\n",
+			"description": "for loop in list",
+			"scope": "fish"
+
+		},
+		"while": {
+			"prefix": "while",
+			"body": "while ${1:condition}\n\t${0}\nend\n",
+			"description": "A while loop by condition.",
+			"scope": "fish"
+
+		},
+		"switch": {
+			"prefix": "switch",
+			"body": "switch $1\n\tcase $2\n\t $3\n\tcase $4\n\t $5\nend\n",
+			"description": "Switch statement",
+			"scope": "fish"
+
+		},
+		"case": {
+			"prefix": "case",
+			"body": "case ${1:condition}\n\t$2",
+			"description": "A case command first expands word, and tries to match it against each pattern in turn.",
+			"scope": "fish"
+
+		},
+
+		"return": {
+			"prefix": "rt",
+			"body": "return ${1:value}",
+			"description": "return value",
+			"scope": "fish"
+
+		},
+		"source": {
+			"prefix": "src",
+			"body": "source ${1:value}",
+			"description": "source external file",
+			"scope": "fish"
+
+		},
+
+}

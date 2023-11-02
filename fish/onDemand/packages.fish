@@ -14,6 +14,12 @@ set fish "libc++,ncurses,libandroid-support,ncurses-utils,man,m4,flex,bc,pcre2,l
 
 set lua "liblua54,lua54"
 
+set stylua "stylua"
+
+set luaLanguageServer "lua-language-server"
+
+set shfmt "shfmt"
+
 set nodejs "libicu,nodejs"
 
 set neovim "libmsgpack,libiconv,libluajit,libuv,luv,libandroid-support,libvterm,libunibilium,libtermkey,libtreesitter,neovim"
@@ -75,6 +81,8 @@ set strace "argp,libelf,libdw,strace"
 set p7zip "p7zip"
 
 set zip "libandroid-support,zip"
+
+set unrar "unrar"
 
 set bat "bat"
 

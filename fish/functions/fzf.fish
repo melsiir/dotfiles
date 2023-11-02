@@ -24,3 +24,8 @@ set -x FZF_DEFAULT_OPTS "--cycle --layout=reverse --border --height 90% --previe
     --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C \
     --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D"
 
+# set -x FZF_DEFAULT_OPTS "--cycle --layout=reverse --border --height 90% --preview-window=right:70% \
+# --color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7 \
+# --color=fg+:#c0caf5,bg+:#1a1b26,hl+:#7dcfff \
+# --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
+# --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"

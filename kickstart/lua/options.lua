@@ -44,33 +44,39 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 function ftyle()
-print(vim.fn.winwidth('%'))
+  local v = vim.api.nvim_buf_get_name(0)
+  -- print(vim.fn.executable 'clang')
+  print(v)
 end
 -- make function to format buffer
 
 function FormatBuffer()
   local currentFileType = vim.bo.filetype
-  local save_cursor = vim.fn.getpos('.')
+  local save_cursor = vim.fn.getpos '.'
   local save_view = vim.fn.winsaveview()
-  -- the % will apply the command to entire buffer 
-  if currentFileType == "fish" then
-    vim.api.nvim_command(':%!fish_indent')
-   elseif currentFileType == "sh" then
-     vim.api.nvim_command(':%!shfmt')
-  else 
-  vim.api.nvim_command('normal! ggVG')
-  vim.api.nvim_command('normal! ==')
-  -- vim.api.nvim_command(':%s/ *$')
+  -- the % will apply the command to entire buffer
+  if currentFileType == 'fish' then
+    vim.api.nvim_command ':%!fish_indent'
+  elseif vim.fn.executable 'shfmt' == 1 and currentFileType == 'sh' then
+    vim.api.nvim_command ':%!shfmt'
+  elseif vim.fn.executable 'stylua' == 1 and currentFileType == 'lua' then
+    vim.api.nvim_command ':%!stylua - --indent-type Spaces --indent-width 2 --call-parentheses None --quote-style AutoPreferDouble'
+  elseif vim.fn.executable 'jq' == 1 and currentFileType == 'json' then
+    vim.api.nvim_command ':%!jq'
+  else
+    vim.api.nvim_command 'normal! ggVG'
+    vim.api.nvim_command 'normal! =='
+    -- vim.api.nvim_command(':%s/ *$')
+  -- remove white space at the end of lines
+    vim.api.nvim_command(':%s/\\s\\+$//e')
 
-  --remove spaces
-  -- vim.api.nvim_command(':%s/ *)/)/g')
-  -- vim.api.nvim_command(':%s/( */(/g')
-  -- vim.api.nvim_command(':%s/ *}/}/g')
-  -- vim.api.nvim_command(':%s/{ */{/g')
-
+    --remove spaces
+    -- vim.api.nvim_command(':%s/ *)/)/g')
+    -- vim.api.nvim_command(':%s/( */(/g')
+    -- vim.api.nvim_command(':%s/ *}/}/g')
+    -- vim.api.nvim_command(':%s/{ */{/g')
   end
-
+  --return to where you were before formating
   vim.fn.setpos('.', save_cursor)
   vim.fn.winrestview(save_view)
 end
-

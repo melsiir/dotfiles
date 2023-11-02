@@ -1,7 +1,3 @@
-local has = vim.fn.has
-local is_linux = has "unix"
-local is_win = has "win32"
-
 --only show if the disply width is larger than 76
 function  willshow(a)
   local syswidth = vim.fn.winwidth('%')
@@ -32,9 +28,11 @@ return {
       -- normal = { c = { fg = "#3B4252", bg = "#E5E8F1" } },
       -- inactive = { c = { fg = colors.fg, bg = colors.bg } },
       -- },
-      component_separators = '|',
+      -- component_separators = '|',
+      -- enable these both will fix lualine problem with nvim startup screen
+      component_separators = '',
       -- section_separators = '',
-      disabled_filetypes = { "alpha", "dashboard", "NvimTree", "neo-tree" },
+      disabled_filetypes = { "alpha", "dashboard", "NvimTree", "neo-tree", "intro"},
       always_divide_middle = true,
 
     },

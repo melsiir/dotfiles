@@ -1,0 +1,13 @@
+{
+  "name": "fish-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "fish"
+        ],
+        "path": "./fish.json"
+      }
+    ]
+  }
+}
