@@ -1,0 +1,3 @@
+warning ! there are high precenage this command will break your whole project so use it wisely
+cause updating all packages to the latest could introduce breaking changes other packages could not tolerate with
+dlx npm-check-updates -u

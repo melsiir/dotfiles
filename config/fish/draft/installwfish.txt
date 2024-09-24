@@ -1,0 +1,52 @@
+#run it in bash shell
+
+ termux-setup-storage
+Termux="/storage/0A56-1B19/backup/Termux"
+packages="$HOME/../usr/var/lib/apt/lists"
+
+infish() {
+
+	cp -r $Termux/offline-repo/fish ./
+
+	cd fish/
+	dpkg -i *
+	cd ..
+	rm -r fish
+}
+
+configs() {
+	mkdir temp && cd temp;
+
+	cp $Termux/myConfig.zip ./;
+	cp $Termux/mylocal.zip ./;
+	unzip -q myConfig.zip;
+	unzip -q mylocal.zip -d $HOME;
+
+	mkdir -p $HOME/.config/;
+
+	cp -r ./config/* $HOME/.config
+	
+	command ls -A home | while read -r agg;do
+      cp -r home/$agg $HOME;
+ done
+	
+	rm -rf $HOME/../usr/var/lib/apt/lists/*
+	mkdir -p $packages
+	cp -fr packages/* $packages/
+	cd $HOME/.config && unzip -q git.zip
+
+	rm $HOME/.config/git.zip
+	find $HOME/.local/bin -exec chmod +x {} +
+
+	chsh -s fish
+	cd $HOME
+	rm -rf temp
+	rm -rf myConfig.zip
+	rm -rf mylocal.zip
+}
+
+ infish
+configs
+
+echo "run terfont" to change your font
+echo "run fresh start from your fish shell"
