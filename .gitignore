@@ -12,6 +12,7 @@
 
 # git credential file
 .gitconfig.local
+.git-credentials
 
 # fish shell
 fishd.*
@@ -21,10 +22,9 @@ fish/fish_history
 fish/fish_variables
 
 #github credential
-#
-#
-gh/hosts.yml
-.config/lazygit/state.yml
+
+*/gh/hosts.yml
+*/lazygit/state.yml
 ### Node ###
 # Logs
 logs
@@ -34,7 +34,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-
+pnpm-lock.yaml
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

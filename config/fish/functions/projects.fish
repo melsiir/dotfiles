@@ -9,7 +9,8 @@ function projects
         # and cd ..
         if test ! -d $fp
             echo "[clone] $fp"
-            git clone git@github.com:melsiir/$p.git $fp
+            # git clone git@github.com:melsiir/$p.git $fp
+            git clone https://github.com/melsiir/$p.git $fp
         end
     end
 end

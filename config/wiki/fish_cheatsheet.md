@@ -22,7 +22,7 @@ set y "help"
    echo "yes"
  else
    echo "no"
- end  
+ end
 
 ```
 
@@ -51,7 +51,7 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 Special variables
 Some bash variables and their closest fish equivalent:
 
-$*, $@, $1 and so on: $argv
+$\*, $@, $1 and so on: $argv
 
 $?: $status
 
@@ -73,7 +73,7 @@ Reading a File with Fish
 To gracefully read a file line by line in Fish, employ the read builtin.
 
 while read -la line
-    echo $line
+echo $line
 end < my_file
 
 Create a file in the home with the name `.fish_variables`

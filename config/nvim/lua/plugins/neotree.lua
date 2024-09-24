@@ -66,4 +66,7 @@ return {
       },
     },
   },
+  keys = {
+      { "-", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+  }
 }

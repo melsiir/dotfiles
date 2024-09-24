@@ -1,5 +1,5 @@
 {
-  "name": "fish-snippets",
+  "name": "custom-snippets",
   "contributes": {
     "snippets": [
       {
@@ -7,6 +7,12 @@
           "fish"
         ],
         "path": "./fish.json"
+      },
+      {
+        "language": [
+          "markdown"
+        ],
+        "path": "./markdown.json"
       }
     ]
   }

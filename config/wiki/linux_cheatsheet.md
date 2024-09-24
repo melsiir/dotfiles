@@ -1,4 +1,3 @@
-
 ## print the the first line from file
 
 head -1 file
@@ -48,6 +47,21 @@ sed -i "3s/cool/nice/" file.txt
 
 sed -i '/\bdog\b/c\cat' file.txt
 
+## Cut out fields from `stdin` or files
+
+```file.txt
+ar = 9
+at = 7
+fi = 4
+```
+cat file.txt | cut --delimiter "=" --fields 2
+
+result 
+
+9
+7
+4
+
 ## sort lines in text file alphabiticaly
 
 sort file.txt
@@ -58,14 +72,14 @@ sort file.txt > file2.txt
 
 ## return only line contain .deb
 
-sift  "_(.*?).deb" file1.txt > file2.txt
+sift "\_(.\*?).deb" file1.txt > file2.txt
 
 ## selecting from certain charactar to end of something
 
 ## usefull with nvim replace and maybe sed
 
 for example replace for the _sign to .deb
-_.*.deb
+_.\*.deb
 ncurses_6.4.20231001-1_arm.deb
 the result after replacing selection with whitespace:
 ncurses
@@ -110,12 +124,20 @@ ls -1 | wc -l
 
 sort file.txt | uniq >> uulist.txt
 
-rename  "image?url=%2F_next%2Fstatic%2Fmedia%2" "" image*
+rename "image?url=%2F_next%2Fstatic%2Fmedia%2" "" image\*
 
-this will rename any file and replace the name image?url=%2F_next%2Fstatic%2Fmedia%2 with nothing "" or id if used "id" for each it contain the wors image at the begening of its name image*or at the meddle if set to *image*  or in the end if set to*image
+this will rename any file and replace the name image?url=%2F_next%2Fstatic%2Fmedia%2 with nothing "" or id if used "id" for each it contain the wors image at the begening of its name image*or at the meddle if set to *image* or in the end if set to*image
 
 ## remove colors from log files
 
 sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
 
 live-server | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
+
+## print all colors
+
+```bash
+for code in {0..255}
+do echo -e "\e[38;5;${code}m"'\\e[38;5;'"$code"m"\e[0m"
+done
+```

@@ -17,13 +17,14 @@ return {
         },
 
         googleai = {
-          disable = false,
-          endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
+          -- disable = false,
+          model = "gemini-1.5-flash-latest",
+          endpoint =
+          "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
           secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/googleai.txt" },
-          -- secret = "pass show api/googleai",
         },
         anthropic = {
-          -- disable = true,
+          disable = true,
           endpoint = "https://api.anthropic.com/v1/messages",
           secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/anthropic.txt" },
         },

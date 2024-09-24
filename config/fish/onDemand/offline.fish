@@ -41,13 +41,16 @@ function tf
 end
 
 function markAsDep -d "mark packages as dependencies"
-    set ignoreList python openssl-tool
-    set deps $argv
-    for i in $ignoreList
-        string replace -rq "$i" "" $deps
-        echo $i
+    source ~/.config/fish/onDemand/packages.fish
+    set finalDeps
+    for i in $argv
+        if string match -q "*,$i,*" $markAsDepIgnoreList
+            continue
+        else
+            set finalDeps $finalDeps $i
+        end
     end
-    echo $deps
+    apt-mark auto $finalDeps
 end
 
 function app -d "install app from local storage"
@@ -149,7 +152,7 @@ function app -d "install app from local storage"
         end
     end
     dpkg -i $toInstall
-    echo $deps
+    markAsDep $deps
     rm -r $HOME/temp
 end
 

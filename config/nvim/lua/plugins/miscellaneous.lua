@@ -1,9 +1,11 @@
+
+
 return {
   {
     "folke/todo-comments.nvim",
     opts = {
       keywords = {
-        WARN = { alt = { "WARNING", "XXX", "CAUTION" } },
+        WARN = { alt = { "WARNING", "XXX", "CAUTION", "ALERT" } },
       },
     },
   },
@@ -14,15 +16,12 @@ return {
     },
     dependencies = { "rafamadriz/friendly-snippets" },
   },
-  {
     {
       "olrtg/nvim-emmet",
       config = function()
         vim.keymap.set({ "n", "v" }, "<leader>xe", require("nvim-emmet").wrap_with_abbreviation)
       end,
     },
-  },
-
   -- disables hungry features for files larget than 2MB
   { "LunarVim/bigfile.nvim" },
   -- {
@@ -37,4 +36,5 @@ return {
     },
     cmd = "Nerdy",
   },
+
 }

@@ -13,6 +13,10 @@ return {
         java = { "astyle" },
         rust = { "rustfmt" },
         python = { "black" },
+        ["markdown"] = {
+          "prettier",
+          -- "markdownlint",
+        },
         -- Use the "_" filetype to run formatters on filetypes that don't
         -- have other formatters configured.
         ["_"] = { "trim_whitespace" },

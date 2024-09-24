@@ -8,7 +8,8 @@ function ftext
     # optional: -F treat search term as a literal, not a regular expression
     # optional: -l only print filenames and not the matching lines ex. grep -irl "$1" *
     # optional: -o only print matched text instead of whole file
-    grep -iIHrno --color=always "$argv" . | less -r
+    # optional: -w print the whole line
+    grep -iIHrnw --color=always "$argv" . | less -r
 end
 
 # replace text recursively
@@ -206,10 +207,23 @@ function gitssh -d "generate and add ssh key to github"
     echo "git remote add origin git@github.com:githubUserName/repoName.git"
 end
 
+function giturl -d "print repo remote urls
+"
+    git remote get-url --all origin $argv
+end
 
 # is it a `main` or a `master` repo?
 function gitmainormaster
     git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1
+end
+function gps -d "switch git branches bitween test and main"
+    #it assume you only have 2 branches main and test
+    set currB (git branch | grep "\*")
+    if string match -q "*test*" $currB
+        git checkout main
+    else
+        git checkout test
+    end
 end
 
 function main
@@ -249,7 +263,8 @@ function diff
     git diff $argv
 end
 function force
-    git push --force-with-lease $argv
+    # git push --force-with-lease $argv
+    git push origin HEAD --force $argv
 end
 
 function gnuke
@@ -279,7 +294,26 @@ end
 function wip
     commit wip $argv
 end
-
+function gco -d "Use `fzf` to choose which branch to check out" --argument-names branch
+    set -q branch[1]; or set branch ''
+    git for-each-ref --format='%(refname:short)' refs/heads | fzf --height 10% --layout=reverse --border --query=$branch --select-1 | xargs git checkout
+end
+function gcoc -d "Fuzzy-find and checkout a commit"
+    git log --pretty=oneline --abbrev-commit --reverse | fzf --tac +s -e | awk '{print $1;}' | read -l result; and git checkout "$result"
+end
+function snag -d "Pick desired files from a chosen branch"
+    # use fzf to choose source branch to snag files FROM
+    set branch (git for-each-ref --format='%(refname:short)' refs/heads | fzf --height 20% --layout=reverse --border)
+    # avoid doing work if branch isn't set
+    if test -n "$branch"
+        # use fzf to choose files that differ from current branch
+        set files (git diff --name-only $branch | fzf --height 20% --layout=reverse --border --multi)
+    end
+    # avoid checking out branch if files aren't specified
+    if test -n "$files"
+        git checkout $branch $files
+    end
+end
 function hfzf -d "fuzzy search the command history"
     history | fzf --no-sort --border sharp
 end
@@ -297,7 +331,7 @@ end
 function gitlog --description "git commit browser. uses fzf"
     # todo add "$argv" in there without breaking the no-argv case.
     git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" | fzf --ansi --no-sort --reverse --tiebreak=index --toggle-sort=\` --bind "ctrl-m:execute:
-                echo '{}' | grep -o '[a-f0-9]\{7\}' | head -1 |
+                echo "{}" | grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show --color=always % | less -R'"
 end
 
@@ -580,6 +614,9 @@ function restoreHome -d "restore home backup"
     rm home.zip
 end
 
+function fm -d "open termux storage in external app"
+    am start -a android.intent.action.VIEW -d "content://com.android.externalstorage.documents/root/primary"
+end
 
 function cfont -d "change termux font"
     # rm $HOME/.termux/font.ttf
@@ -594,7 +631,7 @@ end
 
 function tertheme -d "change termux theme with fuzzy finder"
     set themedir $repo/draft/colors
-    set selectedTheme ( ls -I "*.txt" $themedir  | fzf --border rounded --border-label="Termux Themes")
+    set selectedTheme (command ls -R $themedir | grep -E '\.properties$' | fzf --border rounded --border-label="Termux Themes")
     if test -z $selectedTheme
         echo "no theme selected"
         return
@@ -602,9 +639,8 @@ function tertheme -d "change termux theme with fuzzy finder"
     set selectednoprop (string replace ".properties" "" $selectedTheme)
     echo "successfully selected $selectednoprop"
     rm -fR $HOME/.termux/colors.properties
-    ctheme $themedir/$selectedTheme
+    ctheme (find $themedir -regex ".*$selectedTheme")
     termux-reload-settings
-    # cm (fzf --preview='head -$LINES {}' ls)
 end
 
 function terfont -d "change termux font with fuzzy finder"
@@ -738,7 +774,7 @@ function nuke -d "delete current directory"
         cd ..
         rm -rf $curdir
 
-        echo "the directory $deleted had been nuked"
+        echo "the directory $deleted has been nuked"
     end
 end
 
@@ -794,4 +830,36 @@ function gate
     end
     mv $gate/$item ./
     echo "$item transfered successfully"
+end
+
+function fe -d "goto to function defenetion from"
+    set -l rawResult (type $argv[1])[2]
+    set -l funcPath (string split " " $rawResult)[4]
+    set -l funcLine (string split " " $rawResult)[-1]
+    nvim $funcPath +$funcLine
+end
+
+function kittermux -d "convert kitty themes into termux themes"
+    mkdir -p kithemes
+    find . -type f | grep -P "(.*?)\.(conf)\$" | while read -l themeFile
+        cp --update=all $themeFile kithemes
+    end
+    cd kithemes
+    find . -type f | grep -P "(.*?)\.(conf)\$" | while read -l file
+        sed -i /selection_/d -e /border_color/d -e /Windows/d -e /Tabs/d \
+            -e /tab_/d -e /url_color/d -e /_foreground/d -e /_background/d -e /_titlebar_color/d -e /url_style/d -e /visual_bell_color/d -e /cursor_text/d -e "s/\s#/=#/" $file
+        sed -i /selection_/d $file
+        sed -i -E "s/\s{1,20}=#/=#/g" $file
+        set -l tempName $file.taktak98686ggg
+        set -l finalName (string split ".conf.taktak98686ggg" $tempName)[1]
+        mv --update=all $file $finalName.properties
+    end
+end
+
+
+function fzf-aliases-functions
+    set aliasPoint (alias)
+    set CMD ( printf  $aliasPoint | fzf | cut -d '=' -f1)
+
+    eval $CMD
 end
