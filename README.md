@@ -7,6 +7,5 @@ my frankenstein dots 🔮
 # one line install
 
 ```
-curl -s https://raw.githubusercontent.com/melsiir/dotfiles/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/melsiir/dotfiles/main/install.sh | bash
 ```
-

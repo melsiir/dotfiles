@@ -49,7 +49,7 @@ end
 function noswap
     rm -r ~/.local/state/nvim/swap
 end
-function vf
+function fzfv -d "find and open with neovim"
     vi (fzf)
 end
 function vh -d "open nvim in current directory like code ."
@@ -100,7 +100,7 @@ end
 
 
 function uu -d "update and upgrade packages"
-    apt update && apt upgrade
+    apt update && apt upgrade -y
 end
 function deblogs
     cd /data/data/com.termux/files/usr/var/log/apt/

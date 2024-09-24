@@ -66,3 +66,5 @@ map("n", "<Leader>**", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "replace 
 
 -- Switch CWD to the directory of the open buffer
 map("", "<Leader>c.", ":cd %:p:h<CR>:pwd<CR>", { desc = "Switch CWD to the directory of the open buffer" })
+-- Replace word under cursor
+map("n", "<leader>j", "*``cgn", { desc = "Replace word under cursor" })

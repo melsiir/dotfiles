@@ -1,28 +1,13 @@
 return {
-  -- {
-  --   "nvim-telescope/telescope-file-browser.nvim",
-  --   dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-  -- },
-
   "nvim-telescope/telescope.nvim",
+  dependencies = {
+    "nvim-telescope/telescope-ui-select.nvim",
+  },
   -- to add ignore list add it to your home .gitignore
   -- change some options
   opts = {
     defaults = {
       prompt_prefix = "   ",
-      -- file_ignore_patterns = {
-      --   -- "yarn%.lock",
-      --   "node_modules/",
-      --   -- "%.local/",
-      --   -- "%.config/",
-      --   -- "dist/",
-      --   -- 			-- "%.next",
-      --   -- 			-- "%.git/",
-      --   -- 			-- "build/",
-      --   -- 			-- "target/",
-      --   -- 			-- "package%-lock%.json",
-      --   -- 			--        "venv",
-      -- },
     },
 
     -- if you use fd as a finder its ignore file
@@ -44,9 +29,5 @@ return {
         hidden = true,
       },
     },
-
-    -- extensions = {
-    --   file_browser = {},
-    -- },
   },
 }

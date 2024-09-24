@@ -1,4 +1,5 @@
 #if package name contain - like git-delta just write it gitdelta but in the installation time write as it is git-delta
+#
 
 # set variable_name@package_and_depenencies@package_dir
 set aria2 "c-ares,libxml2,aria2"@aria2
@@ -17,7 +18,7 @@ set eza "libgit2,eza"@eza
 set fastfetch "vulkan-loader-generic,vulkan-loader,fastfetch"@fastfetch
 set fd fd@a_semi_dependent
 set fish "libc++,ncurses,libandroid-support,ncurses-utils,man,m4,flex,bc,pcre2,libandroid-spawn,fish"@fish
-set ffmpeg "dbus,game-music-emu,libass,libudfread,libbluray,libmp3lame,libopencore-amr,libogg,libflac,libopus,libvorbis,libsndfile,libltdl,libsoxr,libwebrtc-audio-processing,speexdsp,pulseaudio,mpg123,libopenmpt,libsrt,libssh,libtheora,libv4l,libvo-amrwbenc,libvpx,libvidstab,libx264,libzimg,ocl-icd,svt-av1,xvidcore,ffmpeg"@ffmpeg
+set ffmpeg "littlecms,dbus,game-music-emu,libass,libudfread,libbluray,libmp3lame,libopencore-amr,libogg,libflac,libopus,libvorbis,libsndfile,libltdl,libsoxr,libwebrtc-audio-processing,speexdsp,pulseaudio,mpg123,libopenmpt,libsrt,libssh,libtheora,libv4l,libvo-amrwbenc,libvpx,libvidstab,libx264,libzimg,ocl-icd,svt-av1,xvidcore,ffmpeg"@ffmpeg
 set fzf "tmux,fzf"@fzf
 set gh gh@a_semi_dependent
 set git git@git
@@ -77,3 +78,4 @@ set xmlstarlet "libxml2,libxslt,xmlstarlet"@xmlstarlet
 set zip "libandroid-support,zip"@zip
 set zoxide zoxide@a_semi_dependent
 set zsh zsh@a_semi_dependent
+set markAsDepIgnoreList ",python,openssl-tool,jq,rust,gnupg,apt,curl,zip,unzip,glib,nodejs,git,gzip,zstd,openssl,"

@@ -15,7 +15,15 @@ return {
 
         -- All the patterns used to detect root dir, when **"pattern"** is in
         -- detection_methods
-        patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+        patterns = { ".git",
+          "_darcs", ".hg",
+          ".bzr", ".svn", "Makefile",
+          "package.json",
+          ".terraform",
+          "go.mod",
+          "requirements.yml",
+          "pyrightconfig.json",
+          "pyproject.toml" },
 
         -- Table of lsp clients to ignore by name
         -- eg: { "efm", ... }

@@ -1,5 +1,9 @@
 
 function vsbin -d "create bin files for vscode-langservers-extracted"
+    #total waste of space :\
+    #they are all included in vscode-langservers-extracted but mason 
+    #install multiple copys of vscode-langservers-extracted for any server 
+    #this function just download only on copy and redirect all other servers to it's directory
     mkdir -p $HOME/.local/share/nvim/mason/bin
     echo '#!/usr/bin/env node
 const path = require("path");
@@ -22,16 +26,16 @@ require(path.join(__dirname, "../packages/html-lsp/node_modules/vscode-langserve
 
     require(path.join(__dirname, "../packages/html-lsp/node_modules/vscode-langservers-extracted/lib/eslint-language-server/eslintServer.js"));' >$HOME/.local/share/nvim/mason/bin/vscode-eslint-language-server
 
-    echo '#!/usr/bin/env node
-const path = require("path")
-// require(path.join(__dirname, "/../lib/html-language-server/node/htmlServerMain.js"))
-
-
-// require(path.join(__dirname, "../packages/vscode-langservers-extracted/lib/html-language-server/node/htmlServerMain.js"))
-
-
-require(path.join(__dirname, "../packages/html-lsp/node_modules/vscode-langservers-extracted/lib/html-language-server/node/htmlServerMain.js"));' >$HOME/.local/share/nvim/mason/bin/vscode-html-language-server
-
+    #     echo '#!/usr/bin/env node
+    # const path = require("path")
+    # // require(path.join(__dirname, "/../lib/html-language-server/node/htmlServerMain.js"))
+    #
+    #
+    # // require(path.join(__dirname, "../packages/vscode-langservers-extracted/lib/html-language-server/node/htmlServerMain.js"))
+    #
+    #
+    # require(path.join(__dirname, "../packages/html-lsp/node_modules/vscode-langservers-extracted/lib/html-language-server/node/htmlServerMain.js"));' >$HOME/.local/share/nvim/mason/bin/vscode-html-language-server
+    #
 
     echo '#!/usr/bin/env node
 const path = require("path");

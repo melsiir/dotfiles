@@ -26,31 +26,29 @@ return {
       opts.window = {
 
         -- add boarder to the cmp
-      completion = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered(),
         -- disable documentation window for now because
         -- it cause lagging
         documentation = cmp.config.disable,
       }
-  --   opts.formatting = {
-  --     fields = {'menu', 'abbr', 'kind'},
-  --     format = function(entry, item)
-  --         local menu_icon ={
-  --             nvim_lsp = 'λ',
-  --             vsnip = '∀',
-  --             buffer = 'β',
-  --             path = 'ρ',
-  --             luasnip='ϡ'
-  --
-  --         }
-  --         item.menu = menu_icon[entry.source.name]
-  --         return item
-  --     end,
-  -- }
+      --   opts.formatting = {
+      --     fields = {'menu', 'abbr', 'kind'},
+      --     format = function(entry, item)
+      --         local menu_icon ={
+      --             nvim_lsp = 'λ',
+      --             vsnip = '∀',
+      --             buffer = 'β',
+      --             path = 'ρ',
+      --             luasnip='ϡ'
+      --
+      --         }
+      --         item.menu = menu_icon[entry.source.name]
+      --         return item
+      --     end,
+      -- }
 
       opts.mapping = vim.tbl_extend("force", opts.mapping, {
-        ['<C-o'] = cmp.mapping.open_docs(),
-          ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-          ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+        ["<C-o"] = cmp.mapping.open_docs(),
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior

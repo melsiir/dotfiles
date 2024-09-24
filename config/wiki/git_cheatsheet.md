@@ -44,11 +44,16 @@ delete last 4 commits
 
 git reset --soft HEAD~4
 
+> [!NOTE]
+> mixed the default option where commits will be removed and all it changes will be untracked
+> soft reset will delete the commits but will keep changes in staging phase "tracked or add . "
+> while hard reset will delete the commits and all the changes 
+
 ## this will delete all commit until this commit but this commit is excluded from delete
 
 ````bash
 
-```git rest --hard  e26c8f2ea3cac76a083e0db8aa11c49377163ac6
+```git reset --hard  e26c8f2ea3cac76a083e0db8aa11c49377163ac6
 ````
 
 ## fix commit secrets

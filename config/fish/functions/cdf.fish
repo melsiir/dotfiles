@@ -1,7 +1,4 @@
 function cdf -d "cd to directory with assistance from fzf"
-
-
-
     set -l wire1 w1
     set -l selected_dir (fd --max-depth 3 --type directory --hidden | fzf)
 

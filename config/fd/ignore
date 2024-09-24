@@ -147,7 +147,7 @@ dist
 .luarocks
 
 
-# for telescope search
+# for telescope search and fzf
 .cache
 .caches
 docs
@@ -165,4 +165,39 @@ fish/fish_variables
 .ssh
 .gyp
 .gnupg
+
+ */storage/shared/Android/*
+ *WhatsApp/*
+ *ReadEra/*
+ *.recycle/*
+ .obsidian/*
+ */My\ obsidian/*
+ *storage/shared/*
+
+
+
+ *.git/
+*.venv/
+*Cache*/
+*cache*/
+.*Cache*/
+.*cache*/
+.*wine/
+.cargo/
+.conda/
+.ipython/
+.java/
+.jupyter/
+.luarocks/
+.mozilla/
+.npm/
+.nvm/
+.steam*/
+.thunderbird/
+.tmp/
+__pycache__/
+dosdevices/
+node_modules/
+vendor/
+venv/
 

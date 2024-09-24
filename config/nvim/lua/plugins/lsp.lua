@@ -41,8 +41,11 @@ return {
 
         marksman = {
           --do not install with mason
-         enabled = false,
+          enabled = false,
           mason = false,
+        },
+        markdownlint_cli2 = {
+          enabled = false,
         },
         clangd = {
           --do not install with mason
@@ -56,11 +59,11 @@ return {
         -- shfmt = {
         --   mason = false,
         -- },
-        -- stylua = {
-        --   --do not install with mason
-        --   enabled=  true,
-        --   mason = false,
-        -- },
+        lua_ls = {
+          --do not install with mason
+          enabled = true,
+          mason = false,
+        },
         --
         -- codelldb = {
         --   mason = false,
