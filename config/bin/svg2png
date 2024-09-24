@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+mkdir png
+mkdir png/$argv[1]
+find . -name "*.svg" | while read -l d
+set splitName (string split . "$d")
+set  name (echo $splitName[2] | string replace "/" "" )
+ rsvg-convert -w $argv[1] -h $argv[1] $d > png/$argv[1]/$name.png
+end

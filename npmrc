@@ -1,0 +1,4 @@
+prefer-offline=true
+modules-cache-max-age=43200
+dlx-cache-max-age=43200
+foreground-scripts=true

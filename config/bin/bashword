@@ -1,0 +1,730 @@
+#!/usr/bin/env bash
+
+# Usage: bashword [OPTIONS]
+#        bashword [-LENGTH] [-n [COUNT]|-N] [-s [COUNT]|-S] [-u [COUNT]|-U|] [-l [COUNT]|-L] [-c COUNT]
+#        bashword [-p] [-LENGTH] [-F FILE] [-d CHAR] [-u [COUNT]] [-m LENGTH] [-M LENGTH] [-w LENGTH] [-c COUNT]
+#        bashword [-P] [-LENGTH] [-c COUNT]
+#
+# NAME
+#   bashword -- generates passwords, passphrase, or PINs
+#
+# SYNOPSIS
+#   bashword [OPTIONS]
+#   bashword [-LENGTH] [-n [COUNT]|-N] [-s [COUNT]|-S] [-u [COUNT]|-U|] [-l [COUNT]|-L] [-c COUNT]
+#   bashword [-p] [-LENGTH] [-F FILE] [-d CHAR] [-u [COUNT]] [-m LENGTH] [-M LENGTH] [-w LENGTH] [-c COUNT]
+#   bashword [-P] [-LENGTH] [-c COUNT]
+#
+# DESCRIPTION
+#   Generates passwords, passphrases, or PINs.
+#
+#   By default, bashword generates passwords 20 characters in length that
+#   include at least: one number, one symbol, one lower case character, and
+#   one upper case character.
+#
+#   Passphrases can be generated from a word list using the `--passphrase`
+#   option. By default passphrases are 3 words separated by `-` using words
+#   between 5 and 8 characters.
+#
+#   PINs can be generated using the `--pin` option. By default PINs are 4
+#   digits long.
+#
+# OPTIONS
+#   -[LENGTH], --length LENGTH
+#       For passwords and PINs, this option specifies the total number of
+#       characters used, and defaults to 20 for passwords and 4 for PINs. When
+#       used along with options `-s`, `-n`, `-u`, or `-l`, an error is emitted
+#       if they would prevent the specified length from being met (i.e. `-s
+#       20` would exceed a LENGTH of 10). For passphrases, this option
+#       specifies the total number of words used, and defaults to 3.
+#
+#   -p, --passphrase
+#       Generates a passphrase using dictionary words instead of a password of
+#       random characters.
+#
+#   -P, --pin
+#       Generates a numeric PIN.
+#
+#   -n [COUNT], --numbers [COUNT]
+#       For passwords, this option specifies the number of numbers to include
+#       in the generated password. If no COUNT is specified, at least one
+#       number is guaranteed to be included. For passphrases and PINs, this
+#       option has no effect.
+#
+#   -N, --no-numbers
+#       For passwords, this option forces the password to include no numbers
+#       at all. For passphrases and PINs, this options has no effect.
+#
+#   -s [COUNT], --symbols [COUNT]
+#       For passwords, this option specifies the number of symbols to include
+#       in the generated password. If no COUNT is specified, at least one
+#       symbol is guaranteed to be included. For passphrases and PINs, this
+#       option has no effect.
+#
+#   -S, --no-symbols
+#       For passwords, this option forces the password to include no symbols
+#       at all. For passphrases and PINs, this option has no effect.
+#
+#   -d CHAR, --delimiter CHAR
+#       For passphrases, this option is the character that is used between
+#       words. For passwords and PINs, this option has no effect.
+#
+#   -F PATH, --dictionary-file PATH
+#       For passphrases, this option specifies the path to a dictionary file
+#       used to select words for the passphrase, and defaults to
+#       `/usr/share/dict/words`. If the default file cannot be found, a
+#       temporary wordlist will be downloaded from GitHub (see WORD LISTS
+#       below). For passwords and PINs, this option has no effect.
+#
+#   -u [COUNT], --upcase [COUNT]
+#       For passwords, this option specifies the number of uppercase letters
+#       to include in the generated password. If no COUNT is specified, at
+#       least one uppercase letter is guaranteed to be included. By default,
+#       passwords include at least one uppercase character. For passphrases,
+#       this option specifies the number of uppercase words to include in the
+#       generated passphrase. If no COUNT is specified, at least one uppercase
+#       word is guaranteed to be included. By default, passphrases do not
+#       include an uppercase word. For passwords and PINs, this option has no
+#       effect.
+#
+#   -U, --no-upcase
+#       For passwords, this option forces the password to have no uppercase
+#       characters at all. For passphrases, this option forces the passphrase
+#       to include no uppercase words at all. For PINs, this option has no
+#       effect.
+#
+#   -l [COUNT], --lower [COUNT]
+#       For passwords, this option specifies the number of lowercase
+#       characters to include in the generated password. If no COUNT is
+#       supplied, at least one lowercase character is guaranteed to be
+#       provided. By default passwords include at least one lowercase
+#       character. For passphrases, this option specifies the number of
+#       lowercase words to include in the generated passphrase. If no COUNT is
+#       specified, at least one lowercase word is guaranteed to be included.
+#       By default, passphrases do not include an uppercase word. For PINs,
+#       this option has no effect.
+#
+#   -L, --no-lower
+#       For passwords, this option forces the password to have no lowercase
+#       characters at all. For passphrases, this option forces the passphrase
+#       to include no lowercase words at all. For PINs, this option has no
+#       effect.
+#
+#   -m LENGTH, --min-word-length LENGTH
+#       For passphrases, this option will choose words in the passphrase at
+#       least LENGTH characters long. Defaults to 5. For passwords and PINs,
+#       this option is has no effect.
+#
+#   -M LENGTH, --max-word-length LENGTH
+#       For passphrases, this option will choose words in the passphrase at
+#       most LENGTH characters long. Defaults to 8. For passwords and PINs,
+#       this option is has no effect.
+#
+#   -w LENGTH, --word-length LENGTH
+#       For passphrases, this option will choose words in the passphrase at
+#       exactly LENGTH characters long. This is the same as specifying a min
+#       and max word length of the same value. For passwords and PINs, this
+#       option is has no effect.
+#
+#   -c COUNT, --count COUNT
+#       If set, generate COUNT passwords, passphrases, or PINs. Default is 1.
+#       Optional.
+#
+#   -h, --help
+#       Prints help text and exits.
+#
+#   -V, --version
+#       Prints the bashword version and exits.
+#
+# EXAMPLES
+#   Generate a 20 character password with digits and symbols
+#     $ bashword
+#
+#   Generate a 30 character password with digits and symbols
+#     $ bashword -30
+#
+#   Generate a 10 character password with only alphanumeric characters
+#     $ bashword -S -10
+#
+#   Generate a 3 word passphrase
+#     $ bashword -p
+#
+#   Generate a 5 word passphrase using ~/list.txt
+#     $ bashword -p -F ~/list.txt -5
+#
+#   Generate passwords for the given users
+#     $ { echo user1; echo user2; echo user3 } | paste - <(bashword -c 3)
+#
+#   Generate 4 PIN numbers with 5 digits
+#     $ bashword -P -5 -c 4
+#
+# CONFIGURATION
+#   bashword defaults can be configured by setting the following environmen
+#   variables (typically in `~/.profile` or `~/.bash_profile` for Bash users,
+#   or `~/.zshenv` for ZSH users). Configuring bashword is completely
+#   optional.
+#
+#   $BASHWORD_DEFAULT_PASSWORD_LENGTH
+#     The default password length.
+#
+#   $BASHWORD_PASSWORD_MIN_LENGTH
+#     The minimum password length allowed.
+#
+#   $BASHWORD_DEFAULT_PASSPHRASE_WORD_LIST
+#     The default word list file to use for generating passphrase words.
+#
+#   $BASHWORD_DEFAULT_PASSPHRASE_MIN_WORD_LENGTH
+#     The default minimum word length for words selected for passphrases.
+#
+#   $BASHWORD_DEFAULT_PASSPHRASE_MAX_WORD_LENGTH
+#     The default maximum word length for words selected for passphrases.
+#
+#   $BASHWORD_DEFAULT_PASSPHRASE_WORD_COUNT
+#     The default number of words chosen for passphrases
+#
+#   $BASHWORD_DEFAULT_PASSPHRASE_DELIMITER
+#     The default character used between passphrase words.
+#
+#   $BASHWORD_DEFAULT_PIN_LENGTH
+#     The default length for PINs.
+#
+#   Full example:
+#
+#       export BASHWORD_DEFAULT_PASSWORD_LENGTH=30
+#       export BASHWORD_PASSWORD_MIN_LENGTH=6
+#       export BASHWORD_DEFAULT_PASSPHRASE_WORD_LIST="$HOME/.words"
+#       export BASHWORD_DEFAULT_PASSPHRASE_MIN_WORD_LENGTH=4
+#       export BASHWORD_DEFAULT_PASSPHRASE_MAX_WORD_LENGTH=4
+#       export BASHWORD_DEFAULT_PASSPHRASE_WORD_COUNT=5
+#       export BASHWORD_DEFAULT_PASSPHRASE_DELIMITER=":"
+#       export BASHWORD_DEFAULT_PIN_LENGTH=6
+#
+# WORD LISTS
+#   By default passphrases are generated using `/usr/share/dict/words`. If
+#   that file does not exist, one will be downloaded automatically from GitHub
+#   under `/tmp/bashwords-words`.
+#
+# BUG REPORTS
+#   Issues can be reported on GitHub:
+#
+#   https://github.com/itspriddle/bashword/issues
+#
+# AUTHOR
+#   Joshua Priddle <jpriddle@me.com>
+#
+#   https://github.com/itspriddle/bashword#readme
+#
+# LICENSE
+#   MIT License
+#
+#   Copyright (c) 2021 Joshua Priddle <jpriddle@me.com>
+#
+# SEE ALSO
+#   random(4)
+
+if [[ "$DEBUG" ]]; then
+  export PS4='+ [${BASH_SOURCE##*/}:${LINENO}] '
+  set -x
+fi
+
+set -euo pipefail
+
+# Version of this script
+BASHWORD_VERSION="0.3.1"
+
+# Default word list
+DEFAULT_PASSPHRASE_WORD_LIST="${BASHWORD_DEFAULT_PASSPHRASE_WORD_LIST:-/usr/share/dict/words}"
+
+# Online word list from macOS Big Sur
+GITHUB_WORD_LIST="https://itspriddle.github.io/bashword-words/words.gz"
+
+# Default password length
+DEFAULT_PASSWORD_LENGTH="${BASHWORD_DEFAULT_PASSWORD_LENGTH:-20}"
+
+# Password min length
+PASSWORD_MIN_LENGTH="${BASHWORD_PASSWORD_MIN_LENGTH:-8}"
+
+# Default min word length for passphrase words
+DEFAULT_PASSPHRASE_MIN_WORD_LENGTH="${BASHWORD_DEFAULT_PASSPHRASE_MIN_WORD_LENGTH:-5}"
+
+# Default max word length for passphrase words
+DEFAULT_PASSPHRASE_MAX_WORD_LENGTH="${BASHWORD_DEFAULT_PASSPHRASE_MAX_WORD_LENGTH:-8}"
+
+# Default number of words in passphrases
+DEFAULT_PASSPHRASE_WORD_COUNT="${BASHWORD_DEFAULT_PASSPHRASE_WORD_COUNT:-3}"
+
+# Default delimiter to join words in passphrases
+DEFAULT_PASSPHRASE_DELIMITER="${BASHWORD_DEFAULT_PASSPHRASE_DELIMITER:--}"
+
+# Default PIN length
+DEFAULT_PIN_LENGTH="${BASHWORD_DEFAULT_PIN_LENGTH:-4}"
+
+# Prints the given message to STDERR
+#
+# $1 - Message
+warn() {
+  echo "${1:-}" >&2
+}
+
+# Generates a passphrase
+#
+# $1 - number of words to generate
+# $2 - path to a dictionary file to use
+# $3 - whether or not to upcase some words
+# $4 - min worth length
+# $5 - max word length
+# $6 - delimiter
+generate_passphrase() {
+  local words="$1" dict="$2" upcase="$3" length_min="$4" length_max="$5" \
+    delimiter="$6"
+
+  if ! [[ "$length_min" =~ ^[0-9]+$ ]]; then
+    warn "Min length must be a number!"
+    return 1
+  elif ! [[ "$length_max" =~ ^[0-9]+$ ]]; then
+    warn "Max length must be a number!"
+    return 1
+  elif [[ "$length_min" -gt "$length_max" ]]; then
+    warn "Min length must be greater than or equal to max length!"
+    return 1
+  elif [[ "${#delimiter}" -gt 1 ]]; then
+    warn "Delimiter must be 1 character!"
+    return 1
+  fi
+
+  dict="$(get_word_list "$dict")"
+
+  line_max="$(tr -d $'\r' <"$dict" | grep -c -e "^.\{$length_min,$length_max\}$" || true)"
+
+  if [[ "$words" -gt "$line_max" ]]; then
+    warn "There were not enough words found in the specified dictionary file"
+    warn "to generate a $words-word passphrase with words between"
+    warn "$length_min and $length_max characters in length."
+    warn
+    warn "You can check the words returned by running the following:"
+    warn
+    warn "  tr -d \$'\\r' < \"$dict\" | grep -e \"^.\{$length_min,$length_max\}$\""
+    warn
+    warn "You may want to try another word list and use the"
+    warn "'--dictionary-file' option, or try specifying different word lengths"
+    warn "with the '--min-word-length' or '--max-word-length' options."
+    return 1
+  fi
+
+  tr -d $'\r' <"$dict" | grep -e "^.\{$length_min,${length_max-}\}$" | {
+    if type shuf &>/dev/null; then
+      shuf "-n$words"
+    else
+      local lines="" number
+
+      while [[ "$words" -gt 0 ]]; do
+        number="$((((RANDOM << 15 | RANDOM) << 15 | RANDOM) % (line_max + 1)))"
+
+        if [[ "$number" != "0" ]] && [[ ";$lines" != *";${number}p;"* ]]; then
+          words=$((words - 1))
+          lines="${lines}${number}p;"
+        fi
+      done
+
+      sed -n "$lines"
+    fi
+  } | while read -r word; do
+    if [[ "${upcase//y/1}" -gt 0 ]]; then
+      upcase="$((${upcase//y/1} - 1))"
+      tr '[:lower:]' '[:upper:]' <<<"$word"
+    else
+      tr '[:upper:]' '[:lower:]' <<<"$word"
+    fi
+  done | sort -R | paste -s -d "$delimiter" - | tr -d '\n'
+}
+
+# Gets the word list. If no custom list was passed to this script via
+# `--dictionary-file`, download one from GitHub.
+#
+# $1 - path to word list file
+get_word_list() {
+  local file="$1" tmp_words="$TMPDIR/bashword-words"
+
+  if [[ -r "$file" ]]; then
+    echo "$file"
+  elif [[ "$file" == "$DEFAULT_PASSPHRASE_WORD_LIST" ]]; then
+    if [[ ! -r "$tmp_words" ]]; then
+      curl -s -L "$GITHUB_WORD_LIST" | gunzip >"$tmp_words"
+    fi
+    echo "$tmp_words"
+  else
+    warn "Dictionary file \`$file' does not exist!"
+    return 1
+  fi
+}
+
+# Gets random character(s) for the given character class.
+#
+# $1 - character set to use (one of [:punct:], [:alpha:], [:digit:],
+#      [:alnum:], [:lower:], [:upper:])
+# $2 - length, default 1
+get_char() {
+  local charset="$1" length="${2:-1}"
+
+  LC_CTYPE=C LC_ALL=C tr -dc "$charset" </dev/urandom 2>/dev/null |
+    head -c "$length" || true
+
+  # Helps sort randomize
+  echo " $RANDOM"
+}
+
+# Generates a password
+#
+# $1 - total password length
+# $2 - number of digits to use
+# $3 - number of symbols to use
+# $4 - number of uppercase letters to use
+#
+# shellcheck disable=SC2004
+generate_password() {
+  local length="$1" digits="$2" symbols="$3" uppercase="$4" lowercase="$5" \
+    min_needed=0 i
+
+  if ! [[ "$length" =~ ^[0-9]+$ ]]; then
+    warn "Length must be a number!"
+    return 1
+  elif [[ "$length" -lt "$PASSWORD_MIN_LENGTH" ]]; then
+    warn "Length must be at least $PASSWORD_MIN_LENGTH characters!"
+    return 1
+  elif [[ "$digits" != y ]] && ! [[ "$digits" =~ ^[0-9]+$ ]]; then
+    warn "Digit count must be a number!"
+    return 1
+  elif [[ "$symbols" != y ]] && ! [[ "$symbols" =~ ^[0-9]+$ ]]; then
+    warn "Symbol count must be a number!"
+    return 1
+  elif [[ "$uppercase" != y ]] && ! [[ "$uppercase" =~ ^[0-9]+$ ]]; then
+    warn "Uppercase letter count must be a number!"
+    return 1
+  elif [[ "$lowercase" != y ]] && ! [[ "$lowercase" =~ ^[0-9]+$ ]]; then
+    warn "Lowercase letter count must be a number!"
+    return 1
+  fi
+
+  {
+    min_needed=$((\
+      ${digits//y/1} + \
+      ${symbols//y/1} + \
+      ${uppercase//y/1} + \
+      ${lowercase//y/1}))
+
+    if [[ "$*" =~ y ]]; then
+      ((min_needed <= length))
+    else
+      ((min_needed == length))
+    fi
+  } || {
+    warn "Length of $length is not valid!"
+    warn
+    warn "Asked for:"
+    warn
+    warn "  - Numbers: ${digits//y/(at least 1)}"
+    warn "  - Symbols: ${symbols//y/(at least 1)}"
+    warn "  - Uppercase Letters: ${uppercase//y/(at least 1)}"
+    warn "  - Lowercase Letters: ${lowercase//y/(at least 1)}"
+    warn
+    warn "This would result in a ${min_needed} character password."
+    return 1
+  }
+
+  {
+    for ((i = 0; i < ${digits//y/1}; i++)); do
+      get_char "[:digit:]"
+      length=$((length - 1))
+    done
+
+    for ((i = 0; i < ${symbols//y/1}; i++)); do
+      get_char "[:punct:]"
+      length=$((length - 1))
+    done
+
+    for ((i = 0; i < ${uppercase//y/1}; i++)); do
+      get_char "[:upper:]"
+      length=$((length - 1))
+    done
+
+    for ((i = 0; i < ${lowercase//y/1}; i++)); do
+      get_char "[:lower:]"
+      length=$((length - 1))
+    done
+
+    for ((i = 0; i < length; i++)); do
+      get_char "$(
+        [[ "$digits" = y ]] && printf "[:digit:]"
+        [[ "$symbols" = y ]] && printf "[:punct:]"
+        [[ "$uppercase" = y ]] && printf "[:upper:]"
+        [[ "$lowercase" = y ]] && printf "[:lower:]"
+      )"
+    done
+  } | sort -R | awk '{ printf "%s", $1 }'
+}
+
+# Generates a PIN
+#
+# $1 - character length
+generate_pin() {
+  local length="$1"
+
+  if ! [[ "$length" =~ ^[0-9]+$ ]]; then
+    warn "Length must be a number!"
+    return 1
+  fi
+
+  get_char "[:digit:]" "$length" | awk '{ printf "%s", $1 }'
+}
+
+# Requires an option value to be passed
+#
+# $1 - The option name (i.e. `--length`)
+# $2 - The option value
+require_param() {
+  {
+    if [[ "$#" -eq 2 ]]; then
+      [[ -n "$2" ]] && printf "%s" "$2"
+    else
+      [[ -n "${1#*=}" ]] && printf "%s" "${1#*=}"
+    fi
+  } || {
+    warn "Must specify value for '$1'"
+    return 1
+  }
+}
+
+# If $2 does not start with -, print it, otherwise print y
+arg_y_or_count() {
+  if [[ $# -gt 1 ]] && [[ "${2:0:1}" != "-" ]]; then
+    printf "%s" "$2"
+  else
+    printf y
+  fi
+}
+
+main() {
+  local length numbers=y symbols=y dictionary_file upcase lower=y delimiter \
+    min_word_length max_word_length style=password count=1 i
+
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+    -V | --version)
+      echo "${0##*/} v$BASHWORD_VERSION"
+      return 0
+      ;;
+    -h | --help)
+      sed -ne '/^#/!q;s/^#$/# /;/^# /s/^# //p' <"$0" |
+        awk -v f="${1#-h}" '!f&&/^Usage:/||u{u=!/^\s*$/;if(!u)exit}u||f'
+      return 0
+      ;;
+    -[0-9]*)
+      length="${1:1}"
+      shift
+      ;;
+    --length)
+      length="$(require_param "$1" "${2-}")"
+      shift 2
+      ;;
+    --length=*)
+      length="$(require_param "$1")"
+      shift
+      ;;
+    -p | --passphrase)
+      style=passphrase
+      shift
+      ;;
+    -P | --pin)
+      style=pin
+      shift
+      ;;
+    -n | --numbers)
+      numbers="$(arg_y_or_count "$@")"
+      if [[ "$numbers" = y ]]; then
+        shift
+      else
+        shift 2
+      fi
+      ;;
+    --numbers=*)
+      numbers="$(require_param "$1")"
+      shift
+      ;;
+    -n*)
+      numbers="${1:2}"
+      shift
+      ;;
+    -N | --no-numbers)
+      numbers=0
+      shift
+      ;;
+    -s | --symbols)
+      symbols="$(arg_y_or_count "$@")"
+      if [[ "$symbols" = y ]]; then
+        shift
+      else
+        shift 2
+      fi
+      ;;
+    --symbols=*)
+      symbols="$(require_param "$1")"
+      shift
+      ;;
+    -s*)
+      symbols="${1:2}"
+      shift
+      ;;
+    -S | --no-symbols)
+      symbols=0
+      shift
+      ;;
+    -F | --dictionary-file)
+      dictionary_file="$(require_param "$1" "${2-}")"
+      shift 2
+      ;;
+    -F*)
+      dictionary_file="${1:2}"
+      shift
+      ;;
+    --dictionary-file=*)
+      dictionary_file="$(require_param "$1")"
+      shift
+      ;;
+    -u | --upcase)
+      upcase="$(arg_y_or_count "$@")"
+      if [[ "$upcase" = y ]]; then
+        shift
+      else
+        shift 2
+      fi
+      ;;
+    -u*)
+      upcase="${1:2}"
+      shift
+      ;;
+    --upcase=*)
+      upcase="$(require_param "$1")"
+      shift
+      ;;
+    -U | --no-upcase)
+      upcase=0
+      shift
+      ;;
+    -l | --lower)
+      lower="$(arg_y_or_count "$@")"
+      if [[ "$lower" = y ]]; then
+        shift
+      else
+        shift 2
+      fi
+      ;;
+    --lower=*)
+      lower="$(require_param "$1")"
+      shift
+      ;;
+    -l*)
+      lower="${1:2}"
+      shift
+      ;;
+    -L | --no-lower)
+      lower=0
+      shift
+      ;;
+    -d | --delimiter)
+      delimiter="$(require_param "$1" "${2-}")"
+      shift 2
+      ;;
+    -d*)
+      delimiter="${1:2}"
+      shift
+      ;;
+    --delimiter=*)
+      delimiter="$(require_param "$1")"
+      shift
+      ;;
+    -m | --min-word-length)
+      min_word_length="$(require_param "$1" "${2-}")"
+      shift 2
+      ;;
+    -m*)
+      min_word_length="${1:2}"
+      shift
+      ;;
+    --min-word-length=*)
+      min_word_length="$(require_param "$1")"
+      shift
+      ;;
+    -M | --max-word-length)
+      max_word_length="$(require_param "$1" "${2-}")"
+      shift 2
+      ;;
+    -M*)
+      max_word_length="${1:2}"
+      shift
+      ;;
+    --max-word-length=*)
+      max_word_length="$(require_param "$1")"
+      shift
+      ;;
+    -w | --word-length)
+      min_word_length="$(require_param "$1" "${2-}")"
+      max_word_length="$min_word_length"
+      shift 2
+      ;;
+    -w*)
+      min_word_length="${1:2}"
+      max_word_length="${1:2}"
+      shift
+      ;;
+    --word-length=*)
+      min_word_length="$(require_param "$1")"
+      max_word_length="$min_word_length"
+      shift
+      ;;
+    -c | --count)
+      count="$(require_param "$1" "${2-}")"
+      shift 2
+      ;;
+    -c*)
+      count="${1:2}"
+      shift
+      ;;
+    --count=*)
+      count="$(require_param "$1")"
+      shift
+      ;;
+    *)
+      warn "Invalid option '$1'"
+      return 1
+      ;;
+    esac
+  done
+
+  for ((i = 0; i < count; i++)); do
+    if [[ "$style" = password ]]; then
+      generate_password \
+        "${length:-$DEFAULT_PASSWORD_LENGTH}" \
+        "${numbers:-}" \
+        "${symbols:-}" \
+        "${upcase:-y}" \
+        "${lower:-}"
+    elif [[ "$style" = passphrase ]]; then
+      generate_passphrase \
+        "${length:-$DEFAULT_PASSPHRASE_WORD_COUNT}" \
+        "${dictionary_file:-$DEFAULT_PASSPHRASE_WORD_LIST}" \
+        "${upcase:-}" \
+        "${min_word_length:-$DEFAULT_PASSPHRASE_MIN_WORD_LENGTH}" \
+        "${max_word_length:-$DEFAULT_PASSPHRASE_MAX_WORD_LENGTH}" \
+        "${delimiter:-$DEFAULT_PASSPHRASE_DELIMITER}"
+    elif [[ "$style" = pin ]]; then
+      generate_pin "${length:-$DEFAULT_PIN_LENGTH}"
+    fi
+
+    if [[ "$count" -gt 1 ]] || [[ "$count" = 1 && -t 1 ]]; then
+      echo
+    fi
+  done
+
+  return 0
+}
+
+main "$@"

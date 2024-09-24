@@ -1,0 +1,100 @@
+#!/bin/bash
+
+declare -a fonts=(
+  "0xProto"
+  "3270"
+  "Agave"
+  "AnonymousPro"
+  "Arimo"
+  "AurulentSansMono"
+  "BigBlueTerminal"
+  "BitstreamVeraSansMono"
+  "CascadiaCode"
+  "CascadiaMono"
+  "CodeNewRoman"
+  "ComicShannsMono"
+  "CommitMono"
+  "Cousine"
+  "D2Coding"
+  "DaddyTimeMono"
+  "DejaVuSansMono"
+  "DroidSansMono"
+  "EnvyCodeR"
+  "FantasqueSansMono"
+  "FiraCode"
+  "FiraMono"
+  "FontPatcher"
+  "GeistMono"
+  "Go-Mono"
+  "Gohu"
+  "Hack"
+  "Hasklig"
+  "HeavyData"
+  "Hermit"
+  "iA-Writer"
+  "IBMPlexMono"
+  "Inconsolata"
+  "InconsolataGo"
+  "InconsolataLGC"
+  "IntelOneMono"
+  "Iosevka"
+  "IosevkaTerm"
+  "IosevkaTermSlab"
+  "JetBrainsMono"
+  "Lekton"
+  "LiberationMono"
+  "Lilex"
+  "MartianMono"
+  "Meslo"
+  "Monaspace"
+  "Monofur"
+  "Monoid"
+  "Mononoki"
+  "MPlus"
+  "NerdFontsSymbolsOnly"
+  "Noto"
+  "OpenDyslexic"
+  "Overpass"
+  "ProFont"
+  "ProggyClean"
+  "RobotoMono"
+  "ShareTechMono"
+  "SourceCodePro"
+  "SpaceMono"
+  "Terminus"
+  "Tinos"
+  "Ubuntu"
+  "UbuntuMono"
+  "VictorMono"
+)
+
+version=$(curl -s 'https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest' | jq -r '.name')
+fonts_dir="${HOME}/fonts"
+
+if [[ ! -d "$fonts_dir" ]]; then
+  mkdir -p "$fonts_dir"
+fi
+
+sfont=$(for font in "${fonts[@]}"; do
+  echo $font
+done | fzf)
+
+zip_file="${sfont}.zip"
+
+download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/${version}/${zip_file}"
+echo "Downloading $download_url"
+wget2 "$download_url"
+unzip "$zip_file" -d "$fonts_dir"
+rm "$zip_file"
+
+# download all fonts
+# for font in "${fonts[@]}"; do
+#   zip_file="${font}.zip"
+#   download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/${version}/${zip_file}"
+#   echo "Downloading $download_url"
+#   wget2 "$download_url"
+#   unzip "$zip_file" -d "$fonts_dir/font"
+#   rm "$zip_file"
+# done
+
+find "$fonts_dir" -name 'Windows Compatible' -delete
