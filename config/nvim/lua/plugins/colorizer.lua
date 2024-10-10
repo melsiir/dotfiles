@@ -70,6 +70,11 @@ local opts = {
     RGB = true,
     RRGGBB = true,
   },
+  toml= {
+    RGB = true,
+    RRGGBB = true,
+    names = true,
+  },
 
   user_default_options = {
     RGB = true,

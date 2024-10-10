@@ -643,6 +643,24 @@ function tertheme -d "change termux theme with fuzzy finder"
     termux-reload-settings
 end
 
+function startheme -d "change starship theme with fuzzy finder"
+    # set -l selectedTheme (starship preset -l | fzf --border rounded --border-label="select starship Themes")
+    # starship preset $selectedTheme >~/.config/starship.toml
+    set themeList (starship preset -l)
+    set themeList $themeList (ls ~/.config/starship)
+    set selectedTheme (echo $themeList | sed 's/[[:blank:]]/\n/g' | fzf --border rounded --border-label="select starship Themes")
+    if test -z $selectedTheme
+        echo "no theme provided"
+        return
+    end
+
+    if test -e ~/.config/starship/$selectedTheme
+        cp --update=all ~/.config/starship/$selectedTheme ~/.config/starship.toml
+    else
+        starship preset $selectedTheme >~/.config/starship.toml
+    end
+end
+
 function terfont -d "change termux font with fuzzy finder"
     set fontdir $repo/nerd_fonts
     set selectedFont (command ls -R $fontdir | grep -E '\.ttf$|\.otf$' |  fzf --border rounded --border-label="Termux Fonts")

@@ -17,20 +17,6 @@
 --   group = TrimWhiteSpaceGrp,
 -- })
 
-
--- goto dashboard_on_empty gemini after with some edits
--- vim.api.nvim_create_autocmd("BufDelete", {
---   group = vim.api.nvim_create_augroup("bufdelpost_autocmd", {}),
---   desc = "BufDeletePost User autocmd",
---   callback = function()
---     local bufs = vim.fn.getbufinfo({ buflisted = true })
---     -- open alpha if no buffers are left
---     if bufs[1] ~= nil then
---       vim.cmd([[:Alpha | bd#]])
---     end
---   end,
--- })
-------------------------
 vim.api.nvim_create_autocmd("BufDelete", {
   group = vim.api.nvim_create_augroup("bufdelpost_autocmd", {}),
   desc = "BufDeletePost User autocmd",

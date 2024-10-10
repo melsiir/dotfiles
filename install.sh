@@ -9,6 +9,8 @@
   GREEN='\033[32m'
   BLUE='\033[34m'
 
+  echo -e "${GREEN}Welcome from melsiir, I hope you find my dotfiles usefull${RC}"
+
   command_exists() {
     command -v "$1" >/dev/null 2>&1
   }
@@ -107,3 +109,10 @@
   additional
   suggestions
 }
+
+if ! command_exists read; then
+  function read {
+    echo -n "$1: "
+    eval "$2=\$(cat)"
+  }
+fi
