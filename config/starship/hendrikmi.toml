@@ -21,7 +21,7 @@ $line_break\
 $character"""
 
 add_newline = true
-palette = "nord"
+palette = "nordDynamic"
 
 [character]
 success_symbol = "[](bold green)"
@@ -121,6 +121,21 @@ purple = '#B48EAD'
 gray = '#434C5E'
 black = '#2E3440'
 white='#D8DEE9'
+
+[palettes.nordDynamic]
+dark_blue = 'blue'
+blue = 'bright-blue'
+teal = "teal"
+red = 'red'
+orange = '#D08770'
+green = 'green'
+yellow = 'yellow'
+purple = 'purple'
+gray = 'gray'
+black = 'black'
+white='white'
+
+
 
 [palettes.onedark]
 dark_blue='#61afef'

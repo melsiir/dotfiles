@@ -68,6 +68,9 @@ function nman
     MANPAGER='nvim +Man!' man $argv
 end
 # set fon ; $HOME/.termux/font.ttf;end
+function command_exist -d "check if command exist"
+    command -v "$argv[1]" >/dev/null 2>&1
+end
 
 # package managing
 function dbn
@@ -80,10 +83,19 @@ function paki
     pkg install $argv
 end
 function ap
-    apt-get install $argv
+    if command_exist pacman
+        pacman -S $argv
+    else
+
+        apt-get install $argv
+    end
 end
 function aps
-    apt search $argv
+    if command_exist pacman
+        pacman -Ss $argv
+    else
+        apt search $argv
+    end
 end
 function apr -d "remove packages"
     apt remove $argv
@@ -95,7 +107,11 @@ function uninstall
 end
 # alias debs ; cd $HOME/../usr/var/cache/apt/archives;end
 function debs
-    cd $HOME/../../cache/apt/archives
+    if command_exist pacman
+        cd /data/data/com.termux/files/usr/var/cache/pacman/pkg
+    else
+        cd $HOME/../../cache/apt/archives
+    end
 end
 
 
@@ -107,7 +123,11 @@ function deblogs
 end
 
 function rmdebs -d "delete all the downloaded debs files"
-    rm -r $HOME/../../cache/apt/archives/*
+    if command_exist pacman
+        rm -r /data/data/com.termux/files/usr/var/cache/pacman/pkg
+    else
+        rm -r $HOME/../../cache/apt/archives
+    end
 end
 
 # Alias's to modified commands

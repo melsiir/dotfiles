@@ -58,9 +58,9 @@ function xsh --description "Prepend this to command to explain its syntax i.e. `
     # replace w3m to any browser like chrome
 end
 
-function transfer --description "Upload file to transfer.sh"
-    curl --progress-bar --upload-file $argv https://transfer.sh/(basename $argv)
-end
+# function transfer --description "Upload file to transfer.sh"
+#     curl --progress-bar --upload-file $argv https://transfer.sh/(basename $argv)
+# end
 
 function brave -d "open brave"
     if test (count $argv) -eq 0

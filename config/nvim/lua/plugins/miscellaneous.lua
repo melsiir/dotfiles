@@ -1,5 +1,3 @@
-
-
 return {
   {
     "folke/todo-comments.nvim",
@@ -16,12 +14,12 @@ return {
     },
     dependencies = { "rafamadriz/friendly-snippets" },
   },
-    {
-      "olrtg/nvim-emmet",
-      config = function()
-        vim.keymap.set({ "n", "v" }, "<leader>xe", require("nvim-emmet").wrap_with_abbreviation)
-      end,
-    },
+  {
+    "olrtg/nvim-emmet",
+    config = function()
+      vim.keymap.set({ "n", "v" }, "<leader>xe", require("nvim-emmet").wrap_with_abbreviation)
+    end,
+  },
   -- disables hungry features for files larget than 2MB
   { "LunarVim/bigfile.nvim" },
   -- {
@@ -36,5 +34,11 @@ return {
     },
     cmd = "Nerdy",
   },
-
+  -- {
+  --
+  --   "andrew-george/telescope-themes",
+  --   config = function()
+  --     require("telescope").load_extension("themes")
+  --   end,
+  -- },
 }

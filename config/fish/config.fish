@@ -39,7 +39,7 @@ set CROSSLINE '\e[9m'
 # Commands to run in interactive sessions can go here
 set fish_greeting ""
 set -gx TERM xterm-256color
-
+set -gx libs "/data/data/com.termux/files/usr/glibc/lib"
 # customization for bobthefish
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
@@ -76,8 +76,16 @@ function edit
     $EDITOR
 end
 
+function vi
+    nvim $argv
+end
+
 function vim-update
     nvim --headless "+Lazy! sync" +qa W
+end
+
+function wget
+    wget2 --force-progress $argv
 end
 
 abbr -ag nv nvim

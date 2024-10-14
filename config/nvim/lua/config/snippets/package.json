@@ -4,6 +4,12 @@
     "snippets": [
       {
         "language": [
+          "all"
+        ],
+        "path": "./global.json"
+      },
+      {
+        "language": [
           "fish"
         ],
         "path": "./fish.json"

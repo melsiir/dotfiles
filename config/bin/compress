@@ -1,0 +1,28 @@
+#!/bin/bash
+
+compress() {
+  if [ -n $1 ]; then
+    file=$1
+    case $file in
+      *.tar.xz) shift && tar cJf $file $* ;;
+      *.tar.bz2) shift && tar cjf $file $* ;;
+      *.tar.gz) shift && tar czf $file $* ;;
+      *.gz) shift && tar czf $file $* ;;
+      *.tar) shift && tar cf $file $* ;;
+      *.tgz) shift && tar czf $file $* ;;
+      *.zip) shift && zip $file $* ;;
+      *.7z) shift && 7za a $file $* >/dev/null ;;
+      *)
+        echo -e "\e[1;38;5;221m\u2757 \e[0mUnsupported format"
+        return 1
+        ;;
+    esac
+    echo -e "\e[1;38;5;77m\u2714 \e[0mCompressed \e[3;38;5;80m'$file'\e[0m"
+  else
+    echo -e "\e[1;38;5;160m\u2717 \e[3;38;5;80m'$file' \e[1;37mis not a valid extractable file\e[0m"
+    return 1
+  fi
+  return 0
+}
+
+compress "$@"

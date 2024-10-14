@@ -89,10 +89,10 @@
     "scope": "fish"
   },
   "shebang": {
-    "prefix": "!shebang",
-    "body": "#!/bin/fish",
-    "description": "fish's shebang",
-    "scope": "fish"
+    "prefix": "shebang",
+    "body": "#!/bin/$1",
+    "description": "add shebang",
+    "scope": "all"
   },
   "breakpoint": {
     "prefix": "bp",

@@ -8,19 +8,18 @@ return {
   -- { "lewis6991/gitsigns.nvim", enabled = false },
   --  { "nvim-lualine/lualine.nvim", enabled = false },
   { "echasnovski/mini.hipatterns", enabled = false },
-
   --  { "echasnovski/mini.comment", enabled = false },
   -- { "echasnovski/mini.ai", enabled = false },
   -- { "echasnovski/indentscope", enabled = false },
   -- { "echasnovski/mini.pairs", enabled = false },
-
   -- { "goolord/alpha-nvim", enabled = false },
   -- { "nvimdev/dashboard-nvim", enabled = false },
   -- { "norcalli/nvim-colorizer.lua", enabled = false },
   -- { "ahmedkhalf/project.nvim", enabled = false },
   -- { "tpope/vim-repeat", enabled = false },
   -- { "hrsh7th/nvim-cmp", enabled = false },
-
+  -- { "saghen/blink.cmp", enabled = false },
+  -- { "garymjr/nvim-snippets", enabled = false },
   -- { "akinsho/bufferline.nvim", enabled = false },
   -- { "romgrk/barbar.nvim", enabled = false },
   -- this plugin handle error and warrning messages

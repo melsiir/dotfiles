@@ -24,6 +24,20 @@ function replaceText -d "replace text for indivisual files
     sed -i -- "s/$argv[2]/$argv[3]/g" $argv[1]
 end
 
+function confirmed
+    set confirmCode (random 100 999)
+    read --prompt "echo -e ' to perform this action please \n Enter this confirmation code ($confirmCode): '" -l confirmCodeAnswer
+    if test -z $confirmCodeAnswer
+        set confirmCodeAnswer 0
+    end
+    if test $confirmCode -eq $confirmCodeAnswer
+        return 0
+    else
+        echo " you entered the wrong code"
+        return 1
+    end
+end
+
 function ii
     echo -e "\n$ORANGE:You are logged on:$RC"
     hostname
@@ -212,6 +226,7 @@ function giturl -d "print repo remote urls
     git remote get-url --all origin $argv
 end
 
+
 # is it a `main` or a `master` repo?
 function gitmainormaster
     git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1
@@ -233,6 +248,12 @@ function master
     main
 end
 
+function undogit -d "soft delete last commit"
+    if confirmed
+        git reset --soft HEAD~1
+        echo -e "$GREEN successfully deleted the latest commit$RC"
+    end
+end
 
 function githistory -d "list of all git repo commits piped into fzf"
     git log --oneline --graph --color=always | nl | fzf --ansi --track --no-sort --layout=reverse-list
@@ -639,7 +660,7 @@ function tertheme -d "change termux theme with fuzzy finder"
     set selectednoprop (string replace ".properties" "" $selectedTheme)
     echo "successfully selected $selectednoprop"
     rm -fR $HOME/.termux/colors.properties
-    ctheme (find $themedir -regex ".*$selectedTheme")
+    ctheme (find $themedir | grep "/$selectedTheme" | head -1)
     termux-reload-settings
 end
 
@@ -671,7 +692,7 @@ function terfont -d "change termux font with fuzzy finder"
     set selectednoprop (string replace ".ttf" "" $selectedFont)
     echo "successfully selected $selectednoprop"
     rm -fR $HOME/.termux/font.ttf
-    cfont (find $fontdir -regex ".*$selectedFont")
+    cfont (find $fontdir | grep  "/$selectedFont" | head -1)
     termux-reload-settings
 end
 

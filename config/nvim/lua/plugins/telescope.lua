@@ -2,6 +2,7 @@ return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     "nvim-telescope/telescope-ui-select.nvim",
+    lazy = false,
   },
   -- to add ignore list add it to your home .gitignore
   -- change some options
@@ -30,4 +31,7 @@ return {
       },
     },
   },
+  -- config = function()
+  --   require("telescope").load_extension("ui-select")
+  -- end,
 }

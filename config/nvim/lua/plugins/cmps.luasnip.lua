@@ -3,6 +3,8 @@ return {
     -- add custom snippets to cmp
     -- and change buffer cmp keyword_length
     "hrsh7th/nvim-cmp",
+    -- "iguanacucumber/magazine.nvim",
+    -- name = "nvim-cmp", -- Otherwise highlighting gets messed up
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       --set up supertab
@@ -92,7 +94,7 @@ return {
 
         {
           name = "buffer",
-          -- start autocompletion after 3rd char
+          -- start autocompletion after 3rd char in buffer
           keyword_length = 3,
           -- option = {
           --   keyword_pattern = [[\k\+]],
@@ -106,11 +108,11 @@ return {
     end,
   },
   -- for supertab
-  {
-    --NOTE:  Disable default <tab> and <s-tab> behavior in LuaSnip
-    "L3MON4D3/LuaSnip",
-    -- keys = function()
-    --   return {}
-    -- end,
-  },
+  -- {
+  --   --NOTE:  Disable default <tab> and <s-tab> behavior in LuaSnip
+  --   "L3MON4D3/LuaSnip",
+  --   -- keys = function()
+  --   --   return {}
+  --   -- end,
+  -- },
 }

@@ -1,4 +1,8 @@
 -- Use <tab> for completion and snippets (supertab).
+-- comment:to enable
+if true then
+  return {}
+end
 
 return {
   "hrsh7th/nvim-cmp",
@@ -41,6 +45,8 @@ return {
     })
     ----------------
     opts.window = {
+      -- add boarder to the cmp
+      completion = cmp.config.window.bordered(),
       -- disable documentation window for now because
       -- it cause lagging
       documentation = cmp.config.disable,
