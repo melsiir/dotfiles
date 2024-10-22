@@ -14,6 +14,9 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
+source $PREFIX/etc/bash_completion.d/git-prompt.sh
+source $PREFIX/etc/bash_completion.d/git-completion.bash
+
 # Enable bash programmable completion features in interactive shells
 # if [ -f ../usr/share/bash-completion/bash_completion ]; then
 #   . ../usr/share/bash-completion/bash_completion
@@ -476,5 +479,14 @@ fi
 
 export PATH=$PATH:"$HOME/.local/bin:$HOME/.cargo/bin:/var/lib/flatpak/exports/bin:/.local/share/flatpak/exports/bin"
 
-eval "$(starship init bash)"
+source ~/.bash_prompt
+# eval "$(starship init bash)"
 # eval "$(zoxide init bash)"
+
+# pnpm
+export PNPM_HOME="/data/data/com.termux/files/home/.local/share/pnpm"
+case ":$PATH:" in
+*":$PNPM_HOME:"*) ;;
+*) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

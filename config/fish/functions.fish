@@ -262,6 +262,10 @@ end
 function gs
     git status $argv
 end
+
+function gd
+    git add . $argv
+end
 function gb
     git branch $argv
 end

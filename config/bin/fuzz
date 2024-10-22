@@ -13,6 +13,6 @@ fzf --ansi --disabled --query "$INITIAL_QUERY" \
   --prompt '1. ripgrep> ' \
   --delimiter : \
   --header '╱ CTRL-R (ripgrep mode) ╱ CTRL-F (fzf mode) ╱' \
-  --preview 'bat --color=always {1} --highlight-line {2}' \
+  --preview 'bat --color=always {1} --highlight-line {2} --plain' \
   --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
   --bind 'enter:become(vim {1} +{2})'

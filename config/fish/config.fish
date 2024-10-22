@@ -127,7 +127,7 @@ set -gx FZF_ALT_C_COMMAND 'fd -H -t d'
 
 
 # doc links
-function cheatsheet
+function wiki
     set DocsDir $HOME/.config/wiki
     set selectedDoc (command ls $DocsDir  |  fzf --border rounded --border-label="select a file")
     if test -z $selectedDoc
