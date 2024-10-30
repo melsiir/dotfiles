@@ -68,9 +68,8 @@ if [[ $iatest -gt 0 ]]; then bind "set show-all-if-ambiguous On"; fi
 # Set the default editor
 export EDITOR=nvim
 export VISUAL=nvim
-alias spico='sudo pico'
-alias snano='sudo nano'
 alias vim='nvim'
+alias v='nvim'
 
 # To have colors for ls and all grep commands such as grep, egrep and zgrep
 export CLICOLOR=1
@@ -490,3 +489,5 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+source $PREFIX/etc/profile.d/rust-nightly.sh

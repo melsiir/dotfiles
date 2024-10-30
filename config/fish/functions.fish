@@ -263,7 +263,7 @@ function gs
     git status $argv
 end
 
-function gd
+function ga
     git add . $argv
 end
 function gb
@@ -866,7 +866,7 @@ function docs -d "run docs with language server"
 end
 
 function gate
-    set item (command ls  $gate |  fzf --border rounded --border-label="select file or folder")
+    set item (command ls  $gate |  fzf -m --border rounded --border-label="select file or folder")
     if test -z $item
         echo "no file selected"
         return

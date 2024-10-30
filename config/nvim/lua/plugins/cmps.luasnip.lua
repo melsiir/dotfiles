@@ -2,10 +2,9 @@ return {
   {
     -- add custom snippets to cmp
     -- and change buffer cmp keyword_length
-    "hrsh7th/nvim-cmp",
-    -- "iguanacucumber/magazine.nvim",
-    -- name = "nvim-cmp", -- Otherwise highlighting gets messed up
-    ---@param opts cmp.ConfigSchema
+    -- "hrsh7th/nvim-cmp",
+    "iguanacucumber/magazine.nvim",
+    name = "nvim-cmp", -- Otherwise highlighting gets messed up
     opts = function(_, opts)
       --set up supertab
       local has_words_before = function()

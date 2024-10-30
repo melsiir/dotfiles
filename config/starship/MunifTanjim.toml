@@ -1,0 +1,184 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = '$all'
+
+[aws]
+disabled = true
+symbol = ' '
+
+
+[character]
+error_symbol = '[❯](bold bright-red)'
+success_symbol = '[❯](bold bright-green)'
+vimcmd_symbol = '[❮](bold bright-green)'
+
+[cmake]
+disabled = true
+
+[cmd_duration]
+min_time = 5000
+
+[conda]
+disabled = true
+symbol = ' '
+
+[crystal]
+disabled = true
+
+[dart]
+disabled = true
+symbol = ' '
+
+[directory]
+format = '[$read_only](red)[$path](bold bright-cyan) '
+read_only = ' '
+truncation_symbol = '…/'
+
+[docker_context]
+disabled = true
+symbol = ' '
+
+[dotnet]
+disabled = true
+symbol = ' '
+
+[elixir]
+disabled = true
+symbol = ' '
+
+[elm]
+disabled = true
+symbol = ' '
+
+[erlang]
+disabled = true
+symbol = ' '
+
+[gcloud]
+disabled = true
+symbol = ' '
+
+[git_branch]
+format = '[( $branch )](bold bright-purple)'
+
+[git_commit]
+format = '[( $hash)](bold bright-blue)[($tag) ](bold bright-green)'
+commit_hash_length = 8
+tag_disabled = false
+tag_symbol = ' '
+
+[git_state]
+format = '[($state\($progress_current/$progress_total\) )](bold bright-red)'
+
+[git_status]
+format = '[(\[$all_status$ahead_behind\] )](bold bright-yellow)'
+conflicted = '=${count}'
+ahead = '⇡${count}'
+behind = '⇣${count}'
+diverged = '⇕⇡${ahead_count}⇣${behind_count}'
+untracked = '?${count}'
+stashed = '≡${count}'
+modified = '!${count}'
+staged = '+${count}'
+renamed = '»${count}'
+deleted = '✘${count}'
+
+[golang]
+symbol = ' '
+
+[helm]
+disabled = true
+symbol = '⎈ '
+
+[hg_branch]
+disabled = true
+symbol = ' '
+
+[hostname]
+trim_at = ''
+
+[java]
+disabled = true
+symbol = ' '
+
+[jobs]
+symbol = ' '
+
+[julia]
+disabled = true
+symbol = ' '
+
+[kubernetes]
+disabled = true
+symbol = '☸ '
+
+[memory_usage]
+symbol = '󰍛 '
+
+[nim]
+disabled = true
+symbol = ' '
+
+[nix_shell]
+disabled = true
+symbol = ' '
+
+[nodejs]
+symbol = ' '
+
+[package]
+symbol = ' '
+
+[perl]
+disabled = false
+symbol = ' '
+
+[php]
+disabled = true
+symbol = ' '
+
+[purescript]
+disabled = true
+
+[python]
+symbol = ' '
+format = 'via [${symbol}${pyenv_prefix}(${version} )(\(${virtualenv}\) )]($style)'
+
+[ocaml]
+disabled = true
+symbol = '🐫 '
+
+[ruby]
+symbol = ' '
+
+[rust]
+symbol = ' '
+
+[shlvl]
+disabled = true
+
+[singularity]
+disabled = true
+
+[status]
+disabled = false
+format = '[${status}](bold bright-red) '
+
+[swift]
+disabled = true
+symbol = ' '
+
+[terraform]
+disabled = true
+symbol = '󱁢 '
+
+[time]
+disabled = true
+
+[username]
+disabled = false
+
+[zig]
+disabled = true
+symbol = ' '

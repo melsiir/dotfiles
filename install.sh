@@ -97,6 +97,8 @@
       curl -L https://github.com/ryanoasis/nerd-fonts/raw/refs/heads/master/patched-fonts/JetBrainsMono/NoLigatures/Regular/JetBrainsMonoNLNerdFont-Regular.ttf -o font.ttf
       mv font.ttf ~/.termux/font.ttf
     fi
+    # build custom bat themes
+    bat cache --build
 
     nvim --headless "+Lazy! sync" +qa
     if [[ -t 0 ]]; then
