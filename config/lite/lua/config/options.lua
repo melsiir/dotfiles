@@ -1,30 +1,14 @@
--- This file is automatically loaded by plugins.core
+-- check if its termux
+-- vim.env.TERMUX_VERSION
 --conform auto format
 vim.g.autoformat = true
-
--- LazyVim picker to use.
--- Can be one of: telescope, fzf
--- Leave it to "auto" to automatically use the picker
--- enabled with `:LazyExtras`
--- vim.g.lazyvim_picker = "auto"
-
+vim.g.transparent_enabled = true
 -- LazyVim root dir detection
 -- Each entry can be:
 -- * the name of a detector function like `lsp` or `cwd`
 -- * a pattern or array of patterns like `.git` or `lua`.
 -- * a function with signature `function(buf) -> string|string[]`
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
-
--- LazyVim automatically configures lazygit:
---  * theme, based on the active colorscheme.
---  * editPreset to nvim-remote
---  * enables nerd font icons
--- Set to false to disable.
--- Set the options you want to override in `~/.config/lazygit/custom.yml`
--- WARN: on Windows you might want to set `editPreset: "nvim"` due to
--- this issue https://github.com/jesseduffield/lazygit/issues/3467
-vim.g.lazygit_config = true
-
 -- Options for the LazyVim statuscolumn
 -- vim.g.lazyvim_statuscolumn = {
 -- folds_open = false, -- show fold sign when fold is open
@@ -52,7 +36,7 @@ vim.g.bigfile_size = 1024 * 1024 * 1.5 -- 1.5 MB
 
 -- Show the current document symbols location from Trouble in lualine
 -- You can disable this for a buffer by setting `vim.b.trouble_lualine = false`
-vim.g.trouble_lualine = true
+vim.g.trouble_lualine = false
 
 local opt = vim.opt
 
@@ -65,6 +49,7 @@ opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 2 -- Hide * markup for bold and italic, but not markers with substitutions
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 -- opt.cursorline = true -- Enable highlighting of the current line
+-- vim.o.cursorlineopt = "both" -- to enable cursorline!
 opt.expandtab = true -- Use spaces instead of tabs
 opt.fillchars = {
   foldopen = "",
@@ -120,7 +105,6 @@ opt.virtualedit = "block" -- Allow cursor to move where there is no text in visu
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
-
 if vim.fn.has("nvim-0.10") == 1 then
   opt.smoothscroll = true
   -- opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
@@ -133,5 +117,3 @@ end
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
-
-vim.api.nvim_set_hl(1, "FloatBorder", { link = "Comment" })

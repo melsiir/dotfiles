@@ -86,6 +86,11 @@ end
 function vf -d "find files for neovim"
     nvim (fzf) $argv
 end
+
+function vc -d "find config files"
+    nvim (find .config/ -type f | fzf)
+end
+
 function vim-update
     nvim --headless "+Lazy! sync" +qa W
 end
@@ -134,6 +139,7 @@ set -gx FZF_ALT_C_COMMAND 'fd -H -t d'
 # set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
 
 if type -q bat
+    # you can use theme=ansi to inhert terminal colors
     alias cat "bat --plain --pager=never"
 end
 

@@ -4,6 +4,15 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
 
+-- vim.api.nvim_create_autocmd({ "UIEnter", "ColorScheme" }, {
+--   callback = function()
+--     local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
+--     if not normal.bg then
+--       return
+--     end
+--     io.write(string.format("\x1b]11;#%06x\x1b\\", normal.bg))
+--   end,
+-- })
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
   group = augroup("checktime"),
@@ -195,3 +204,51 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
     end
   end,
 })
+
+-- Add "LiveServer" command to quick execute live-server of npm
+vim.api.nvim_create_user_command("LiveServer", function()
+  if vim.g.liveserver_bufnr ~= nil then
+    return
+  end
+
+  vim.cmd("tabnew | term live-server")
+  vim.g.liveserver_bufnr = vim.api.nvim_get_current_buf()
+  vim.cmd("close")
+
+  local function print_lines()
+    local lines = vim.api.nvim_buf_get_lines(vim.g.liveserver_bufnr, 0, 1, false)
+    local content = table.concat(lines)
+    if content == nil or content == "" then
+      vim.defer_fn(print_lines, 100)
+    else
+      print(content)
+    end
+  end
+
+  print_lines()
+
+  -- local live_server_lualine = function()
+  --   if vim.g.liveserver_bufnr ~= nil then
+  --     -- return [[󱄙]]
+  --     return [[ ]]
+  --   end
+  --   return [[]]
+  -- end
+  --
+  -- require("lualine").setup({
+  --   sections = {
+  --     lualine_x = { { live_server_lualine, color = { fg = "blue" } } },
+  --   },
+  -- })
+end, { desc = "Start live-server in background" })
+
+-- Add "LiveServerStop" command to quick stop live-server of npm
+vim.api.nvim_create_user_command("LiveServerStop", function()
+  if not vim.g.liveserver_bufnr then
+    print("You haven't start Live Server!")
+    return
+  end
+
+  vim.cmd("bd! " .. vim.g.liveserver_bufnr)
+  vim.g.liveserver_bufnr = nil
+end, { desc = "Stop live-server" })

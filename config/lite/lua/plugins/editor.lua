@@ -3,7 +3,18 @@ return {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {
+      exclude = {
+        "cmp_menu",
+        "noice",
+        "flash_prompt",
+        "Outline",
+      },
       label = {
+        rainbow = {
+          enabled = true,
+          shade = 4,
+        },
+
         -- style = "inline",
         prompt = {
           prefix = { { "", "FlashPromptIcon" } },

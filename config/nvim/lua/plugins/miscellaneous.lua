@@ -41,4 +41,5 @@ return {
   --     require("telescope").load_extension("themes")
   --   end,
   -- },
+  "brianhuster/live-preview.nvim",
 }

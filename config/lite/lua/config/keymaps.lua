@@ -126,6 +126,9 @@ map("n", "<leader>uf", function()
   vim.g.autoformat = not vim.g.autoformat
 end, {desc = "toggle autoformat"})
 map("n", "<leader>ul", "<cmd>set wrap!<CR>", { desc = "toggle wordwrap" })
+map("n", "<leader>un", "<cmd>set number!<CR>", { desc = "toggle line number" })
+map("n", "<leader>uz", "<cmd>set relativenumber!<CR>", { desc = "toggle relativenumber" })
+
 -- toggle options
 -- LazyVim.toggle.map("<leader>uf", LazyVim.toggle.format())
 -- LazyVim.toggle.map("<leader>uF", LazyVim.toggle.format(true))
@@ -169,12 +172,6 @@ map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 -- LazyVim Changelog
 -- map("n", "<leader>L", function() LazyVim.news.changelog() end, { desc = "LazyVim Changelog" })
 
--- floating terminal
--- local lazyterm = function() LazyVim.terminal(nil, { cwd = LazyVim.root() }) end
--- map("n", "<leader>ft", lazyterm, { desc = "Terminal (Root Dir)" })
--- map("n", "<leader>fT", function() LazyVim.terminal() end, { desc = "Terminal (cwd)" })
--- map("n", "<c-/>", lazyterm, { desc = "Terminal (Root Dir)" })
--- map("n", "<c-_>", lazyterm, { desc = "which_key_ignore" })
 
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
@@ -201,6 +198,10 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
+-- tab management bufferline
+map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "switch between tabs" })
+map("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "switch between tabs" })
+
 
 
 --note
@@ -208,7 +209,6 @@ map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 --press shift and k again to focus on the documentation so you can browse
 --the documentation with motions
 
-local map = vim.keymap.set
 
 -- Select all
 map("n", "<C-a>", "gg<S-v>G", { desc = "Select all" })
@@ -223,9 +223,6 @@ map("n", "<leader>dp", "yap<S-}>p", { desc = "Duplicate Paragraph" })
 map("n", "<leader>de", "dap", { desc = "Delete Paragraph" })
 --copy paragraph
 map("n", "<leader>cp", "yap", { desc = "copy Paragraph" })
-
--- tab management bufferline
-map("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "switch between tabs" })
 
 -- leaves
 map("n", "<leader>qw", "<cmd>wq <CR>", { desc = "save and exit" })
@@ -261,17 +258,23 @@ map("", "<Leader>c.", ":cd %:p:h<CR>:pwd<CR>", { desc = "Switch CWD to the direc
 -- Replace word under cursor
 map("n", "<leader>j", "*``cgn", { desc = "Replace word under cursor" })
 ------------------------------------
-local lazyterm = function()
-local terminal = require("config.functions.terminal")
-  terminal(nil, { cwd = vim.uv.cwd() })
-end
+--- terminal
 map("n", "<leader>ft", function()
-  require("config.functions.term").new { pos = "sp" }
+  require("config.util.terminal").new { pos = "sp" }
+end, { desc = "terminal new horizontal term" })
+map("n", "gt", function()
+  require("config.util.terminal").new { pos = "sp" }
+end, { desc = "terminal new horizontal term" })
+-- this ctrl - /
+map("n", "<C-_>", function()
+  require("config.util.terminal").new { pos = "sp" }
 end, { desc = "terminal new horizontal term" })
 
+map("n", "<leader>fv", function()
+  require("config.util.terminal").new { pos = "vsp" }
+end, { desc = "terminal new vertical term" , remap = true })
 
--- map("n", "<leader>ft", lazyterm, { desc = "Terminal" })
--- map("n", "<c-/>", lazyterm, { desc = "Terminal (Root Dir)" })
+
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
@@ -281,3 +284,23 @@ map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 ------------------------------------------------
+
+-- live-server
+
+map("n", "<leader>us", function ()
+  if vim.g.liveserver_bufnr == nil then 
+    if vim.o.filetype == "markdown" then
+      vim.cmd("LivePreview start")
+ vim.g.liveserver_bufnr = vim.api.nvim_get_current_buf()
+    else
+      vim.cmd("LiveServer")
+    end
+  else
+     if vim.o.filetype == "markdown" then
+      vim.cmd("LivePreview start")
+ vim.g.liveserver_bufnr = vim.api.nvim_get_current_buf()
+     
+    end
+    vim.cmd("LiveServerStop")
+  end
+end, {desc = "toggle live-server"})

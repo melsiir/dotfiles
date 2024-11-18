@@ -66,6 +66,7 @@ return {
         --   maximum_length = 15,
         --   sort_by = "insert_at_end",
         -- },
+        highlights = require("nord.plugins.bufferline").akinsho(),
         -- highlights = {
         --   separator = {
         --     fg = "#434C5E",

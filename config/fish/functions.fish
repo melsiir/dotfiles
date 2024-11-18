@@ -259,6 +259,10 @@ function githistory -d "list of all git repo commits piped into fzf"
     git log --oneline --graph --color=always | nl | fzf --ansi --track --no-sort --layout=reverse-list
 end
 
+function amend
+    git add . && git commit --amend --no-edit $argv
+end
+
 function gs
     git status $argv
 end
@@ -278,16 +282,13 @@ end
 function gl
     git log --oneline --decorate --color $argv
 end
-function amend
-    git add . && git commit --amend --no-edit $argv
-end
 function commit
     git add . && git commit -m "$argv"
 end
 function diff
     git diff $argv
 end
-function force
+function gforce
     # git push --force-with-lease $argv
     git push origin HEAD --force $argv
 end

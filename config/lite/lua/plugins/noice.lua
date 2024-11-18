@@ -4,41 +4,49 @@ return {
   -- enabled = false,
   event = "VeryLazy",
   opts = {
-    -- views = {
-    --   -- This sets the position for the search popup that shows up with / or with :
-    --   cmdline_popup = {
-    --     position = {
-    --       row = "40%",
-    --       col = "40%",
-    --     },
-    --   },
-    -- },
+    cmdline = {
+      format = {
+        -- cmdline = { icon = "󰘳" },
+        cmdline = { icon = "" },
+        search_down = { icon = " " },
+        search_up = { icon = " " },
+      },
+    },
+
     lsp = {
+      progress = {
+        enabled = false,
+        format = "lsp_progress",
+        view = "mini",
+      },
+
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
       },
     },
-    routes = {
-      {
-        filter = {
-          event = "msg_show",
-          any = {
-            { find = "%d+L, %d+B" },
-            { find = "; after #%d+" },
-            { find = "; before #%d+" },
-          },
-        },
-        view = "mini",
-      },
-    },
+    -- routes = {
+    --   {
+    --     filter = {
+    --       event = "msg_show",
+    --       any = {
+    --         { find = "%d+L, %d+B" },
+    --         { find = "; after #%d+" },
+    --         { find = "; before #%d+" },
+    --       },
+    --     },
+    --     view = "mini",
+    --   },
+    -- },
     presets = {
       -- bottom_search = true,
       command_palette = true,
       long_message_to_split = true,
     },
   },
+
+
     -- stylua: ignore
     keys = {
       { "<leader>sn", "", desc = "+noice"},

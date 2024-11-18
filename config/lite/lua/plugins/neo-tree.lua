@@ -80,29 +80,43 @@ return {
         --           return a.type > b.type
         --       end
         --   end , -- this sorts files and directories descendantly
-        sources = {
-          "filesystem",
-          "buffers",
-          "git_status",
-          -- "diagnostics",
-          -- "document_symbols",
-        },
-        source_selector = {
-          winbar = true, -- toggle to show selector on winbar
-          content_layout = "center",
-          -- statuslinr = true,
-          tabs_layout = "equal",
-          show_separator_on_edge = true,
-          sources = {
-            { source = "filesystem", display_name = "󰉓" },
-            { source = "buffers", display_name = "󰈙" },
-            { source = "git_status", display_name = "" },
-            -- { source = "document_symbols", display_name = "o" },
-            -- { source = "diagnostics", display_name = "󰒡" },
-          },
-        },
+        -- sources = {
+        --   "filesystem",
+        --   "buffers",
+        --   "git_status",
+        --   -- "diagnostics",
+        --   -- "document_symbols",
+        -- },
+        -- source_selector = {
+        --   winbar = true, -- toggle to show selector on winbar
+        --   content_layout = "center",
+        --   -- statuslinr = true,
+        --   tabs_layout = "equal",
+        --   show_separator_on_edge = true,
+        --   sources = {
+        --     { source = "filesystem", display_name = "󰉓" },
+        --     { source = "buffers", display_name = "󰈙" },
+        --     { source = "git_status", display_name = "" },
+        --     -- { source = "document_symbols", display_name = "o" },
+        --     -- { source = "diagnostics", display_name = "󰒡" },
+        --   },
+        -- },
 
         default_component_configs = {
+          diagnostics = {
+            symbols = {
+              hint = "󰌵",
+              info = "",
+              warn = "",
+              error = "",
+            },
+            highlights = {
+              hint = "DiagnosticSignHint",
+              info = "DiagnosticSignInfo",
+              warn = "DiagnosticSignWarn",
+              error = "DiagnosticSignError",
+            },
+          },
           container = {
             enable_character_fade = true,
           },
@@ -362,6 +376,23 @@ return {
             },
           },
         },
+      })
+    end,
+  },
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
+    config = function()
+      local map = vim.keymap.set
+      map("n", "<leader>mb", "<Cmd>MarksListBuf<CR>", { desc = "list buffer" })
+      map("n", "<leader>mg", "<Cmd>MarksQFListGlobal<CR>", { desc = "list global" })
+      map("n", "<leader>m0", "<Cmd>BookmarksQFList 0<CR>", { desc = "list bookmark" })
+
+      require("marks").setup({
+        force_write_shada = false, -- This can cause data loss
+        excluded_filetypes = { "NeogitStatus", "NeogitCommitMessage", "toggleterm" },
+        bookmark_0 = { sign = "⚑", virt_text = "" },
+        mappings = { annotate = "m?" },
       })
     end,
   },

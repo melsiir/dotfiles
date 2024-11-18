@@ -1,5 +1,3 @@
--- dofile(vim.g.base46_cache .. "term")
-
 local api = vim.api
 local g = vim.g
 local M = {}

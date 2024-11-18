@@ -122,19 +122,21 @@ return {
       return {
         defaults = {
           -------
-          -- sorting_strategy = "ascending",
-          -- layout_config = {
-          --   horizontal = {
-          --     prompt_position = "top",
-          --     preview_width = 0.55,
-          --   },
-          --   width = 0.87,
-          --   height = 0.80,
-          -- },
+          sorting_strategy = "ascending",
+          layout_config = {
+            horizontal = {
+              prompt_position = "top",
+              preview_width = 0.55,
+            },
+            width = 0.87,
+            height = 0.80,
+          },
           --------
           -- prompt_prefix = "   ",
           prompt_prefix = "   ",
-          selection_caret = " ",
+          -- selection_caret = " ",
+          selection_caret = " ",
+          entry_prefix = " ",
           multi_icon = "",
           winblend = 0,
           color_devicons = true,
@@ -187,9 +189,6 @@ return {
           },
         },
       }
-      -- Enable telescope fzf native, if installed
-      -- pcall(require('telescope').load_extension, 'fzf')
-      -- pcall(require('telescope').load_extension, 'ui-select')
     end,
   },
 
@@ -198,9 +197,6 @@ return {
   --   "nvim-telescope/telescope.nvim",
   --   optional = true,
   --   opts = function(_, opts)
-  --     if not LazyVim.has("flash.nvim") then
-  --       return
-  --     end
   --     local function flash(prompt_bufnr)
   --       require("flash").jump({
   --         pattern = "^",
@@ -226,32 +222,32 @@ return {
   -- },
   --
   -- better vim.ui with telescope
-  -- {
-  --   "stevearc/dressing.nvim",
-  --   lazy = true,
-  --   -- enabled = function()
-  --   --   return builtin.want() == "telescope"
-  --   -- end,
-  --   init = function()
-  --     ---@diagnostic disable-next-line: duplicate-set-field
-  --     vim.ui.select = function(...)
-  --       require("lazy").load({ plugins = { "dressing.nvim" } })
-  --       return vim.ui.select(...)
-  --     end
-  --     ---@diagnostic disable-next-line: duplicate-set-field
-  --     vim.ui.input = function(...)
-  --       require("lazy").load({ plugins = { "dressing.nvim" } })
-  --       return vim.ui.input(...)
-  --     end
-  --   end,
-  -- },
+  {
+    "stevearc/dressing.nvim",
+    lazy = true,
+    -- enabled = function()
+    --   return builtin.want() == "telescope"
+    -- end,
+    init = function()
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.select = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.select(...)
+      end
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.ui.input = function(...)
+        require("lazy").load({ plugins = { "dressing.nvim" } })
+        return vim.ui.input(...)
+      end
+    end,
+  },
 
   -- {
   --   "neovim/nvim-lspconfig",
   --   opts = function()
-  --     if builtin.want() ~= "telescope" then
-  --       return
-  --     end
+  --     -- if builtin.want() ~= "telescope" then
+  --     --   return
+  --     -- end
   --     local Keys = require("lazyvim.plugins.lsp.keymaps").get()
   --     -- stylua: ignore
   --     vim.list_extend(Keys, {

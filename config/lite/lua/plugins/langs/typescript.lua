@@ -1,44 +1,4 @@
-function On_attachAlias(on_attach, name)
-  return vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-      local buffer = args.buf ---@type number
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client and (not name or client.name == name) then
-        return on_attach(client, buffer)
-      end
-    end,
-  })
-end
-
-
-function ExecuteAlias(opts)
-  local params = {
-    command = opts.command,
-    arguments = opts.arguments,
-  }
-  if opts.open then
-    require("trouble").open({
-      mode = "lsp_command",
-      params = params,
-    })
-  else
-    return vim.lsp.buf_request(0, "workspace/executeCommand", params, opts.handler)
-  end
-end
-
-ActionAlias = setmetatable({}, {
-  __index = function(_, action)
-    return function()
-      vim.lsp.buf.code_action({
-        apply = true,
-        context = {
-          only = { action },
-          diagnostics = {},
-        },
-      })
-    end
-  end,
-})
+local lspUtils = require("config.util.lsp")
 
 function Get_pkg_path(pkg, path, opts)
   pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
@@ -54,7 +14,6 @@ function Get_pkg_path(pkg, path, opts)
   end
   return ret
 end
-
 
 return {
   -- correctly setup lspconfig
@@ -113,7 +72,7 @@ return {
               "gD",
               function()
                 local params = vim.lsp.util.make_position_params()
-                ExecuteAlias({
+                lspUtils.execute({
                   command = "typescript.goToSourceDefinition",
                   arguments = { params.textDocument.uri, params.position },
                   open = true,
@@ -124,7 +83,7 @@ return {
             {
               "gR",
               function()
-                ExecuteAlias({
+                lspUtils.execute({
                   command = "typescript.findAllFileReferences",
                   arguments = { vim.uri_from_bufnr(0) },
                   open = true,
@@ -134,28 +93,28 @@ return {
             },
             {
               "<leader>co",
-              ActionAlias["source.organizeImports"],
+              lspUtils.action["source.organizeImports"],
               desc = "Organize Imports",
             },
             {
               "<leader>cM",
-              ActionAlias["source.addMissingImports.ts"],
+              lspUtils.action["source.addMissingImports.ts"],
               desc = "Add missing imports",
             },
             {
               "<leader>cu",
-              ActionAlias["source.removeUnused.ts"],
+              lspUtils.action["source.removeUnused.ts"],
               desc = "Remove unused imports",
             },
             {
               "<leader>cD",
-              ActionAlias["source.fixAll.ts"],
+              lspUtils.action["source.fixAll.ts"],
               desc = "Fix all diagnostics",
             },
             {
               "<leader>cV",
               function()
-                ExecuteAlias({ command = "typescript.selectTypeScriptVersion" })
+                lspUtils.execute({ command = "typescript.selectTypeScriptVersion" })
               end,
               desc = "Select TS workspace version",
             },
@@ -174,7 +133,7 @@ return {
           return true
         end,
         vtsls = function(_, opts)
-          On_attachAlias(function(client, buffer)
+          lspUtils.on_attach(function(client, buffer)
             client.commands["_typescript.moveToFileRefactoring"] = function(command, ctx)
               ---@type string, string, lsp.Range
               local action, uri, range = unpack(command.arguments)
@@ -322,4 +281,3 @@ return {
     },
   },
 }
-
