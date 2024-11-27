@@ -95,6 +95,18 @@ function vim-update
     nvim --headless "+Lazy! sync" +qa W
 end
 
+function vimswitch -d "switch bitween neovim configs"
+    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim)' | fzf --border rounded --border-label="neovim configs")
+    if test -z $selectedConfig
+        echo "no config selected"
+        return
+    end
+    rm .config/nvim
+    ln -svf ~/.dotfiles/$selectedConfig ~/.config/nvim
+    echo
+    echo -e $GREEN"successfully selected $selectedConfig"$RC
+end
+
 function vim-reset -d "delete all neovim plugind"
     rm -rf ~/.local/share/nvim && rm -rf ~/.config/nvim/lazy-lock.json
 end
@@ -106,6 +118,9 @@ end
 abbr -ag nv nvim
 abbr -ag v vim
 
+function sd
+    cd /storage/0A56-1B19
+end
 
 set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
@@ -119,11 +134,11 @@ set -gx dotfiles ~/.dotfiles
 
 #  storage
 set -gx phone /storage/emulated/0
-set -gx sdcard $HOME/storage/external-1
+set -gx sd /storage/0A56-1B19
 set -gx documents /storage/emulated/0/Documents
 set -gx gate /storage/emulated/0/Documents/gate
 set -gx downloads /storage/emulated/0/Download
-set -gx obsidian /storage/emulated/0/Documents/My\ obsidian
+set -gx obsidian /storage/emulated/0/Documents/obsidian
 
 #: `fzf` defaults configuration.
 set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow'
@@ -162,13 +177,17 @@ function dotfiles
     cd $dotfiles
 end
 
+function src
+    source ~/.config/fish/config.fish
+end
+
 # pnpm
 set -gx PNPM_HOME "/data/data/com.termux/files/home/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
-set -gx RUSTC "$PREFIX/opt/rust-nightly/bin"
-if not string match -q -- $RUSTC $PATH
-    set -gx PATH "$RUSTC" $PATH
+set -gx MASONBIN "$HOME/.local/share/nvim/mason/bin"
+if not string match -q -- $MASONBIN $PATH
+    set -gx PATH "$MASONBIN" $PATH
 end

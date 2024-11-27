@@ -56,7 +56,7 @@ fi = 4
 ```
 cat file.txt | cut --delimiter "=" --fields 2
 
-result 
+result
 
 9
 7
@@ -140,4 +140,13 @@ live-server | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g'
 for code in {0..255}
 do echo -e "\e[38;5;${code}m"'\\e[38;5;'"$code"m"\e[0m"
 done
+```
+
+## remove write protected file
+
+if you happen to in install go for some reason and later uninstalled you me notice that there are go folder in home directory if you try to remove it using rm you will get error of permissin denied in this case you need to change its permission and then delete it
+
+```sh
+chmod 777 go -R
+rm -rf go
 ```

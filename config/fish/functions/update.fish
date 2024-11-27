@@ -5,11 +5,6 @@ function update --description 'Update apt, fish, pnpm'
     and apt update
     and apt upgrade
 
-    # and echo "[update] cleaning brew cache"
-    # #and rm -rfv (brew --cache) # brew cleanup -s doesn't remove everythin
-    # and brew cleanup -s
-    # and brew bundle dump --describe --force
-
 
     and echo "[update] nodejs"
     and pnpm update -g

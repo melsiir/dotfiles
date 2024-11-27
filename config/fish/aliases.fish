@@ -12,8 +12,12 @@ function linecount
     wc -l $argv
 end
 
-function op -d "open docs and files"
-    open $argv
+function op -d Open
+    if count $argv >/dev/null
+        open $argv
+    else
+        open .
+    end
 end
 
 # empty obsidian trash
@@ -117,7 +121,9 @@ end
 
 function uu -d "update and upgrade packages"
     apt update && apt upgrade -y
+    nvim --headless "+Lazy! update" +qa
 end
+
 function deblogs
     cd /data/data/com.termux/files/usr/var/log/apt/
 end

@@ -60,18 +60,18 @@ set -l layout "--cycle --layout=reverse --border  --preview-window=right:70% "
 # another nice fzf themes
 
 
-set -x FZF_DEFAULT_OPTS "$layout --color=bg+:-1,\
-fg:gray,\
-fg+:white,\
-border:black,\
-spinner:0,\
-hl:yellow,\
-header:blue,\
-info:green,\
-pointer:red,\
-marker:blue,\
-prompt:gray,\
-hl+:red"
+# set -x FZF_DEFAULT_OPTS "$layout --color=bg+:-1,\
+# fg:gray,\
+# fg+:white,\
+# border:black,\
+# spinner:0,\
+# hl:yellow,\
+# header:blue,\
+# info:green,\
+# pointer:red,\
+# marker:blue,\
+# prompt:gray,\
+# hl+:red"
 set -x FZF_DEFAULT_OPTS "$layout --color=bg+:-1,\
 fg:gray,\
 fg+:white,\

@@ -21,7 +21,7 @@
     fi
 
     echo -e "${GREEN}installing required packages...${RC}"
-    packagesToInstall="git fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq"
+    packagesToInstall="git fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq which"
     if command_exists pacman; then
       pacman -Syu
       pacman -S $packagesToInstall --noconfirm
@@ -48,8 +48,11 @@
     mv dotfiles ~/.dotfiles
     rm -rf ~/.config
     ln -svf ~/.dotfiles/config ~/.config
+    ln -svf ~/.dotfiles/myvim ~/.config/nvim
+    # ln -svf ~/.dotfiles/lazyvim ~/.config/nvim
     ln -svf ~/.dotfiles/.npmrc ~/
     ln -svf ~/.dotfiles/.bashrc ~/
+    ln -svf ~/.dotfiles/.bash_prompt ~/
     ln -svf ~/.dotfiles/.gitignore ~/
   }
 

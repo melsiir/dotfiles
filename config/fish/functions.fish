@@ -24,6 +24,23 @@ function replaceText -d "replace text for indivisual files
     sed -i -- "s/$argv[2]/$argv[3]/g" $argv[1]
 end
 
+function bathemes -d "preview bat installed themes"
+    bat --list-themes | fzf --preview="bat --theme={} --color=always --plain ~/.config/nvim/lua/config/autocmd.lua"
+end
+
+function fi
+    fisher install $argv
+end
+function fl
+    fisher list $argv
+end
+function fu
+    fisher update $argv
+end
+function fr
+    fisher remove $argv
+end
+
 function confirmed
     set confirmCode (random 100 999)
     read --prompt "echo -e ' to perform this action please \n Enter this confirmation code ($confirmCode): '" -l confirmCodeAnswer
@@ -248,9 +265,10 @@ function master
     main
 end
 
-function undogit -d "soft delete last commit"
+function undogit -d "delete last commit"
     if confirmed
-        git reset --soft HEAD~1
+        git reset HEAD~1
+        echo
         echo -e "$GREEN successfully deleted the latest commit$RC"
     end
 end
@@ -672,8 +690,8 @@ end
 function startheme -d "change starship theme with fuzzy finder"
     # set -l selectedTheme (starship preset -l | fzf --border rounded --border-label="select starship Themes")
     # starship preset $selectedTheme >~/.config/starship.toml
-    set themeList (starship preset -l)
-    set themeList $themeList (ls ~/.config/starship)
+    set themeList (ls ~/.config/starship)
+    set themeList $themeList (starship preset -l)
     set selectedTheme (echo $themeList | sed 's/[[:blank:]]/\n/g' | fzf --border rounded --border-label="select starship Themes")
     if test -z $selectedTheme
         echo "no theme provided"
@@ -906,4 +924,15 @@ function fzf-aliases-functions
     set CMD ( printf  $aliasPoint | fzf | cut -d '=' -f1)
 
     eval $CMD
+end
+
+function where
+    type -p $argv
+end
+function italic -d "Test if italic text is working"
+    echo -e "\e[3mThis text should be in italics\e[23m"
+end
+
+function colors -d "Test if color is working"
+    curl -s https://gist.githubusercontent.com/HaleTom/89ffe32783f89f403bba96bd7bcd1263/raw/e50a28ec54188d2413518788de6c6367ffcea4f7/print256colours.sh | bash
 end

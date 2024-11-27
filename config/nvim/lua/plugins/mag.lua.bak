@@ -1,4 +1,0 @@
-return {
-  "iguanacucumber/magazine.nvim",
-  name = "cmp", -- Otherwise highlighting gets messed up
-}
