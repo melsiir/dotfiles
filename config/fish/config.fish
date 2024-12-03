@@ -117,6 +117,8 @@ end
 
 abbr -ag nv nvim
 abbr -ag v vim
+abbr fda "fd -IH"
+abbr rga "rg -uu"
 
 function sd
     cd /storage/0A56-1B19
@@ -128,6 +130,9 @@ set -gx PATH ~/.local/bin $PATH
 set -gx PATH ~/.config/bin $PATH
 # NodeJS
 set -gx PATH node_modules/.bin $PATH
+#Mason
+set -gx MASONBIN "$HOME/.local/share/nvim/mason/bin"
+set -gx PATH "$MASONBIN" $PATH
 
 #dotfiles
 set -gx dotfiles ~/.dotfiles
@@ -141,10 +146,10 @@ set -gx downloads /storage/emulated/0/Download
 set -gx obsidian /storage/emulated/0/Documents/obsidian
 
 #: `fzf` defaults configuration.
-set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow'
-set -gx FZF_DEFAULT_OPTS '--layout=reverse --border'
-set -gx FZF_ALT_C_COMMAND 'fd -H -t d'
-
+# set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow'
+# set -gx FZF_DEFAULT_OPTS '--layout=reverse --border'
+# set -gx FZF_ALT_C_COMMAND 'fd -H -t d'
+#
 
 # FZF options
 # set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git --exclude node_modules'
@@ -187,7 +192,4 @@ if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
-set -gx MASONBIN "$HOME/.local/share/nvim/mason/bin"
-if not string match -q -- $MASONBIN $PATH
-    set -gx PATH "$MASONBIN" $PATH
-end
+
