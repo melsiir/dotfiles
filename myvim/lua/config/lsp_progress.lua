@@ -1,7 +1,7 @@
 local statusline = {}
 local groupid = vim.api.nvim_create_augroup("StatusLine", {})
-local spinner_end_keep = 2000 -- ms
-local spinner_status_keep = 600 -- ms
+local spinner_end_keep = 2000    -- ms
+local spinner_status_keep = 600  -- ms
 local spinner_progress_keep = 80 -- ms
 local spinner_timer = vim.uv.new_timer()
 
@@ -72,7 +72,6 @@ statusline.autocmd = function()
         timestamp = now,
         type = info.data and info.data.params and info.data.params.value and info.data.params.value.kind,
         message = info.data and info.data.params and info.data.params.value and info.data.params.value.message or "",
-        percentage = info.data and info.data.params and info.data.params.value and info.data.params.value.percentage,
       } -- Update LSP progress data
       -- Clear client message after a short time if no new message is received
       vim.defer_fn(function()

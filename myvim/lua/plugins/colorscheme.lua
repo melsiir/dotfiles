@@ -1,218 +1,206 @@
 return {
   {
-    {
-      "folke/tokyonight.nvim",
-      priority = 1000,
-      opts = {
-        transparent = vim.g.transparent_enabled,
-        style = "night",
-        styles = {
-          -- comments = { italic = false },
-          keywords = { italic = false },
-          sidebars = "transparent",
-          floats = "transparent",
-        },
-        sidebars = { "qf", "help", "terminal", "dagger", "aerial", "OverseerList", "neotest-summary" },
+    "folke/tokyonight.nvim",
+    priority = 1000,
+    opts = {
+      transparent = vim.g.transparent_enabled,
+      style = "night",
+      styles = {
+        -- comments = { italic = false },
+        keywords = { italic = false },
+        sidebars = "transparent",
+        floats = "transparent",
       },
-      config = function()
-        -- window separartor for terminal
-        -- vim.cmd.hi("WinSeparator guifg=" .. vim.g.terminal_color_8)
-        -- borderless telescope
-        require("tokyonight").setup({
-          on_highlights = function(hl, c)
-            local prompt = "#2d3149"
+      sidebars = { "qf", "help", "terminal", "dagger", "aerial", "OverseerList", "neotest-summary" },
+    },
+    config = function()
+      -- window separartor for terminal
+      -- vim.cmd.hi("WinSeparator guifg=" .. vim.g.terminal_color_8)
+      -- borderless telescope
+      require("tokyonight").setup({
+        on_highlights = function(hl, c)
+          local prompt = "#2d3149"
 
-            hl.WinSeparator = { fg = "#444a73" }
-            hl.TelescopeNormal = {
-              bg = c.bg_dark,
-              fg = c.fg_dark,
-            }
-            hl.TelescopeBorder = {
-              bg = c.bg_dark,
-              fg = c.bg_dark,
-            }
-            hl.TelescopePromptNormal = {
-              bg = prompt,
-            }
-            hl.TelescopePromptBorder = {
-              bg = prompt,
-              fg = prompt,
-            }
-            hl.TelescopePromptTitle = {
-              bg = prompt,
-              fg = prompt,
-            }
-            hl.TelescopePreviewTitle = {
-              bg = c.bg_dark,
-              fg = c.bg_dark,
-            }
-            hl.TelescopeResultsTitle = {
-              bg = c.bg_dark,
-              fg = c.bg_dark,
-            }
-          end,
-        })
-        -- vim.cmd.colorscheme("tokyonight")
-      end,
-    },
-    {
-      "gbprod/nord.nvim",
-      -- lazy = true,
-      priority = 1000,
-      config = function()
-        require("nord").setup({
-          diff = { mode = "fg" },
-          search = { theme = "vscode" },
-          borders = true,
-          transparent = vim.g.transparent_enabled,
-          errors = { mode = "none" },
-          styles = {
-            comments = { italic = false },
-            keywords = { italic = false },
-            functions = { italic = false },
-            strings = { italic = false },
-            variables = { italic = false },
-            NeoTreeGitUnstaged = { italic = false },
-            NeoTreeGitUntracked = { italic = false },
-            NeoTreeMessage = { italic = false },
-            errors = { italic = false },
-            bufferline = {
-              current = { bold = false },
-              modified = { bold = false, italic = true },
-            },
-          },
-          on_highlights = function(highlights, colors)
-            highlights["@variable.parameter.bash"] = { link = "@variable" }
-            highlights.TelescopeNormal = {
-              bg = colors.polar_night.bright,
-              -- fg = colors.aurora.green,
-            }
-            highlights.TelescopeBorder = {
-              bg = colors.polar_night.bright,
-              fg = colors.polar_night.bright,
-            }
-            highlights.TelescopePromptNormal = {
-              bg = colors.polar_night.brightest,
-            }
-            highlights.TelescopePromptBorder = {
-              bg = colors.polar_night.brightest,
-              fg = colors.polar_night.brightest,
-            }
-            highlights.TelescopePromptTitle = {
-              bg = colors.polar_night.brightest,
-              fg = colors.polar_night.brightest,
-              -- bg = colors.frost.ice,
-              -- fg = colors.frost.artic_icean,
-            }
-            highlights.TelescopePreviewTitle = {
-              bg = colors.polar_night.bright,
-              -- fg = colors.aurora.green,
-            }
-            highlights.TelescopeResultsTitle = {
-              -- bg = colors.snow_storm.origin,
-              bg = colors.polar_night.bright,
-              fg = colors.polar_night.bright,
-            }
-            highlights.TelescopePromptCounter = {
-              fg = colors.snow_storm.origin,
-            }
-            highlights.TelescopePromptPrefix = {
-              fg = colors.frost.ice,
-            }
-            highlights.TelescopeSelection = {
-              bg = colors.polar_night.brightest,
-            }
-            highlights.TelescopePreview = {
-              bg = colors.polar_night.bright,
-            }
-          end,
-        })
-
-        -- vim.cmd.colorscheme("nord")
-      end,
-    },
-    install = {
-      colorscheme = { "nord" },
-    },
-    {
-      "EdenEast/nightfox.nvim",
-      priority = 1000,
-      lazy = true,
-      opts = {
-        options = {
-          transparent = vim.g.transparent_enabled,
-          styles = {
-            comments = "italic",
-            keywords = "bold",
-            types = "italic,bold",
-          },
-        },
-
-        groups = {
-          all = {
-            ["@markup.italic"] = { style = "italic" },
-            -- Make and/or/not stand out more
-            ["@keyword.operator"] = { link = "@keyword" },
-            -- -- Make markdown links stand out
-            ["@text.reference"] = { link = "@keyword" },
-            ["@text.literal"] = { style = "" }, -- Don't italicize
-            ["@codeblock"] = { bg = "palette.bg0" },
-            ["@neorg.markup.strikethrough"] = { fg = "palette.comment", style = "strikethrough" },
-          },
-        },
-      },
-      config = function()
-        -- vim.cmd.colorscheme("nightfox")
-        require("nightfox").setup({
-          on_highlights = function(hl, c)
-            local prompt = "#2d3149"
-            hl.TelescopeNormal = {
-              bg = c.bg_dark,
-              fg = c.fg_dark,
-            }
-            hl.TelescopeBorder = {
-              bg = c.bg_dark,
-              fg = c.bg_dark,
-            }
-            hl.TelescopePromptNormal = {
-              bg = prompt,
-            }
-            hl.TelescopePromptBorder = {
-              bg = prompt,
-              fg = prompt,
-            }
-            hl.TelescopePromptTitle = {
-              bg = prompt,
-              fg = prompt,
-            }
-            hl.TelescopePreviewTitle = {
-              bg = c.bg_dark,
-              fg = c.bg_dark,
-            }
-            hl.TelescopeResultsTitle = {
-              bg = c.bg_dark,
-              fg = c.bg_dark,
-            }
-          end,
-        })
-      end,
-    },
+          hl.WinSeparator = { fg = "#444a73" }
+          hl.TelescopeNormal = {
+            bg = c.bg_dark,
+            fg = c.fg_dark,
+          }
+          hl.TelescopeBorder = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopePromptNormal = {
+            bg = prompt,
+          }
+          hl.TelescopePromptBorder = {
+            bg = prompt,
+            fg = prompt,
+          }
+          hl.TelescopePromptTitle = {
+            bg = prompt,
+            fg = prompt,
+          }
+          hl.TelescopePreviewTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopeResultsTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+        end,
+      })
+      -- vim.cmd.colorscheme("tokyonight")
+    end,
   },
-  -- Lazy
   {
-    "olimorris/onedarkpro.nvim",
-    lazy = false,
-    priority = 1000, -- Ensure it loads first
+    "gbprod/nord.nvim",
+    -- lazy = true,
+    priority = 1000,
+    config = function()
+      require("nord").setup({
+        diff = { mode = "fg" },
+        search = { theme = "vscode" },
+        borders = true,
+        transparent = vim.g.transparent_enabled,
+        errors = { mode = "none" },
+        styles = {
+          comments = { italic = false },
+          keywords = { italic = false },
+          functions = { italic = false },
+          strings = { italic = false },
+          variables = { italic = false },
+          NeoTreeGitUnstaged = { italic = false },
+          NeoTreeGitUntracked = { italic = false },
+          NeoTreeMessage = { italic = false },
+          errors = { italic = false },
+          bufferline = {
+            current = { bold = false },
+            modified = { bold = false, italic = true },
+          },
+        },
+        on_highlights = function(highlights, colors)
+          highlights["@variable.parameter.bash"] = { link = "@variable" }
+          highlights.TelescopeNormal = {
+            bg = colors.polar_night.bright,
+            -- fg = colors.aurora.green,
+          }
+          highlights.TelescopeBorder = {
+            bg = colors.polar_night.bright,
+            fg = colors.polar_night.bright,
+          }
+          highlights.TelescopePromptNormal = {
+            bg = colors.polar_night.brightest,
+          }
+          highlights.TelescopePromptBorder = {
+            bg = colors.polar_night.brightest,
+            fg = colors.polar_night.brightest,
+          }
+          highlights.TelescopePromptTitle = {
+            bg = colors.polar_night.brightest,
+            fg = colors.polar_night.brightest,
+            -- bg = colors.frost.ice,
+            -- fg = colors.frost.artic_icean,
+          }
+          highlights.TelescopePreviewTitle = {
+            bg = colors.polar_night.bright,
+            -- fg = colors.aurora.green,
+          }
+          highlights.TelescopeResultsTitle = {
+            -- bg = colors.snow_storm.origin,
+            bg = colors.polar_night.bright,
+            fg = colors.polar_night.bright,
+          }
+          highlights.TelescopePromptCounter = {
+            fg = colors.snow_storm.origin,
+          }
+          highlights.TelescopePromptPrefix = {
+            fg = colors.frost.ice,
+          }
+          highlights.TelescopeSelection = {
+            bg = colors.polar_night.brightest,
+          }
+          highlights.TelescopePreview = {
+            bg = colors.polar_night.bright,
+          }
+        end,
+      })
+      -- vim.cmd.colorscheme("nord")
+    end,
   },
-  -- somewhere in your config:
-  -- vim.cmd("colorscheme onedark")
+  install = {
+    colorscheme = { "nord" },
+  },
+  {
+    "EdenEast/nightfox.nvim",
+    priority = 1000,
+    lazy = true,
+    opts = {
+      options = {
+        transparent = vim.g.transparent_enabled,
+        styles = {
+          comments = "italic",
+          keywords = "bold",
+          types = "italic,bold",
+        },
+      },
+
+      groups = {
+        all = {
+          ["@markup.italic"] = { style = "italic" },
+          -- Make and/or/not stand out more
+          ["@keyword.operator"] = { link = "@keyword" },
+          -- -- Make markdown links stand out
+          ["@text.reference"] = { link = "@keyword" },
+          ["@text.literal"] = { style = "" }, -- Don't italicize
+          ["@codeblock"] = { bg = "palette.bg0" },
+          ["@neorg.markup.strikethrough"] = { fg = "palette.comment", style = "strikethrough" },
+        },
+      },
+    },
+    config = function()
+      -- vim.cmd.colorscheme("nightfox")
+      require("nightfox").setup({
+        on_highlights = function(hl, c)
+          local prompt = "#2d3149"
+          hl.TelescopeNormal = {
+            bg = c.bg_dark,
+            fg = c.fg_dark,
+          }
+          hl.TelescopeBorder = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopePromptNormal = {
+            bg = prompt,
+          }
+          hl.TelescopePromptBorder = {
+            bg = prompt,
+            fg = prompt,
+          }
+          hl.TelescopePromptTitle = {
+            bg = prompt,
+            fg = prompt,
+          }
+          hl.TelescopePreviewTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopeResultsTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+        end,
+      })
+    end,
+  },
   {
     "navarasu/onedark.nvim",
     -- commit = 'dd640f6',
     priority = 1000,
+    -- enabled = false,
     config = function()
-      -- vim.cmd.colorscheme 'onedark'
-
       local config = {
         -- Main options --
         style = "dark",                          -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
@@ -275,24 +263,68 @@ return {
         onedark.load()
         set_diagnostics_bg_transparency()
       end
+      vim.cmd([[highlight FlashLabel guibg=none]])
+      vim.cmd([[highlight FlashMatch guibg=none]])
 
       vim.keymap.set("n", "<leader>bg", toggle_transparency, { noremap = true, silent = true })
+      -- vim.cmd.colorscheme 'onedark'
     end,
   },
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    opts = {
-      variant = "moon",
-      disable_background = vim.g.transparent_enabled,
-      disable_float_bacground = vim.g.transparent_enabled,
-      styles = {
-        bold = true,
-        italic = false,
-        transparency = vim.g.transparent_enabled,
-      },
-    },
-    lazy = true,
+    lazy = false,
+    config = function()
+      require("rose-pine").setup({
+        variant = "moon",      -- auto, main, moon, or dawn
+        dark_variant = "main", -- main, moon, or dawn
+        dim_inactive_windows = false,
+        extend_background_behind_borders = true,
+        disable_background = vim.g.transparent_enabled,
+        disable_float_bacground = vim.g.transparent_enabled,
+        enable = {
+          terminal = true,
+          legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+          migrations = true,        -- Handle deprecated options automatically
+        },
+
+        styles = {
+          bold = true,
+          italic = false,
+          transparency = vim.g.transparent_enabled,
+        },
+
+        groups = {
+          border = "muted",
+        },
+
+        palette = {
+          -- Override the builtin palette per variant
+          -- moon = {
+          --     base = '#18191a',
+          --     overlay = '#363738',
+          -- },
+        },
+
+        highlight_groups = {
+          -- Comment = { fg = "foam" },
+          -- VertSplit = { fg = "muted", bg = "muted" },
+        },
+
+        before_highlight = function(group, highlight, palette)
+          -- Disable all undercurls
+          -- if highlight.undercurl then
+          --     highlight.undercurl = false
+          -- end
+          --
+          -- Change palette colour
+          -- if highlight.fg == palette.pine then
+          --     highlight.fg = palette.foam
+          -- end
+        end,
+      })
+      -- vim.cmd("colorscheme rose-pine")
+    end
   },
   {
     "catppuccin/nvim",
@@ -315,10 +347,11 @@ return {
           }
         end,
       })
+      -- vim.cmd([[highlight FlashLabel guibg=none]])
+      -- vim.cmd([[highlight FlashMatch guibg=none]])
       vim.cmd.colorscheme("catppuccin-mocha")
     end,
   },
 
-  { "akinsho/horizon.nvim", version = "*" },
   'JoosepAlviste/palenightfall.nvim'
 }

@@ -1,7 +1,7 @@
 -- check if its termux
 -- vim.env.TERMUX_VERSION
 --conform auto format
-vim.g.autoformat = true
+vim.g.autoformat = false
 vim.g.transparent_enabled = true
 -- LazyVim root dir detection
 -- Each entry can be:

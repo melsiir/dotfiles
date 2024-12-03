@@ -20,6 +20,12 @@ return {
           return { utils.source.fallback({ sources.lsp, sources.treesitter }) }
         end,
       },
+      icons = {
+        ui = {
+          bar = { separator = "  " },
+          menu = { indicator = "" },
+        }
+      },
     })
   end,
 }

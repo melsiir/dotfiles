@@ -104,6 +104,7 @@ return {
           "fd",
           "--type",
           "f",
+          -- "H",
           "--color",
           "never",
           "-E",

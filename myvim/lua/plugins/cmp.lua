@@ -152,7 +152,7 @@ return { -- Autocompletion
       window = {
         completion = {
           border = "rounded",
-          winhighlight = "Normal:CmpPmenu,Search:None,FloatBorder:WinSeparator",
+          winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None,FloatBorder:WinSeparator",
           col_offset = -3,
           side_padding = 1,
           scrollbar = false,

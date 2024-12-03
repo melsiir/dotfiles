@@ -31,7 +31,7 @@ local lsp = function()
   return result
 end
 local function cwd()
-  local dir_name = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " "
+  local dir_name = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " "
   return dir_name
 end
 
@@ -211,6 +211,9 @@ return {
             end,
             -- color = "green",
             cond = hide_in_width,
+            on_click = function()
+              vim.g.autoformat = not vim.g.autoformat
+            end,
           },
           {
             function()

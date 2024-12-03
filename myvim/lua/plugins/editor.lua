@@ -3,23 +3,32 @@ return {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = function()
-      -- #225562
-      vim.cmd([[highlight FlashLabel guibg=none]])
-      vim.cmd([[highlight FlashMatch guibg=none]])
+      -- local flashLabelhl = vim.api.nvim_get_hl_by_name("FlashLabel", true)
+      -- local flashMatchl = vim.api.nvim_get_hl_by_name("Search", true)
+      -- vim.api.nvim_set_hl(0, "FlashLabel", { fg = flashLabelhl.background, bg = "none", bold = true })
+      -- vim.api.nvim_set_hl(0, "FlashMatch", { fg = flashMatchl.background, bg = "none" })
+
+
+      -- vim.api.nvim_set_hl(
+      --   0,
+      --   "FlashLabel",
+      --   { underline = true, bold = true, fg = "Orange", bg = "NONE", ctermfg = "Red", ctermbg = "NONE" })
+
+
       return {
-        exclude = {
-          "cmp_menu",
-          "noice",
-          "flash_prompt",
-          "Outline",
-        },
+        -- exclude = {
+        --   "cmp_menu",
+        --   "noice",
+        --   "flash_prompt",
+        --   "Outline",
+        -- },
         -- label = {
         --   style = "eol",
         -- },
-        -- prompt = {
-        --   enabled = true,
-        --   prefix = { { "", "FlashPromptIcon" } },
-        -- }
+        prompt = {
+          enabled = true,
+          prefix = { { " ", "FlashPromptIcon" } },
+        }
       }
     end,
     keys = {
