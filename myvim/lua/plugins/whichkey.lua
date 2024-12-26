@@ -3,14 +3,15 @@ return {
   event = "VeryLazy",
   opts_extend = { "spec" },
   opts = {
-    preset = "helix",
-    defaults = {},
+    -- preset = "helix",
+    defaults = {
+    },
     spec = {
       {
         mode = { "n", "v" },
         { "<leader><tab>", group = "tabs" },
         { "<leader>c", group = "code" },
-        { "<leader>d", group = "delete or duplicate" },
+        { "<leader>d", group = "debug" },
         { "<leader>f", group = "file/find" },
         { "<leader>g", group = "git" },
         { "<leader>gh", group = "hunks" },
@@ -24,9 +25,11 @@ return {
         { '"', group = "register" },
         { "gs", group = "surround" },
         { "z", group = "fold" },
+        { "<leader>z", group = "Telekasten", icon = "" },
         {
           "<leader>b",
           group = "buffer",
+          icon = "",
           expand = function()
             return require("which-key.extras").expand.buf()
           end,
@@ -43,6 +46,8 @@ return {
         { "gx", desc = "Open with system app" },
       },
     },
+
+    sort = { "group" },
   },
   keys = {
     {

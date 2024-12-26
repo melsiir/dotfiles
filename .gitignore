@@ -24,6 +24,7 @@ fish/fish_variables
 #github credential
 
 */gh/hosts.yml
+*/github-copilot/apps.json
 */lazygit/state.yml
 ### Node ###
 # Logs
@@ -78,4 +79,4 @@ package-lock.json
 lazy-lock.json
 *.lock
 
-
+TabNine

@@ -1,12 +1,14 @@
 vim.diagnostic.config({
   float = {
     source = true,
+    focusable = false,
+    header = { "   Diagnostics",
+      "String"
+    },
     border = "rounded",
   },
   wrap = true,
 })
-
---   winhighlight = "Normal:CmpPmenu,Search:None,FloatBorder:CmpBorder",
 return {
   { -- LSP Configuration & Plugins
     "neovim/nvim-lspconfig",
@@ -190,13 +192,13 @@ return {
 
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
         opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-          or function(diagnostic)
-            for d, icon in pairs(icons.diagnostics) do
-              if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                return icon
+            or function(diagnostic)
+              for d, icon in pairs(icons.diagnostics) do
+                if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                  return icon
+                end
               end
             end
-          end
       end
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
@@ -232,6 +234,9 @@ return {
           map("n", "<leader>wl", function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
           end, "Workspace List Folders")
+          map("n", "<a-n>", function() Snacks.words.jump(vim.v.count1, true) end, "Next Reference")
+          map("n", "<a-p>", function() Snacks.words.jump(-vim.v.count1, true) end, "Prev Reference")
+
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -252,11 +257,21 @@ return {
         end,
       })
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-
+      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
       -- Ensure the servers and tools above are installed
       -- require("mason").setup()
       local servers = opts.servers
+      local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      local has_blink, blink = pcall(require, "blink.cmp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+        has_blink and blink.get_lsp_capabilities() or {},
+        opts.capabilities or {}
+      )
+
       local function setup(server)
         local server_opts = vim.tbl_deep_extend("force", {
           capabilities = vim.deepcopy(capabilities),
@@ -309,7 +324,7 @@ return {
             "force",
             ensure_installed,
             {}
-            -- LazyVim.opts("mason-lspconfig.nvim").ensure_installed or {}
+          -- LazyVim.opts("mason-lspconfig.nvim").ensure_installed or {}
           ),
           handlers = { setup },
         })
@@ -342,16 +357,14 @@ return {
         -- height = 1,
 
         border = "rounded",
-
         icons = {
-          pacakge_installed = " ",
-          package_pending = " ",
-
+          package_installed = "",
+          package_pending = "",
           package_uninstalled = " ",
-        },
+        }
       },
       ensure_installed = {
-        "stylua",
+        -- "stylua",
         "shfmt",
       },
     },

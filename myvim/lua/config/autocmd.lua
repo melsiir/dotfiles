@@ -252,3 +252,12 @@ vim.api.nvim_create_user_command("LiveServerStop", function()
   vim.cmd("bd! " .. vim.g.liveserver_bufnr)
   vim.g.liveserver_bufnr = nil
 end, { desc = "Stop live-server" })
+
+
+-- lsp loading in winbar
+-- vim.api.nvim_create_autocmd("LspProgress", {
+--   callback = function(o)
+--     local p = o.data.params.value.percentage
+--     vim.wo.winbar = p and ("%#Green#" .. ("▔"):rep(math.floor((p * vim.o.columns) / 100))) or ""
+--   end
+-- })

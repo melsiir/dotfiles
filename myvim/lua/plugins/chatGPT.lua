@@ -15,7 +15,7 @@ return {
         chat = {
           keymaps = {
             close = {
-              "<C-c>",--[[ , '<Esc>' ]]
+              "<C-c>", --[[ , '<Esc>' ]]
             },
           },
         },

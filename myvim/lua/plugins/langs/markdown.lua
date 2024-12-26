@@ -67,7 +67,7 @@ return {
   --
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = false,
+    enabled = true,
     opts = {
       code = {
         sign = false,
@@ -81,58 +81,58 @@ return {
     },
     ft = { "markdown", "norg", "rmd", "org" },
   },
-  {
-    "OXY2DEV/markview.nvim",
-    ft = "markdown",
-    config = function()
-      local presets = require("markview.presets")
-
-      local checkbox = presets.checkboxes.nerd
-
-      checkbox.custom = vim.tbl_extend("force", checkbox.custom, {
-        { match_string = "-", text = "", hl = "MarkviewCheckboxPending" },
-        { match_string = "~", text = "", hl = "MarkviewCheckboxProgress" },
-        { match_string = "/", text = " ", hl = "MarkdownCheckboxSkipped" },
-        { match_string = "f", text = "󰈸 ", hl = "MarkdownCheckboxFire" },
-        { match_string = "s", text = " ", hl = "MarkdownCheckboxStar" },
-        { match_string = "*", text = "󰌵 ", hl = "MarkdownCheckboxIdea" },
-        { match_string = "y", text = "󰔓 ", hl = "MarkdownCheckboxYes" },
-        { match_string = "n", text = "󰔑 ", hl = "MarkdownCheckboxNo" },
-        { match_string = "?", text = " ", hl = "MarkdownCheckboxQuestion" },
-        { match_string = "i", text = " ", hl = "MarkdownCheckboxInfo" },
-        { match_string = "!", text = "󱅶 ", hl = "MarkdownCheckboxImportant" },
-      })
-
-      require("markview").setup({
-        modes = { "n", "i", "v", "V", "c", "nc" },
-        hybrid_modes = { "i" },
-
-        filetypes = { "markdown", "quarto", "rmd", "Avante" },
-        checkboxes = checkbox,
-        headings = presets.headings.decorated,
-        code_blocks = {
-          style = "language",
-          icons = "mini",
-
-          language_direction = "right",
-          min_width = 60,
-          pad_char = " ",
-          pad_amount = 3,
-
-          language_names = {
-            ["txt"] = "Text",
-          },
-
-          hl = "MarkviewCode",
-          info_hl = "MarkviewCodeInfo",
-
-          sign = true,
-          sign_hl = nil,
-        },
-        horizontal_rules = presets.horizontal_rules.thin,
-      })
-    end,
-  },
+  -- {
+  --   "OXY2DEV/markview.nvim",
+  --   ft = "markdown",
+  --   config = function()
+  --     local presets = require("markview.presets")
+  --
+  --     local checkbox = presets.checkboxes.nerd
+  --
+  --     checkbox.custom = vim.tbl_extend("force", checkbox.custom, {
+  --       { match_string = "-", text = "", hl = "MarkviewCheckboxPending" },
+  --       { match_string = "~", text = "", hl = "MarkviewCheckboxProgress" },
+  --       { match_string = "/", text = " ", hl = "MarkdownCheckboxSkipped" },
+  --       { match_string = "f", text = "󰈸 ", hl = "MarkdownCheckboxFire" },
+  --       { match_string = "s", text = " ", hl = "MarkdownCheckboxStar" },
+  --       { match_string = "*", text = "󰌵 ", hl = "MarkdownCheckboxIdea" },
+  --       { match_string = "y", text = "󰔓 ", hl = "MarkdownCheckboxYes" },
+  --       { match_string = "n", text = "󰔑 ", hl = "MarkdownCheckboxNo" },
+  --       { match_string = "?", text = " ", hl = "MarkdownCheckboxQuestion" },
+  --       { match_string = "i", text = " ", hl = "MarkdownCheckboxInfo" },
+  --       { match_string = "!", text = "󱅶 ", hl = "MarkdownCheckboxImportant" },
+  --     })
+  --
+  --     require("markview").setup({
+  --       modes = { "n", "i", "v", "V", "c", "nc" },
+  --       hybrid_modes = { "i" },
+  --
+  --       filetypes = { "markdown", "quarto", "rmd", "Avante" },
+  --       checkboxes = checkbox,
+  --       headings = presets.headings.decorated,
+  --       code_blocks = {
+  --         style = "language",
+  --         icons = "mini",
+  --
+  --         language_direction = "right",
+  --         min_width = 60,
+  --         pad_char = " ",
+  --         pad_amount = 3,
+  --
+  --         language_names = {
+  --           ["txt"] = "Text",
+  --         },
+  --
+  --         hl = "MarkviewCode",
+  --         info_hl = "MarkviewCodeInfo",
+  --
+  --         sign = true,
+  --         sign_hl = nil,
+  --       },
+  --       horizontal_rules = presets.horizontal_rules.thin,
+  --     })
+  --   end,
+  -- },
   {
     "renerocksai/telekasten.nvim",
     -- enabled = false,

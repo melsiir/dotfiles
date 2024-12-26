@@ -9,12 +9,34 @@ end
 -- use <  and  > to navigate tabs
 
 return {
+  -- {
+  --   "stevearc/oil.nvim",
+  --   opts = {
+  --     view_options = {
+  --       -- Show files and directories that start with "."
+  --       show_hidden = true,
+  --     },
+  --     float = {
+  --       -- Padding around the floating window
+  --       padding = 2,
+  --       max_width = 90,
+  --       max_height = 0,
+  --       -- border = "rounded",
+  --       win_options = {
+  --         winblend = 0,
+  --       },
+  --     },
+  --     -- Optional dependencies
+  --     dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   },
+  -- },
   -- icons
   {
     "nvim-neo-tree/neo-tree.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
+      "echasnovski/mini.icons",
       "MunifTanjim/nui.nvim",
     },
     keys = {
@@ -158,9 +180,9 @@ return {
           git_status = {
             symbols = {
               -- Change type
-              added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
-              modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
-              deleted = "✖", -- this can only be used in the git_status source
+              added = '',
+              deleted = '',
+              modified = '',
               renamed = "󰁕", -- this can only be used in the git_status source
               -- Status type
               untracked = "",
@@ -376,23 +398,6 @@ return {
             },
           },
         },
-      })
-    end,
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    config = function()
-      local map = vim.keymap.set
-      map("n", "<leader>mb", "<Cmd>MarksListBuf<CR>", { desc = "list buffer" })
-      map("n", "<leader>mg", "<Cmd>MarksQFListGlobal<CR>", { desc = "list global" })
-      map("n", "<leader>m0", "<Cmd>BookmarksQFList 0<CR>", { desc = "list bookmark" })
-
-      require("marks").setup({
-        force_write_shada = false, -- This can cause data loss
-        excluded_filetypes = { "NeogitStatus", "NeogitCommitMessage", "toggleterm" },
-        bookmark_0 = { sign = "⚑", virt_text = "" },
-        mappings = { annotate = "m?" },
       })
     end,
   },

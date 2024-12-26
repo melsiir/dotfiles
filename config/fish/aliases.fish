@@ -61,7 +61,7 @@ function vh -d "open nvim in current directory like code ."
 end
 
 function vl -d "open last file"
-    nvim -c "normal '0"
+    nvim -c "normal '0" -c "bd #"
 end
 
 function pvim -d "plain nvim"
@@ -258,6 +258,9 @@ if type -q eza
     end
     function lt -d "sort by date"
         eza --sort date --color auto --icons --group-directories-first
+    end
+    function ltr -d "tree ls"
+        eza --long --header --icons --tree --git --group-directories-first --hyperlink $argv
     end
 else
     alias lla 'ls -Alh' # show hidden files

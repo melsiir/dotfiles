@@ -17,19 +17,6 @@ local function fg(name)
 end
 
 
-local lsp = function()
-  local result = " "
-
-  if rawget(vim, "lsp") then
-    for _, client in ipairs(vim.lsp.get_active_clients()) do
-      if client.attached_buffers[vim.api.nvim_get_current_buf()] and client.name ~= "null-ls" then
-        return (vim.o.columns > 100 and " " .. client.name .. " ") or " LSP"
-      end
-    end
-  end
-
-  return result
-end
 local function cwd()
   local dir_name = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " "
   return dir_name
@@ -50,6 +37,7 @@ end
 return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
+  enabled = true,
   opts = function()
     local function get_greeting()
       local tableTime = os.date("*t")
@@ -73,28 +61,16 @@ return {
       return greetingsTable[greetingIndex]
     end
 
-    local function recorder_provider()
-      return " " .. " Rec"
-    end
-
     local function isRecording()
       local reg = vim.fn.reg_recording()
       if reg == "" then
         return ""
       end -- not recording
-      return " " .. " Rec for " .. reg
+      return " " .. " " .. reg
       -- return true
     end
 
-    local function recorder_condition()
-      local reg = vim.fn.reg_recording()
-      if reg == "" then
-        return false
-      end -- not recording
-      return true
-    end
-
-    local lsp_progress = require("config.lsp_progress")
+    local lsp_progress = require("config.util.lsp_progress")
     lsp_progress.autocmd()
     local isNord = vim.g.colors_name == "nord"
 
@@ -147,7 +123,8 @@ return {
       component = { left = "", right = "" },
     }
 
-    require("lualine").setup({
+    local opts = {
+
       options = {
         icons_enabled = true,
         theme = "auto", -- Set theme based on environment variable
@@ -168,14 +145,14 @@ return {
           {
             cwd,
             cond = function()
-              return vim.fn.expand("%:t") ~= ""
-            end
+              return vim.fn.expand("%:t") ~= "" and vim.fn.winwidth(0) > 80
+            end,
+            color = fg("special")
           },
           filename,
           {
             isRecording,
-            -- recorder_provider,
-            -- cond = isRecording,
+            color = fg("DiagnosticSignError")
           },
 
           {
@@ -193,6 +170,12 @@ return {
             color = fg("DiagnosticVirtualTextInfo"),
           },
           diagnostics,
+          {
+            function() return "  " .. require("dap").status() end,
+            cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+            color = function() return fg("Debug") end,
+          },
+
           {
             require("lazy.status").updates,
             cond = require("lazy.status").has_updates,
@@ -217,7 +200,7 @@ return {
           },
           {
             function()
-              return ""
+              return "  "
             end,
 
             cond = function()
@@ -230,20 +213,18 @@ return {
         lualine_y = { "location" },
         lualine_z = {
           "progress",
-          lsp
-          -- {
-          --   function()
-          --     -- return "  "
-          --     return ""
-          --   end,
-          --   cond = function()
-          --     -- return next(vim.lsp.get_clients()) ~= nil and vim.b.spinner_icon == "󰄬"
-          --     return next(vim.lsp.get_clients()) ~= nil
-          --   end,
-          --   padding = { right = 1 },
-          --   color = { gui = "bold" },
-          -- },
-          , { lsp_progress.lsp_progress, padding = 0 },
+          {
+            function()
+              -- return "     "
+              return " "
+            end,
+            cond = function()
+              return next(vim.lsp.get_clients()) ~= nil
+            end,
+            padding = { right = 1 },
+            color = { gui = "bold" },
+          }
+          , { lsp_progress.lsp_progress, padding = 0 }
         },
       },
       inactive_sections = {
@@ -256,6 +237,8 @@ return {
       },
       -- tabline = {},
       -- extensions = { 'fugitive' },
-    })
+    }
+
+    return opts
   end,
 }

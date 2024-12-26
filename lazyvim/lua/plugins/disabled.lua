@@ -18,7 +18,7 @@ return {
   -- { "ahmedkhalf/project.nvim", enabled = false },
   -- { "tpope/vim-repeat", enabled = false },
   -- { "hrsh7th/nvim-cmp", enabled = false },
-  -- { "saghen/blink.cmp", enabled = false },
+  -- { "saghen/blink.cmp",            enabled = false },
   -- { "garymjr/nvim-snippets", enabled = false },
   -- { "akinsho/bufferline.nvim", enabled = false },
   -- { "romgrk/barbar.nvim", enabled = false },
@@ -29,7 +29,7 @@ return {
   -- { "folke/which-key.nvim", enabled = false },
   -- { "folke/todo-comments.nvim", enabled= false},
   -- { "folke/persistence.nvim", enabled = false },
-  { "rcarriga/nvim-notify", enabled = false },
+  { "rcarriga/nvim-notify",        enabled = false },
   -- { "nvim-treesitter/nvim-treesitter", enabled = false },
   -- { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
   --   -- the this show you where you are in code but iam disable it for now

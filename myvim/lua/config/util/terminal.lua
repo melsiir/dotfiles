@@ -3,7 +3,7 @@ local g = vim.g
 local M = {}
 local set_buf = api.nvim_set_current_buf
 
-g.nvchad_terms = {}
+g.term_instances = {}
 
 local pos_data = {
   sp = { resize = "height", area = "lines" },
@@ -21,22 +21,24 @@ local config = {
     col = 0.25,
     width = 0.5,
     height = 0.4,
-    border = "single",
+    -- border = "single",
+    border = "rounded",
+    style = "minimal" -- remove padding
   },
 }
 -- used for initially resizing terms
-vim.g.nvhterm = false
-vim.g.nvvterm = false
+vim.g.hterm = false
+vim.g.vterm = false
 
 -------------------------- util funcs -----------------------------
 local function save_term_info(index, val)
-  local terms_list = g.nvchad_terms
+  local terms_list = g.term_instances
   terms_list[tostring(index)] = val
-  g.nvchad_terms = terms_list
+  g.term_instances = terms_list
 end
 
 local function opts_to_id(id)
-  for _, opts in pairs(g.nvchad_terms) do
+  for _, opts in pairs(g.term_instances) do
     if opts.id == id then
       return opts
     end
@@ -72,7 +74,7 @@ M.display = function(opts)
   vim.cmd("startinsert")
 
   -- resize non floating wins initially + or only when they're toggleable
-  if (opts.pos == "sp" and not vim.g.nvhterm) or (opts.pos == "vsp" and not vim.g.nvvterm) or (opts.pos ~= "float") then
+  if (opts.pos == "sp" and not vim.g.hterm) or (opts.pos == "vsp" and not vim.g.vterm) or (opts.pos ~= "float") then
     local pos_type = pos_data[opts.pos]
     local size = opts.size and opts.size or config.sizes[opts.pos]
     local new_size = vim.o[pos_type.area] * size
@@ -112,8 +114,8 @@ local function create(opts)
     vim.fn.termopen(cmd, opts.termopen_opts or { detach = false })
   end
 
-  vim.g.nvhterm = opts.pos == "sp"
-  vim.g.nvvterm = opts.pos == "vsp"
+  vim.g.hterm = opts.pos == "sp"
+  vim.g.vterm = opts.pos == "vsp"
 end
 
 --------------------------- user api -------------------------------

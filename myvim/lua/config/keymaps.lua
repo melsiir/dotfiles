@@ -35,7 +35,7 @@ map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+-- map("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<leader>bd", "<cmd>bdelete!<CR>", { desc = "Delete Buffer" })
 map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
@@ -128,15 +128,6 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
 
--- Terminal Mappings
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
-map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
-map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
-map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
-
 -- windows
 map("n", "<leader>w", "<c-w>", { desc = "Windows", remap = true })
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
@@ -199,45 +190,60 @@ map("n", "x", '"_x')
 -- Keep last yanked when pasting
 map("v", "p", '"_dP', { desc = "Keep last yanked when pasting" })
 
+-- Duplicate a line and comment out the first line
+vim.keymap.set("n", "yc", "yygccp")
+
 -- open the current file in external editor
 map("n", "<leader>o", "<cmd>!open % <CR>", { desc = "open in external editor" })
 
 -- [,* ] Search and replace the word under the cursor.
 -- current line
-map("n", "<Leader>*", [[:s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "replace word under cursor" })
--- all occurrences
-map("n", "<Leader>**", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "replace word under curser in all occurrences" })
+-- map("n", "<Leader>*", [[:s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "replace word under cursor" })
+-- -- all occurrences
+-- map("n", "<Leader>**", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { desc = "replace word under curser in all occurrences" })
 
 -- Switch CWD to the directory of the open buffer
 map("", "<Leader>c.", ":cd %:p:h<CR>:pwd<CR>", { desc = "Switch CWD to the directory of the open buffer" })
 -- Replace word under cursor
-map("n", "<leader>j", "*``cgn", { desc = "Replace word under cursor" })
+-- map("n", "<leader>j", "*``cgn", { desc = "Replace word under cursor" })
 ------------------------------------
---- terminal
-map("n", "<leader>ft", function()
-  require("config.util.terminal").new { pos = "sp" }
-end, { desc = "terminal new horizontal term" })
-map("n", "gt", function()
-  require("config.util.terminal").new { pos = "sp" }
-end, { desc = "terminal new horizontal term" })
--- this ctrl - /
-map("n", "<C-_>", function()
-  require("config.util.terminal").new { pos = "sp" }
-end, { desc = "terminal new horizontal term" })
+--- Terminal
 
-map("n", "<leader>fv", function()
-  require("config.util.terminal").new { pos = "vsp" }
-end, { desc = "terminal new vertical term", remap = true })
-
-
+-- -- new terminals
+-- map("n", "<leader>ft", function()
+--   require("config.util.terminal").new { pos = "sp" }
+-- end, { desc = "terminal new horizontal term" })
+--
+-- map("n", "<leader>fv", function()
+--   require("config.util.terminal").new { pos = "vsp" }
+-- end, { desc = "terminal new vertical term" })
+--
+-- -- toggle terminals
+-- map({ "n", "t" }, "<A-v>", function()
+--   require("config.util.terminal").toggle { pos = "vsp", id = "vtoggleTerm" }
+-- end, { desc = "terminal toggle vertical term" })
+--
+-- map({ "n", "t" }, "<A-h>", function()
+--   require("config.util.terminal").toggle { pos = "sp", id = "htoggleTerm" }
+-- end, { desc = "terminal toggle horizontal term" })
+--
+-- map({ "n", "t" }, "<A-i>", function()
+--   require("config.util.terminal").toggle { pos = "float", id = "floatTerm" }
+-- end, { desc = "terminal toggle floating term" })
+--
+-- -- this ctrl - /
+-- map({ "n", "t" }, "<C-_>", function()
+--   require("config.util.terminal").toggle { pos = "sp", id = "htoggleTerm" }
+-- end, { desc = "terminal toggle horizontal term" })
+--
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
 map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
 map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+-- map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+-- map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 ------------------------------------------------
 
 -- live-server
@@ -262,3 +268,9 @@ end, { desc = "toggle live-server" })
 
 -- nerdfont
 map("n", "<leader>f,", "<cmd>Telescope nerdy<cr>", { desc = "Nerd font icons" })
+
+--run code
+map("n", "<leader>rc", function()
+  local melsir = require "config.util.melsir"
+  melsir.run_file()
+end, { desc = "run the file" })

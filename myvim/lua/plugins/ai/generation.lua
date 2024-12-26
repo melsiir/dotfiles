@@ -3,30 +3,31 @@
 return {
   "robitx/gp.nvim",
   -- enabled = false,
-  lazy = true,
+  -- lazy = true,
   config = function()
     local conf = {
       -- For customization, refer to Install > Configuration in the Documentation/Readme
-
       -- local home = vim.fn.expand("$HOME")
       -- openai_api_key = { "cat", "$HOME/.secrets/chatgpt.txt" },
       providers = {
         openai = {
-          disable = false,
+          disable = true,
           endpoint = "https://api.openai.com/v1/chat/completions",
           secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/openai" },
         },
 
         googleai = {
-          disable = true,
+          disable = false,
           model = "gemini-1.5-flash-latest",
-          endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
-          secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/googleai.txt" },
+          endpoint =
+          "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
+          secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/google" },
+
         },
         anthropic = {
           disable = true,
           endpoint = "https://api.anthropic.com/v1/messages",
-          secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/anthropic.txt" },
+          secret = { "cat", vim.fn.expand("$HOME") .. "/.secrets/anthropic" },
         },
       },
     }
@@ -50,6 +51,7 @@ return {
     vim.keymap.set({ "n", "i" }, "<C-g>G", "<cmd>GpChatRespond<cr>", keymapOptions("Request a respond"))
 
     vim.keymap.set("v", "<C-g>c", ":<C-u>'<,'>GpChatNew<cr>", keymapOptions("Visual Chat New"))
+
     vim.keymap.set("v", "<C-g>p", ":<C-u>'<,'>GpChatPaste<cr>", keymapOptions("Visual Chat Paste"))
     vim.keymap.set("v", "<C-g>t", ":<C-u>'<,'>GpChatToggle<cr>", keymapOptions("Visual Toggle Chat"))
 

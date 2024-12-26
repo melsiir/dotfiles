@@ -1,19 +1,10 @@
 -- check if its termux
 -- vim.env.TERMUX_VERSION
 --conform auto format
-vim.g.autoformat = false
+vim.g.autoformat = true
 vim.g.transparent_enabled = true
--- LazyVim root dir detection
--- Each entry can be:
--- * the name of a detector function like `lsp` or `cwd`
--- * a pattern or array of patterns like `.git` or `lua`.
--- * a function with signature `function(buf) -> string|string[]`
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
--- Options for the LazyVim statuscolumn
--- vim.g.lazyvim_statuscolumn = {
--- folds_open = false, -- show fold sign when fold is open
--- folds_githl = false, -- highlight fold sign with git sign color
--- }
+vim.g.blinkcmp = true
 
 -- Optionally setup the terminal to use
 -- This sets `vim.o.shell` and does some additional configuration for:
@@ -107,7 +98,8 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
 if vim.fn.has("nvim-0.10") == 1 then
-  opt.smoothscroll = true
+  -- cause echo with smear-corsur disable for now
+  -- opt.smoothscroll = true
   -- opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
   opt.foldmethod = "expr"
   opt.foldtext = ""

@@ -79,7 +79,8 @@ end
 function vi
     nvim $argv
 end
-function cvi
+
+function vcl
     nvim --clean $argv
 end
 
@@ -96,12 +97,12 @@ function vim-update
 end
 
 function vimswitch -d "switch bitween neovim configs"
-    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim)' | fzf --border rounded --border-label="neovim configs")
+    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim|lightvim)' | fzf --tac --border rounded --border-label="neovim configs")
     if test -z $selectedConfig
         echo "no config selected"
         return
     end
-    rm .config/nvim
+    rm -rf ~/.config/nvim
     ln -svf ~/.dotfiles/$selectedConfig ~/.config/nvim
     echo
     echo -e $GREEN"successfully selected $selectedConfig"$RC
@@ -192,4 +193,3 @@ if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
-

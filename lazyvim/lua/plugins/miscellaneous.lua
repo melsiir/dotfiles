@@ -7,13 +7,13 @@ return {
       },
     },
   },
-  {
-    "garymjr/nvim-snippets",
-    opts = {
-      friendly_snippets = true,
-    },
-    dependencies = { "rafamadriz/friendly-snippets" },
-  },
+  -- {
+  --   "garymjr/nvim-snippets",
+  --   opts = {
+  --     friendly_snippets = true,
+  --   },
+  --   dependencies = { "rafamadriz/friendly-snippets" },
+  -- },
   {
     "olrtg/nvim-emmet",
     config = function()
@@ -21,7 +21,7 @@ return {
     end,
   },
   -- disables hungry features for files larget than 2MB
-  { "LunarVim/bigfile.nvim" },
+  -- { "LunarVim/bigfile.nvim" },
   -- {
   --   "mg979/vim-visual-multi",
   --   event = { "BufReadPost", "BufNewFile" },

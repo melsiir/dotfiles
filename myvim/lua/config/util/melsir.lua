@@ -42,20 +42,6 @@ function M.bufremove(buf)
   end
 end
 
------- lsp
-
-function M.on_attach(on_attach, name)
-  return vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-      local buffer = args.buf ---@type number
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if client and (not name or client.name == name) then
-        return on_attach(client, buffer)
-      end
-    end,
-  })
-end
-
 M.get_pkg_path = function(pkg, path, opts)
   pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
   local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
@@ -76,6 +62,36 @@ function M.FormatForReddit()
   vim.cmd("%s/^/     /g")
   vim.cmd("w ~/redditpost.md")
   vim.cmd("%s/^     //g")
+end
+
+-- code run borrowed from
+-- https://github.com/tamton-aquib/essentials.nvim
+M.run_file = function(ht)
+  local fts = {
+    rust       = "cargo run",
+    python     = "python %",
+    javascript = "npm start",
+    c          = "make",
+    cpp        = "make",
+    java       = "java %",
+    lua        = "lua %"
+  }
+
+  vim.api.nvim_create_autocmd('TermOpen', {
+    group = vim.api.nvim_create_augroup('TerminalSettings', { clear = true }),
+    callback = function()
+      vim.opt_local.number = false
+      vim.opt_local.relativenumber = false
+      vim.cmd.startinsert()
+    end,
+  })
+
+
+  local cmd = fts[vim.bo.ft]
+  vim.cmd(
+    cmd and ("w | " .. (ht or "") .. "sp | term " .. cmd)
+    or "echo 'No command for this filetype'"
+  )
 end
 
 return M

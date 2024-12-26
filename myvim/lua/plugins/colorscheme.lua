@@ -210,7 +210,7 @@ return {
         cmp_itemkind_reverse = false,            -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
-        toggle_style_key = "<leader>th",                                                     -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+        -- toggle_style_key = "<leader>th",                                                     -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
         toggle_style_list = { "dark", "darker", "cool", "deep", "warm", "warmer", "light" }, -- List of styles to toggle between
 
         -- Change code style ---
@@ -266,7 +266,7 @@ return {
       vim.cmd([[highlight FlashLabel guibg=none]])
       vim.cmd([[highlight FlashMatch guibg=none]])
 
-      vim.keymap.set("n", "<leader>bg", toggle_transparency, { noremap = true, silent = true })
+      -- vim.keymap.set("n", "<leader>bg", toggle_transparency, { noremap = true, silent = true })
       -- vim.cmd.colorscheme 'onedark'
     end,
   },
@@ -340,18 +340,32 @@ return {
           },
         },
         transparent_background = vim.g.transparent_enabled,
+        no_italic = true, -- Force no italic
         custom_highlights = function(colors)
           return {
             FloatBorder = { fg = colors.purple },
             WinSeparator = { fg = colors.purple },
+            -- BlinkCmpMenu = { fg = colors.text, bg = colors.mantle },
+            -- BlinkCmpMenuBorder = { fg = colors.mantle, bg = colors.mantle },
+            -- BlinkCmpDocBorder = { fg = colors.crust, bg = colors.crust },
+            -- BlinkCmpDoc = { fg = colors.text, bg = colors.crust },
+            -- BlinkCmpKindCopilot = { fg = colors.sky },
           }
         end,
       })
       -- vim.cmd([[highlight FlashLabel guibg=none]])
       -- vim.cmd([[highlight FlashMatch guibg=none]])
-      vim.cmd.colorscheme("catppuccin-mocha")
+      vim.cmd.colorscheme("catppuccin-frappe")
     end,
   },
 
-  'JoosepAlviste/palenightfall.nvim'
+  'JoosepAlviste/palenightfall.nvim',
+  {
+    "Vallen217/eidolon.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- vim.cmd [[colorscheme eidolon]]
+    end
+  },
 }

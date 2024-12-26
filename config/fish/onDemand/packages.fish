@@ -56,7 +56,9 @@ set pv pv@progress
 set python "zlib,openssl,libcrypt,libandroid-support,ncurses,readline,gdbm,libandroid-posix-semaphore,ncurses-ui-libs,liblzma,libsqlite,libbz2,libffi,libexpat,ndk-sysroot,libxml2,libllvm,llvm,libcompiler-rt,clang,python,pkg-config,python-ensurepip-wheels,python-pip"@python
 set ripgrep "pcre2,ripgrep"@ripgrep
 set rsync "openssl-tool,libpopt,rsync"@rsync
-set rust "openssl,zlib,libc++,libllvm,lld,clang,rust-std-aarch64-linux-android,rust"@rust
+# set rust "openssl,zlib,libc++,libllvm,lld,clang,rust-std-aarch64-linux-android,rust"@rust
+set rust "rust-std-aarch64-linux-android,rust"@rust
+
 # if you want to install it use app rust-analyzer dont ommit the dash
 set rustanalyzer "rust-src,rust-analyzer"@rust-analyzer
 set shfmt shfmt@coding

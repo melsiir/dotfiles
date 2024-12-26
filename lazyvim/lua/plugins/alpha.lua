@@ -90,6 +90,7 @@ end
 
 return {
   "goolord/alpha-nvim",
+  -- enabled = false,
   dependencies = {
     "famiu/bufdelete.nvim", -- for autocmd
   },

@@ -1,0 +1,74 @@
+appearance:
+    background:
+        color: '#ABB8C3'
+        gradient:
+            angle: 45
+            center:
+                x: 0.5
+                "y": 0.5
+            intensity: 5
+            stops:
+                - '#232323;0'
+                - '#383838;100'
+            type: ""
+        image:
+            source: ""
+        image_fit: cover
+    chrome_theme: ""
+    corner_radius: 10
+    font: JetBrainsMonoNerdFont
+    layout:
+        code_padding:
+            bottom: 10
+            left: 10
+            right: 10
+            top: 10
+        line_number_padding: 10
+        line_pad: 2
+        padding:
+            horizontal: 100
+            vertical: 80
+        tab_width: 4
+        width:
+            max: 0
+            min: 0
+    light_mode: false
+    line_height: 1
+    line_numbers: true
+    lines:
+        highlight: []
+        ranges: []
+    shadow:
+        blur_radius: 0
+        color: '#00000033'
+        offset:
+            x: 0
+            "y": 0
+        spread: 0
+    theme: ayu-dark
+    window:
+        controls: true
+        corner_radius: 10
+        title: ""
+    window_chrome: mac
+io:
+    copy_to_clipboard: false
+    output_file: output.png
+redaction:
+    areas: []
+    blur_radius: 5
+    enabled: false
+    patterns: []
+    style: block
+terminal:
+    auto_size: false
+    cell_spacing: 0
+    height: 40
+    padding:
+        bottom: 1
+        left: 1
+        right: 1
+        top: 1
+    prompt_template: "\e[1;35m❯ \e[0;32m[command]\e[0m\n"
+    show_prompt: false
+    width: 120

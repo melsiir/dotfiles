@@ -1,15 +1,10 @@
-local transparentCmp = {
-  -- for transparent themes
-  winhighlight = "Normal:CmpPmenu,Search:None,FloatBorder:WinSeparator",
-  scrollbar = false,
-  side_padding = 1,
-}
+if vim.g.blinkcmp then
+  return {}
+end
 
 return { -- Autocompletion
   -- "hrsh7th/nvim-cmp",
-  -- name = "nvim-cmp",
   "iguanacucumber/magazine.nvim",
-  -- commit = "3480335",
   name = "nvim-cmp", -- Otherwise highlighting gets messed up
   event = "InsertEnter *",
   -- enabled = false,
@@ -69,7 +64,7 @@ return { -- Autocompletion
       },
     })
     -- load custom fish snippets
-    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./lua/config/snippets" })
+    require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
     return {
       completion = {
         completeopt = "menu,menuone",
@@ -88,13 +83,21 @@ return { -- Autocompletion
         ["<DOWN>"] = cmp.mapping.select_next_item(),
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-DOWN>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-UP>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.close(),
-
         ["<CR>"] = cmp.mapping.confirm({
           behavior = cmp.ConfirmBehavior.Insert,
           select = true,
         }),
+        ['<C-g>'] = function()
+          if cmp.visible_docs() then
+            cmp.close_docs()
+          else
+            cmp.open_docs()
+          end
+        end,
         -- comment this if you want to use arrows to navigate suggestions
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -132,7 +135,6 @@ return { -- Autocompletion
         { name = "luasnip" },
         { name = "buffer" },
         { name = "nvim_lua" },
-        -- { name = "path" },
         { name = "async_path" },
         { name = "spell",     keyword_length = 3 },
       },
@@ -164,16 +166,7 @@ return { -- Autocompletion
           max_width = math.floor(vim.o.columns * 0.4),
         },
       },
-      -- window = {
-      --   completion = cmp.config.window.bordered(vim.g.transparant and transparentCmp or {
-      --     scrollbar = false,
-      --     side_padding = 1,
-      --   }),
-      --   documentation = cmp.config.window.bordered({
-      --     -- for transparent themes
-      --     winhighlight = "Normal:CmpDoc,Search:None,FloatBorder:WinSeparator",
-      --   }),
-      -- },
+      experimental = { ghost_text = true },
     }
   end,
 }

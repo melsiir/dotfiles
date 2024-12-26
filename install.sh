@@ -48,12 +48,13 @@
     mv dotfiles ~/.dotfiles
     rm -rf ~/.config
     ln -svf ~/.dotfiles/config ~/.config
-    ln -svf ~/.dotfiles/myvim ~/.config/nvim
+    # ln -svf ~/.dotfiles/myvim ~/.config/nvim
     # ln -svf ~/.dotfiles/lazyvim ~/.config/nvim
     ln -svf ~/.dotfiles/.npmrc ~/
     ln -svf ~/.dotfiles/.bashrc ~/
     ln -svf ~/.dotfiles/.bash_prompt ~/
     ln -svf ~/.dotfiles/.gitignore ~/
+    cp ~/.dotfiles/.gitconfig ~/
   }
 
   pnpmSetup() {
@@ -79,11 +80,11 @@
         echo "git config --global user.email gitEmail"
       }
     fi
-    git config --global core.excludesfile ~/.gitignore
-    git config --global init.defaultBranch main
-    git config --global push.default upstream
-    git config --global credential.helper store
-    git config --global alias.l "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short --color --decorate"
+    # git config --global core.excludesfile ~/.gitignore
+    # git config --global init.defaultBranch main
+    # git config --global push.default upstream
+    # git config --global credential.helper store
+    # git config --global alias.l "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short --color --decorate"
   }
 
   additional() {

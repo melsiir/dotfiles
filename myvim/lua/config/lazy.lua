@@ -26,9 +26,16 @@ require("lazy").setup({
     { import = "plugins.langs.typescript" },
     { import = "plugins.langs.tailwind" },
     { import = "plugins.langs.markdown" },
-    -- { import = "plugins.langs.python" },
+    { import = "plugins.langs.python" },
     -- { import = "plugins.langs.go" },
     -- { import = "plugins.langs.latex" },
+    { import = "plugins.ai.copilot" },
+    { import = "plugins.ai.cochat" },
+    -- { import = "plugins.ai.avante" },
+    -- { import = "plugins.ai.complation" },
+    -- { import = "plugins.ai.generation" },
+    { import = "plugins.ai.generation_parrot" },
+    -- { import = "plugins.ai.super-maven" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -39,7 +46,8 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  -- install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "catppuccin" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update

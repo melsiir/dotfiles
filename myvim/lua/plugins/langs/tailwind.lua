@@ -78,4 +78,14 @@ return {
   --     end
   --   end,
   -- },
+  --
+  -- {
+  --   "iguanacucumber/magazine.nvim",
+  --   optional = true,
+  --   opts = function(_, opts)
+  --     local formatted_item = require("nvim-highlight-colors").format(entry, item)
+  --     item.menu_hl_group = formatted_item.abbr_hl_group
+  --     return item
+  --   end
+  -- }
 }

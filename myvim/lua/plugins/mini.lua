@@ -3,6 +3,7 @@ return {
     -- autopair
     "echasnovski/mini.pairs",
     event = "VeryLazy",
+    -- enabled = false,
     -- add disable on "TelescopePrompt",
     opts = {
       modes = { insert = true, command = true, terminal = false },
@@ -96,6 +97,9 @@ return {
       filetype = {
         dotenv = { glyph = "", hl = "MiniIconsYellow" },
       },
+      directory = {
+        api = { glyph = '󰡰', hl = 'MiniIconsOrange' },
+      }
     },
     init = function()
       package.preload["nvim-web-devicons"] = function()
@@ -104,19 +108,5 @@ return {
       end
     end,
   },
-  {
-    "echasnovski/mini.animate",
-    enable = false,
-    config = function()
-      require('mini.animate').setup({
-        scroll = {
-          enable = false,
-        },
-        resize = {
-          enable = false,
-        }
-      })
-    end
-  }
   -------
 }
