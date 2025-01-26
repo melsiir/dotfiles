@@ -97,7 +97,7 @@ function vim-update
 end
 
 function vimswitch -d "switch bitween neovim configs"
-    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim|lightvim)' | fzf --tac --border rounded --border-label="neovim configs")
+    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim|lightvim|beta)' | fzf --tac --border rounded --border-label="neovim configs")
     if test -z $selectedConfig
         echo "no config selected"
         return
@@ -128,6 +128,7 @@ end
 set -gx PATH bin $PATH
 set -gx PATH ~/bin $PATH
 set -gx PATH ~/.local/bin $PATH
+set -gx PATH ~/go/bin $PATH
 set -gx PATH ~/.config/bin $PATH
 # NodeJS
 set -gx PATH node_modules/.bin $PATH

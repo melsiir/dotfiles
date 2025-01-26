@@ -855,7 +855,7 @@ function downsite -d "download website source code"
 end
 
 function getDocs -d "copy some documentation from sd card"
-
+    set DocTarget ~/docs
     set DocsDir $repo/../../eLearning/Docs
     set selectedDoc (command ls -R $DocsDir | grep -E '\.zip$' |  fzf --border rounded --border-label="documentation archives")
     if test -z $selectedDoc
@@ -865,7 +865,7 @@ function getDocs -d "copy some documentation from sd card"
     set selectednoprop (string replace ".zip" "" $selectedDoc)
     echo "successfully selected $selectednoprop"
     cp (find $DocsDir -regex ".*$selectedDoc") ./
-    unzip $selectedDoc
+    unzip $selectedDoc -d $DocTarget
     rm $selectedDoc
 
 end

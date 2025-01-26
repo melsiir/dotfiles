@@ -7,6 +7,7 @@ return {
     "saghen/blink.cmp",
     lazy = false, -- lazy loading handled internally
     version = "*",
+    -- tag = "v0.8.2",
     opts_extend = {
       "sources.completion.enabled_providers",
       "sources.compat",
@@ -14,7 +15,6 @@ return {
     },
     dependencies = {
       "rafamadriz/friendly-snippets",
-      "giuxtaposition/blink-cmp-copilot",
       {
         "saghen/blink.compat",
         optional = true, -- make optional so it's only enabled if any extras need it
@@ -33,9 +33,7 @@ return {
         -- sets the fallback highlight groups to nvim-cmp's highlight groups
         -- useful for when your theme doesn't support blink.cmp
         -- will be removed in a future release, assuming themes add support
-        use_nvim_cmp_as_default = false,
-        -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- adjusts spacing to ensure icons are aligned
+        use_nvim_cmp_as_default = true,
         nerd_font_variant = "normal",
       },
       completion = {
@@ -53,39 +51,40 @@ return {
           winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:WinSeparator,CursorLine:PmenuSel,Search:None',
           scrollbar = false,
           draw = {
-            align_to_component = "label", -- or 'none' to disable
+            -- align_to_component = "label", -- or 'none' to disable
             padding = 1,
             -- gap = 4,
             columns = {
               { "label",     "label_description", gap = 1 },
               { "kind_icon", "kind" }
             },
-            components = {
-              kind_icon = {
-                highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return hl
-                end,
-              },
-              -- label = {
-              --   text = function(item)
-              --     return item.label
-              --   end,
-              --   highlight = function(ctx)
-              --     local _, hl, _ = require('mini.icons').get('lsp', ctx.label)
-              --     return hl
-              --   end,
-              -- },
-              kind = {
-                text = function(item)
-                  return item.kind
-                end,
-                highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return hl
-                end,
-              },
-            }
+
+            -- components = {
+            --   kind_icon = {
+            --     highlight = function(ctx)
+            --       local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+            --       return hl
+            --     end,
+            --   },
+            --   label = {
+            --     text = function(item)
+            --       return item.label
+            --     end,
+            --     highlight = function(ctx)
+            --       local _, hl, _ = require('mini.icons').get('lsp', ctx.label)
+            --       return hl
+            --     end,
+            --   },
+            --   kind = {
+            --     text = function(item)
+            --       return item.kind
+            --     end,
+            --     highlight = function(ctx)
+            --       local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+            --       return hl
+            --     end,
+            --   },
+            -- }
           },
         },
         documentation = {
@@ -108,7 +107,7 @@ return {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
         compat = {},
-        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        default = { "lsp", "path", "snippets", "buffer" },
         -- comment to enable cmdline completion
         -- cmdline = {},
         providers = {
@@ -134,22 +133,16 @@ return {
             name = "Buffer",
             max_items = 5,
             module = "blink.cmp.sources.buffer",
-            min_keyword_length = 2,
+            min_keyword_length = 3,
           },
           snippets = {
             name = "snippets",
             enabled = true,
             max_items = 5,
             module = "blink.cmp.sources.snippets",
-            -- min_keyword_length = 2,
+            min_keyword_length = 2,
             -- score_offset = 80, -- the higher the number, the higher the priority
           },
-          copilot = {
-            name = "copilot",
-            module = "blink-cmp-copilot",
-            score_offset = 100,
-            async = true,
-          }
         },
       },
 
@@ -158,8 +151,8 @@ return {
         ["<C-y>"] = { "select_and_accept" },
         -- keymaps active
         -- accept = "<CR>",
-        -- ["<Tab>"] = { "snippet_forward", "fallback" },
-        -- ["<S-Tab>"] = { "snippet_backward", "fallback" },
+        ["<Tab>"] = { "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "fallback" },
         --
         -- ["<Up>"] = { "select_prev", "fallback" },
         -- ["<Down>"] = { "select_next", "fallback" },
@@ -192,23 +185,6 @@ return {
           table.insert(enabled, source)
         end
       end
-
-      -- add ai_accept to <Tab> key
-      -- if not opts.keymap["<Tab>"] then
-      --   if opts.keymap.preset == "super-tab" then -- super-tab
-      --     opts.keymap["<Tab>"] = {
-      --       require("blink.cmp.keymap.presets")["super-tab"]["<Tab>"][1],
-      --       LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
-      --       "fallback",
-      --     }
-      --   else -- other presets
-      --     opts.keymap["<Tab>"] = {
-      --       LazyVim.cmp.map({ "snippet_forward", "ai_accept" }),
-      --       "fallback",
-      --     }
-      --   end
-      -- end
-
       -- Unset custom prop to pass blink.cmp validation
       opts.sources.compat = nil
 

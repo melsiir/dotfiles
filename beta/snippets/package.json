@@ -1,0 +1,25 @@
+{
+  "name": "custom-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "all"
+        ],
+        "path": "./global.json"
+      },
+      {
+        "language": [
+          "fish"
+        ],
+        "path": "./fish.json"
+      },
+      {
+        "language": [
+          "markdown"
+        ],
+        "path": "./markdown.json"
+      }
+    ]
+  }
+}

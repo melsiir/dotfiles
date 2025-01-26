@@ -20,6 +20,8 @@ set -l color0E '#C792EA'
 set -l color0F '#FF5370'
 
 set -l layout "--cycle --layout=reverse --border  --preview-window=right:70% "
+
+
 #set -x FZF_DEFAULT_OPTS "$layout \
 #    --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D \
 #    --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C \
@@ -72,6 +74,7 @@ set -l layout "--cycle --layout=reverse --border  --preview-window=right:70% "
 # marker:blue,\
 # prompt:gray,\
 # hl+:red"
+
 set -x FZF_DEFAULT_OPTS "$layout --color=bg+:-1,\
 fg:gray,\
 fg+:white,\

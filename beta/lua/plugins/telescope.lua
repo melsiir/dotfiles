@@ -1,5 +1,22 @@
 local have_make = vim.fn.executable("make") == 1
 local have_cmake = vim.fn.executable("cmake") == 1
+local actions = require("telescope.actions")
+local builtin = require("telescope.builtin")
+
+function findConfig()
+  builtin.find_files({
+    cwd = vim.fn.stdpath("config"),
+    prompt_title = "neovim config",
+  })
+end
+
+function teleColorScheme()
+  builtin.colorscheme({
+    enable_preview = true,
+    prompt_title = "neovim themes",
+  })
+end
+
 return {
   -- Fuzzy finder.
   -- The default key bindings to find files will use Telescope's
@@ -20,6 +37,50 @@ return {
       },
     },
     keys = {
+      {
+        "<leader>,",
+        "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
+        desc = "Switch Buffer",
+      },
+      { "<leader>/",       builtin.live_grep,                                             desc = "Grep (Root Dir)" },
+      { "<leader>:",       "<cmd>Telescope command_history<cr>",                          desc = "Command History" },
+      { "<leader><space>", builtin.find_files,                                            desc = "Find Files (Root Dir)" },
+      -- find
+      { "<leader>fb",      "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
+      -- { "<leader>fc", builtin.find_files({cwd = vim.fn.stdpath("config")}), desc = "Find Config File" },
+      { "<leader>fc",      findConfig,                                                    desc = "Find Config File" },
+      { "<leader>ff",      builtin.find_files,                                            desc = "Find Files (Root Dir)" },
+      { "<leader>fg",      "<cmd>Telescope git_files<cr>",                                desc = "Find Files (git-files)" },
+      { "<leader>fr",      "<cmd>Telescope oldfiles<cr>",                                 desc = "Recent" },
+      { "<leader>f/",      builtin.current_buffer_fuzzy_find,                             desc = "Grep current buffer" },
+      -- { "<leader>fR", builtin("oldfiles", { cwd = vim.uv.cwd() }), desc = "Recent (cwd)" },
+      -- -- git
+      { "<leader>gc",      "<cmd>Telescope git_commits<CR>",                              desc = "Commits" },
+      { "<leader>gs",      "<cmd>Telescope git_status<CR>",                               desc = "Status" },
+      -- search
+      { '<leader>s"',      "<cmd>Telescope registers<cr>",                                desc = "Registers" },
+      { "<leader>sa",      "<cmd>Telescope autocommands<cr>",                             desc = "Auto Commands" },
+      { "<leader>sb",      "<cmd>Telescope current_buffer_fuzzy_find<cr>",                desc = "Buffer" },
+      { "<leader>sc",      "<cmd>Telescope command_history<cr>",                          desc = "Command History" },
+      { "<leader>sC",      "<cmd>Telescope commands<cr>",                                 desc = "Commands" },
+      { "<leader>sd",      "<cmd>Telescope diagnostics bufnr=0<cr>",                      desc = "Document Diagnostics" },
+      { "<leader>sD",      "<cmd>Telescope diagnostics<cr>",                              desc = "Workspace Diagnostics" },
+      { "<leader>sg",      builtin.live_grep,                                             desc = "Grep (Root Dir)" },
+      { "<leader>sh",      "<cmd>Telescope help_tags<cr>",                                desc = "Help Pages" },
+      { "<leader>sH",      "<cmd>Telescope highlights<cr>",                               desc = "Search Highlight Groups" },
+      { "<leader>sj",      "<cmd>Telescope jumplist<cr>",                                 desc = "Jumplist" },
+      { "<leader>sk",      "<cmd>Telescope keymaps<cr>",                                  desc = "Key Maps" },
+      { "<leader>sl",      "<cmd>Telescope loclist<cr>",                                  desc = "Location List" },
+      { "<leader>sM",      "<cmd>Telescope man_pages<cr>",                                desc = "Man Pages" },
+      { "<leader>sm",      "<cmd>Telescope marks<cr>",                                    desc = "Jump to Mark" },
+      { "<leader>so",      "<cmd>Telescope vim_options<cr>",                              desc = "Options" },
+      { "<leader>sR",      "<cmd>Telescope resume<cr>",                                   desc = "Resume" },
+      { "<leader>sq",      "<cmd>Telescope quickfix<cr>",                                 desc = "Quickfix List" },
+      -- { "<leader>sw", builtin("grep_string", { word_match = "-w" }), desc = "Word (Root Dir)" },
+      -- { "<leader>sW", builtin("grep_string", { root = false, word_match = "-w" }), desc = "Word (cwd)" },
+      -- { "<leader>sw", builtin("grep_string"), mode = "v", desc = "Selection (Root Dir)" },
+      -- { "<leader>sW", builtin("grep_string", { root = false }), mode = "v", desc = "Selection (cwd)" },
+      { "<leader>uc",      teleColorScheme,                                               { enable_preview = true },       desc = "Colorscheme with Preview" },
     },
     opts = function()
       local actions = require("telescope.actions")
@@ -131,70 +192,7 @@ return {
           },
         },
       }
-      local actions = require("telescope.actions")
-      local builtin = require("telescope.builtin")
-
-
-      function findConfig()
-        builtin.find_files({
-          cwd = vim.fn.stdpath("config"),
-          prompt_title = "neovim config",
-        })
-      end
-
-      function teleColorScheme()
-        builtin.colorscheme({
-          enable_preview = true,
-          prompt_title = "neovim themes",
-        })
-      end
-
-
-      vim.keymap.set({ "n",
-        "<leader>,",
-        "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
-        desc = "Switch Buffer",
-      })
-      vim.keymap.set({ "n", "<leader>/",       builtin.live_grep,                                             desc = "Grep (Root Dir)" })
-      vim.keymap.set({ "n", "<leader>:",       "<cmd>Telescope command_history<cr>",                          desc = "Command History" })
-      vim.keymap.set({ "n", "<leader><space>", builtin.find_files,                                            desc = "Find Files (Root Dir)" })
-      -- find
-      vim.keymap.set({ "n", "<leader>fb",      "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" })
-      -- vim.keymap.set({ "n", "<leader>fc", builtin.find_files({cwd = vim.fn.stdpath("config")})), desc = "Find Config File" }
-      vim.keymap.set({ "n", "<leader>fc",      findConfig,                                                    desc = "Find Config File" })
-      vim.keymap.set({ "n", "<leader>ff",      builtin.find_files,                                            desc = "Find Files (Root Dir)" })
-      vim.keymap.set({ "n", "<leader>fg",      "<cmd>Telescope git_files<cr>",                                desc = "Find Files (git-files)" })
-      vim.keymap.set({ "n", "<leader>fr",      "<cmd>Telescope oldfiles<cr>",                                 desc = "Recent" })
-      vim.keymap.set({ "n", "<leader>f/",      builtin.current_buffer_fuzzy_find,                             desc = "Grep current buffer" })
-      -- vim.keymap.set({ "n", "<leader>fR", builtin("oldfiles", { cwd = vim.uv.cwd() })), desc = "Recent (cwd)" }
-      -- -- git
-      vim.keymap.set({ "n", "<leader>gc",      "<cmd>Telescope git_commits<CR>",                              desc = "Commits" })
-      vim.keymap.set({ "n", "<leader>gs",      "<cmd>Telescope git_status<CR>",                               desc = "Status" })
-      -- search
-      vim.keymap.set({ "n", '<leader>s"',      "<cmd>Telescope registers<cr>",                                desc = "Registers" })
-      vim.keymap.set({ "n", "<leader>sa",      "<cmd>Telescope autocommands<cr>",                             desc = "Auto Commands" })
-      vim.keymap.set({ "n", "<leader>sb",      "<cmd>Telescope current_buffer_fuzzy_find<cr>",                desc = "Buffer" })
-      vim.keymap.set({ "n", "<leader>sc",      "<cmd>Telescope command_history<cr>",                          desc = "Command History" })
-      vim.keymap.set({ "n", "<leader>sC",      "<cmd>Telescope commands<cr>",                                 desc = "Commands" })
-      vim.keymap.set({ "n", "<leader>sd",      "<cmd>Telescope diagnostics bufnr=0<cr>",                      desc = "Document Diagnostics" })
-      vim.keymap.set({ "n", "<leader>sD",      "<cmd>Telescope diagnostics<cr>",                              desc = "Workspace Diagnostics" })
-      vim.keymap.set({ "n", "<leader>sg",      builtin.live_grep,                                             desc = "Grep (Root Dir)" })
-      vim.keymap.set({ "n", "<leader>sh",      "<cmd>Telescope help_tags<cr>",                                desc = "Help Pages" })
-      vim.keymap.set({ "n", "<leader>sH",      "<cmd>Telescope highlights<cr>",                               desc = "Search Highlight Groups" })
-      vim.keymap.set({ "n", "<leader>sj",      "<cmd>Telescope jumplist<cr>",                                 desc = "Jumplist" })
-      vim.keymap.set({ "n", "<leader>sk",      "<cmd>Telescope keymaps<cr>",                                  desc = "Key Maps" })
-      vim.keymap.set({ "n", "<leader>sl",      "<cmd>Telescope loclist<cr>",                                  desc = "Location List" })
-      vim.keymap.set({ "n", "<leader>sM",      "<cmd>Telescope man_pages<cr>",                                desc = "Man Pages" })
-      vim.keymap.set({ "n", "<leader>sm",      "<cmd>Telescope marks<cr>",                                    desc = "Jump to Mark" })
-      vim.keymap.set({ "n", "<leader>so",      "<cmd>Telescope vim_options<cr>",                              desc = "Options" })
-      vim.keymap.set({ "n", "<leader>sR",      "<cmd>Telescope resume<cr>",                                   desc = "Resume" })
-      vim.keymap.set({ "n", "<leader>sq",      "<cmd>Telescope quickfix<cr>",                                 desc = "Quickfix List" })
-      -- vim.keymap.set({ "n", "<leader>sw", builtin("grep_string", { word_match = "-w" })), desc = "Word (Root Dir)" }
-      -- vim.keymap.set({ "n", "<leader>sW", builtin("grep_string", { root = false, word_match = "-w" })), desc = "Word (cwd)" }
-      -- vim.keymap.set({ "n", "<leader>sw", builtin("grep_string"), mode = "v", desc = "Selection (Root Dir)" })
-      -- vim.keymap.set({ "n", "<leader>sW", builtin("grep_string", { root = false })), mode = "v", desc = "Selection (cwd)" }
-      vim.keymap.set({ "n", "<leader>uc",      teleColorScheme,                                               { enable_preview = true },       desc = "Colorscheme with Preview" })
-end
+    end,
   },
 
   -- Flash Telescope config
@@ -264,4 +262,3 @@ end
   --   end,
   -- },
 }
-

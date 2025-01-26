@@ -80,7 +80,7 @@ return {
             -- ---@type LazyKeysSpec[]
             -- keys = {},
             enabled = true,
-            mason = false,
+            mason = not vim.env.TERMUX_VERSION,
             settings = {
               Lua = {
                 workspace = {
@@ -134,7 +134,7 @@ return {
           marksman = {
             --do not install with mason
             enabled = false,
-            mason = false,
+            mason = not vim.env.TERMUX_VERSION,
           },
           markdownlint_cli2 = {
             enabled = false,

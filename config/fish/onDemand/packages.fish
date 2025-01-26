@@ -81,3 +81,8 @@ set zip "libandroid-support,zip"@zip
 set zoxide zoxide@a_semi_dependent
 set zsh zsh@a_semi_dependent
 set markAsDepIgnoreList ",python,openssl-tool,jq,rust,gnupg,apt,curl,zip,unzip,glib,nodejs,git,gzip,zstd,openssl,"
+# externals binaries written just for completion
+# set hurl
+# set httpie
+# set omf 
+# set apkeditor  

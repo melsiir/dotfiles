@@ -2,18 +2,45 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
+  config = function(_, opts)
+    local notify = vim.notify
+    require("snacks").setup(opts)
+    local function hasPlugin(name)
+      return require("lazy.core.config").spec.plugins[name]
+    end
+    -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
+    -- this is needed to have early notifications show up in noice history
+    if hasPlugin("noice.nvim") then
+      vim.notify = notify
+    end
+  end,
+
   opts = {
     bigfile = { enabled = true },
     dashboard = {
-      enabled = false,
-      sections = {
-        -- { section = "header" },
-        { section = "keys", gap = 1, width = 40, indent = 1, },
-        -- { section = "startup" },
+      enabled = vim.g.dashboard,
+      width = 40,
+      preset = {
+        pick = "telescope",
+        keys = {
+          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
+          { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+          { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
       },
+      -- sections = {
+      --   { section = "header" },
+      --   { section = "keys",   gap = 1, width = 40, indent = 1, },
+      --   { section = "startup" },
+      -- },
     },
     notifier = {
-      enabled = true,
+      enabled = false,
       timeout = 3000,
     },
     quickfile = { enabled = true },
@@ -43,9 +70,9 @@ return {
 
 
     indent = {
-      enabled = true,   -- enable indent guides
+      enabled = true,    -- enable indent guides
       indent = {
-        enabled = true, -- enable indent guides
+        enabled = false, -- enable indent guides
         char = "│",
         blank = " ",
         -- blank = "∙",
@@ -53,15 +80,16 @@ return {
         only_current = false, -- only show indent guides in the current window
         hl = "SnacksIndent", ---@type string|string[] hl groups for indent guides
         -- can be a list of hl groups to cycle through
+        -- rainbaw
         -- hl = {
-        --     "SnacksIndent1",
-        --     "SnacksIndent2",
-        --     "SnacksIndent3",
-        --     "SnacksIndent4",
-        --     "SnacksIndent5",
-        --     "SnacksIndent6",
-        --     "SnacksIndent7",
-        --     "SnacksIndent8",
+        --   "SnacksIndent1",
+        --   "SnacksIndent2",
+        --   "SnacksIndent3",
+        --   "SnacksIndent4",
+        --   "SnacksIndent5",
+        --   "SnacksIndent6",
+        --   "SnacksIndent7",
+        --   "SnacksIndent8",
         -- },
       },
       scope = {
@@ -117,7 +145,6 @@ return {
         wo = { wrap = true } -- Wrap notifications
       }
     }
-
   },
   keys = {
     { "<leader>z.", function() Snacks.zen() end,                     desc = "Toggle Zen Mode" },

@@ -144,7 +144,7 @@ done
 
 ## remove write protected file
 
-if you happen to in install go for some reason and later uninstalled you me notice that there are go folder in home directory if you try to remove it using rm you will get error of permissin denied in this case you need to change its permission and then delete it
+if you happen to in install golang for some reason and later uninstalled you me notice that there are go folder in home directory if you try to remove it using rm you will get error of permissin denied in this case you need to change its permission and then delete it
 
 ```sh
 chmod 777 go -R

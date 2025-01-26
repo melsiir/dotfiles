@@ -3,9 +3,11 @@
 --conform auto format
 vim.g.autoformat = true
 vim.g.transparent_enabled = true
-vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 vim.g.blinkcmp = true
-
+vim.g.ai_cmp = true
+vim.g.enableLualine = true
+vim.g.dashboard = true
+vim.g.autocomment = false
 -- Optionally setup the terminal to use
 -- This sets `vim.o.shell` and does some additional configuration for:
 -- * pwsh
@@ -51,6 +53,7 @@ opt.fillchars = {
   -- eob = " ",
 }
 opt.foldlevel = 99
+opt.showcmd = true
 -- opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"

@@ -1,0 +1,7 @@
+{
+  "shebang": {
+    "prefix": "shebang",
+    "body": "#!/bin/$1",
+    "description": "add shebang"
+  }
+}

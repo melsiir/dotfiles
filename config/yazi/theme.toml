@@ -1,0 +1,9 @@
+# [manager]
+# Highlighting
+# syntect_theme = "~/.config/yazi/gruvboxLight.tmTheme"
+
+[status]
+separator_open = ""
+separator_close = ""
+
+# copied over from https://github.com/catppuccin/yazi/blob/main/themes/latte.toml

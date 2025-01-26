@@ -261,3 +261,14 @@ end, { desc = "Stop live-server" })
 --     vim.wo.winbar = p and ("%#Green#" .. ("▔"):rep(math.floor((p * vim.o.columns) / 100))) or ""
 --   end
 -- })
+
+
+-- disable auto comment in newline
+if vim.g.autocomment then
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+      vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+    end,
+  })
+end
