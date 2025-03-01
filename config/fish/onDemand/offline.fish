@@ -111,6 +111,7 @@ function app -d "install app from local storage"
             return
 
         else if test $i = apkeditor
+            mkdir -p $HOME/.local/bin
             cp -r $repo/offline-repo/apkeditor/APKEditor.jar $HOME/.local/bin/
             cp -r $repo/offline-repo/apkeditor/apkeditor $HOME/.local/bin/
             echo \n
