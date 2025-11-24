@@ -130,10 +130,10 @@
     fi
   }
 
-  installPackagesAndClone
+  #installPackagesAndClone
   # copyConfig
   linkConfig
-  pnpmSetup
+  #pnpmSetup
   gitConfig
   additional
   suggestions
