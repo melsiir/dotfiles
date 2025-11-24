@@ -1,4 +1,3 @@
-
 source ~/.config/fish/aliases.fish
 source ~/.config/fish/functions.fish
 source ~/.config/fish/web.fish
@@ -33,7 +32,6 @@ set CROSSLINE '\e[9m'
 #\e[34m  blue
 #\e[34;1m  blue bold
 #\e[34;3m  blue italic
-
 
 # if status is-interactive
 # Commands to run in interactive sessions can go here
@@ -97,7 +95,7 @@ function vim-update
 end
 
 function vimswitch -d "switch bitween neovim configs"
-    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim|lightvim|beta)' | fzf --tac --border rounded --border-label="neovim configs")
+    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim|stockLazyVim|lightvim|beta)' | fzf --tac --border rounded --border-label="neovim configs")
     if test -z $selectedConfig
         echo "no config selected"
         return

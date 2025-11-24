@@ -105,7 +105,6 @@ function dictionary --description "search for word in dictionary"
     # cat $text | jq ".[0] .meanings[1] .synonyms"
     # set_color normal
 
-
     cat $text | jq ".[0] .word"
     set_color blue
     echo "sound: " (set_color green; cat $text | jq ".[0]  .phonetics[0] .audio")
@@ -159,7 +158,6 @@ function albumart
     sp metadata | grep -Po "(?<=url\|).*" | xargs curl -s | grep -Po "https:[^\"]*" | grep "i.scdn.co/image/" | head -1 | xargs curl -s | kitty +kitten icat
 end
 
-
 function virustotal --description "Check file hash by virustotal.com"
     test -e ~/.stuff/keys/virustotal || echo "Get API key at https://www.virustotal.com/gui/my-apikey and put in "(status --current-filename)
     curl -sL --request GET \
@@ -196,7 +194,6 @@ function yan --description "Check word in yandex dictionary"
     # |  jq "."
 end
 
-
 function vt-scan
     set dir (pwd)
     set api (cat ~/.stuff/keys/virustotal)
@@ -222,7 +219,6 @@ end
 #     --header 'X-RapidAPI-Key: '(cat ~/.stuff/keys/temp-mail44.p.rapidapi.com)
 # end
 
-
 function msp
     set mspapi (cat ~/.stuff/keys/mailslurp)
     # curl -XPOST api.mailslurp.com/createInbox -Hx-api-key:$mspapi
@@ -238,14 +234,12 @@ function mspsend
     curl -XPOST "api.mailslurp.com/sendEmailQuery?to=$argv[3]&subject=$argv[2]&body=$argv[1]" -Hx-api-key:$mspapi
 end
 
-
 function mspinbox
     curl --request GET \
         --url "https://api.mailslurp.com/inboxes" \
         --header "x-api-key:"(cat ~/.stuff/keys/mailslurp) \
         | jq "."
 end
-
 
 function msacnew
     set -l msacApi (cat ~/.stuff/keys/mailsac)
@@ -345,4 +339,12 @@ end
 # Get cheat sheet of command from cheat.sh. cheat <cmd>
 function cheat
     curl https://cheat.sh/$argv
+end
+
+function apkDown -d "download apk from different websites"
+    set url $argv[1]
+    set id (curl -s -L -A 'Mozilla/5.0' "$url" | grep -oP '<script id="__NEXT_DATA__"(.*?)</script>' | sed -E  's#<script[^>]*id=["'"'"']__NEXT_DATA__["'"'"'][^>]*>##' | sed 's#</script>##' | jq -r '.props.pageProps.versions[0].id')
+    set url (curl -s -X POST 'https://webservices.aptoide.com/webservices/3/getApkInfo' -H 'User-Agent: Android'  -F "identif=id:$id" -F 'mode=json' | jq -r .apk.path)
+    set name (curl -s -X POST 'https://webservices.aptoide.com/webservices/3/getApkInfo' -H 'User-Agent: Android'  -F "identif=id:$id" -F 'mode=json' | jq -r .apk.package)
+    echo $url
 end
