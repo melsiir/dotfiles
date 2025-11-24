@@ -15,6 +15,8 @@
     command -v "$1" >/dev/null 2>&1
   }
 
+git clone https://github.com/melsiir/dotfiles
+    chsh -s fish
   installPackagesAndClone() {
     if command_exists termux-setup-storage; then
       termux-setup-storage
@@ -31,8 +33,7 @@
       apt install -y $packagesToInstall
       apt install gh -y
     fi
-    git clone https://github.com/melsiir/dotfiles
-    chsh -s fish
+    
   }
 
   # if you prefer copying dotfiles
