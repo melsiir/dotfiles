@@ -15,12 +15,12 @@
     command -v "$1" >/dev/null 2>&1
   }
 
-git clone https://github.com/melsiir/dotfiles
     chsh -s fish
   installPackagesAndClone() {
     if command_exists termux-setup-storage; then
       termux-setup-storage
     fi
+git clone https://github.com/melsiir/dotfiles
 
     echo -e "${GREEN}installing required packages...${RC}"
     packagesToInstall="git fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq which"
@@ -131,7 +131,7 @@ git clone https://github.com/melsiir/dotfiles
     fi
   }
 
-  #installPackagesAndClone
+  installPackagesAndClone
   # copyConfig
   linkConfig
   #pnpmSetup
