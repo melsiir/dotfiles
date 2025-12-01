@@ -7,11 +7,11 @@ return {
   -- { "williamboman/mason.nvim", enabled = false },
   -- { "lewis6991/gitsigns.nvim", enabled = false },
   --  { "nvim-lualine/lualine.nvim", enabled = false },
-  { "echasnovski/mini.hipatterns", enabled = false },
-  --  { "echasnovski/mini.comment", enabled = false },
-  -- { "echasnovski/mini.ai", enabled = false },
-  -- { "echasnovski/indentscope", enabled = false },
-  -- { "echasnovski/mini.pairs", enabled = false },
+  { "nvim-mini/mini.hipatterns", enabled = false },
+  --  { "nvim-mini/mini.comment", enabled = false },
+  -- { "nvim-mini/mini.ai", enabled = false },
+  -- { "nvim-mini/indentscope", enabled = false },
+  -- { "nvim-mini/mini.pairs", enabled = false },
   -- { "goolord/alpha-nvim", enabled = false },
   -- { "nvimdev/dashboard-nvim", enabled = false },
   -- { "norcalli/nvim-colorizer.lua", enabled = false },
@@ -36,5 +36,5 @@ return {
   -- { "nvim-treesitter/nvim-treesitter-context", enabled = false },
   -- { "lukas-reineke/indent-blankline.nvim", enabled = false },
   --responsible from tree nvim-treesitter indentation animatiom
-  -- { "echasnovski/mini.animate", enabled = false },
+  -- { "nvim-mini/mini.animate", enabled = false },
 }

@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.pairs",
+  "nvim-mini/mini.pairs",
   opts = {
     -- Global mappings. Each right hand side should be a pair information, a
     -- table with at least these fields (see more in |MiniPairs.map|):

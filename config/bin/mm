@@ -1,0 +1,70 @@
+#!/usr/bin/env fish
+
+if test (count $argv) -ne 1
+    echo "Usage: clean_mtcr_duplicates.fish file.mtcr"
+    exit 1
+end
+
+set MTCR $argv[1]
+
+if not test -f "$MTCR"
+    echo "File not found: $MTCR"
+    exit 1
+end
+
+# Make a working directory
+set WORK (mktemp -d)
+
+# Extract MTCR (it's just a zip)
+unzip -q "$MTCR" -d "$WORK"
+
+set DIR_A "$WORK/a"
+set DIR_B "$WORK/b"
+
+if not test -d "$DIR_A"
+    echo "Error: expected folder 'a' inside mtcr"
+    exit 1
+end
+if not test -d "$DIR_B"
+    echo "Error: expected folder 'b' inside mtcr"
+    exit 1
+end
+
+# Function to remove duplicate consecutive lines
+function clean_file --argument file
+    set tmp "$file.tmp"
+
+    awk '
+        NR == 1 { prev = $0; print; next }
+        {
+            if ($0 != prev) {
+                print
+                prev = $0
+            }
+        }
+    ' $file >$tmp
+
+    mv $tmp $file
+end
+
+echo "Cleaning duplicate statements in A..."
+for f in (find "$DIR_A" -type f)
+    clean_file "$f"
+end
+
+echo "Cleaning duplicate statements in B..."
+for f in (find "$DIR_B" -type f)
+    clean_file "$f"
+end
+
+# Create cleaned MTCR file name
+# Generate cleaned MTCR filename
+string replace -r '\.mtcr$' '_cleaned.mtcr' $MTCR | read OUTPUT
+cd "$WORK"
+zip -qr "../$OUTPUT" a b
+
+cd -
+rm -rf "$WORK"
+
+echo "Done!"
+echo "Cleaned MTCR stored as: $OUTPUT"
