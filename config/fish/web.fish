@@ -342,6 +342,7 @@ function cheat
 end
 
 function apkDown -d "download apk from different websites"
+    #aptoide
     set url $argv[1]
     set id (curl -s -L -A 'Mozilla/5.0' "$url" | grep -oP '<script id="__NEXT_DATA__"(.*?)</script>' | sed -E  's#<script[^>]*id=["'"'"']__NEXT_DATA__["'"'"'][^>]*>##' | sed 's#</script>##' | jq -r '.props.pageProps.versions[0].id')
     set url (curl -s -X POST 'https://webservices.aptoide.com/webservices/3/getApkInfo' -H 'User-Agent: Android'  -F "identif=id:$id" -F 'mode=json' | jq -r .apk.path)
