@@ -105,7 +105,6 @@ function remove-dupl -d "remove duplicate files"
     remove-duplicate $dir
 end
 
-
 # show the path of file or dir
 function copypath --description "Copy full file path"
     # readlink -e $argv #| xclip -sel clip
@@ -118,7 +117,6 @@ function mkdirg -d "make directory and cd to it"
     mkdir "$argv"
     cd "$argv"
 end
-
 
 # Goes up a specified number of directories  (i.e. up 4)
 function up
@@ -136,7 +134,6 @@ function up
     cd $d
 end
 
-
 # Returns the last 2 fields of the working directory
 function pwdtail
     pwd | awk -F/ '{nlast = NF -1;print $nlast"/"$NF}'
@@ -149,7 +146,6 @@ function match -d "check if string contain substring"
         echo "$argv[1] was not found"
     end
 end
-
 
 function sedmatch -d "check string matches with sed"
     if [ -n "(sed -n "/$argv[1]/p" > $argv[2])" ]
@@ -243,7 +239,6 @@ function giturl -d "print repo remote urls
     git remote get-url --all origin $argv
 end
 
-
 # is it a `main` or a `master` repo?
 function gitmainormaster
     git branch --format '%(refname:short)' --sort=-committerdate --list master main | head -n1
@@ -270,6 +265,27 @@ function undogit -d "delete last commit"
         git reset HEAD~1
         echo
         echo -e "$GREEN successfully deleted the latest commit$RC"
+    end
+end
+
+function undogitpush -d "delete last commit and replace it create new commit and force push it"
+    set latestCommit (git log -1 --pretty=%B)
+    if confirmed
+        git reset HEAD~1
+        echo
+        echo -e "$GREEN successfully deleted the latest commit$RC"
+
+        git add .
+        if test -z "$argv"
+            git commit -m "$latestCommit"
+        else
+            git commit -m "$argv"
+        end
+        gforce
+
+    else
+
+        echo -e "$RED Aborted because of mismatching digits $RC"
     end
 end
 
@@ -303,7 +319,7 @@ end
 function commit
     git add . && git commit -m "$argv"
 end
-function diff
+function gdiff
     git diff $argv
 end
 function gforce
@@ -314,6 +330,36 @@ end
 function gnuke
     git clean -df && git reset --hard $argv
 end
+
+function deleteRemoteGitRepo -d "remove repo form github.com"
+    # set -l repo (gh repo list --json nameWithOwner --jq '.[].nameWithOwner' \
+    # | fzf --border rounded --border-label="your github repos")
+
+    set -l repo (gh repo list --json nameWithOwner --jq '.[].nameWithOwner' \
+          | fzf --border rounded --border-label="your github repos")
+
+    if test -n "$repo"
+        gh repo delete "$repo"
+        # echo "Selected repository: $repo"
+        # echo -n "Are you sure you want to delete this repository? (y/N): "
+        # read confirmation
+        #
+        # if test "$confirmation" = y -o "$confirmation" = Y
+        #     if gh repo delete "$repo" --confirm
+        #         echo "Repository $repo has been deleted successfully."
+        #     else
+        #         echo "Failed to delete repository $repo"
+        #         return 1
+        #     end
+        # else
+        #     echo "Repository deletion cancelled."
+        # end
+    else
+        echo "No repository selected."
+    end
+
+end
+
 function pop
     git stash pop $argv
 end
@@ -418,17 +464,68 @@ function draft -d "write drafts for later usage"
         printf "$argv\n\n" >>~/.draft/draft
     end
 end
-# encrypt files with gnupg
 
+# encrypt files with gnupg
 function encrypt
-    gpg --batch --output $argv[1].gpg --passphrase $argv[2] --symmetric $argv[1]
-    echo "$argv[1] encrypted successfully"
+    if test (count $argv) -lt 1
+        echo "Usage: encrypt <file> [passphrase]"
+        return 1
+    end
+
+    set file $argv[1]
+
+    # Check if file exists
+    if not test -f "$file"
+        echo -e "Error: File '$file' does not exist"
+        return 1
+    end
+
+    if test (count $argv) -lt 2
+        read -s -P "Enter passphrase for encryption: " passphrase
+        echo # Add a newline after password input
+    else
+        set passphrase $argv[2]
+    end
+
+    gpg --batch --output $file.gpg --passphrase $passphrase --symmetric $file
+    if test $status -eq 0
+        echo "✓ $file encrypted successfully to $file.gpg"
+    else
+        echo "✗ Encryption failed"
+        return 1
+    end
 end
 
-#decrypt files with gnugp
+# decrypt files with gpg
 function decrypt
-    gpg --batch --output (string replace ".gpg" "" $argv[1]) --passphrase $argv[2] --decrypt $argv[1]
-    echo "$argv[1] decrypted successfully"
+    if test (count $argv) -lt 1
+        echo "Usage: decrypt <encrypted_file> [passphrase]"
+        return 1
+    end
+
+    set encrypted_file $argv[1]
+
+    # Check if encrypted file exists
+    if not test -f "$encrypted_file"
+        echo "Error: Encrypted file '$encrypted_file' does not exist"
+        return 1
+    end
+
+    if test (count $argv) -lt 2
+        read -s -P "Enter passphrase for decryption: " passphrase
+        echo # Add a newline after password input
+    else
+        set passphrase $argv[2]
+    end
+
+    set decrypted_file (string replace ".gpg" "" $encrypted_file)
+    gpg --batch --output $decrypted_file --passphrase $passphrase --decrypt $encrypted_file
+    if test $status -eq 0
+        echo "✓ $encrypted_file decrypted successfully to $decrypted_file"
+    else
+        echo "✗ Decryption failed"
+        return 1
+    end
 end
 
 function zd -d "list files in dir quickly"
@@ -524,18 +621,14 @@ function week
     date +%V
 end
 
-
 function run --description "Make file executable, then run it"
     chmod +x "$argv"
     eval "./$argv"
 end
 
-
 function b --description "Exec command in bash. Useful when copy-pasting commands with imcompatible syntax to fish "
     bash -c "$argv"
 end
-
-
 
 function qr --description "Prints QR. E.g. super useful when you need to transfer private key to the phone without intermediaries `cat ~/.ssh/topsecret.pem | qr`"
     c
@@ -599,8 +692,6 @@ function toggleship -d "switch on and off starship theme"
     end
 end
 
-
-
 function restoressh
     mkdir -p $HOME/.ssh
     cp $repo/Keystore/ssh/* $HOME/.ssh
@@ -644,7 +735,6 @@ function freshstart
     end
 end
 
-
 function backhome -d "backup home folder into documents folder"
     cd $HOME
     zip -r home.zip * -x "*/node_modules/*" "storage/*"
@@ -671,7 +761,6 @@ function ctheme -d "change termux theme"
     # rm $HOME/.termux/colors.properties
     cp -Rf $argv $HOME/.termux/colors.properties
 end
-
 
 function tertheme -d "change termux theme with fuzzy finder"
     set themedir $repo/draft/colors
@@ -732,7 +821,6 @@ function updateAptsrc -d "update apt source list offline"
     rm -rf myConfig.zip
 end
 
-
 #android apk
 
 function apk
@@ -787,14 +875,12 @@ function pp
     pnpm $argv
 end
 
-
 function cleanpm -d "clean pnpm cache or npm cache"
     pnpm store prune --force
     rm -rf $HOME/.local/share/pnpm/store
 
     # npm cache clean --force
 end
-
 
 function npnames -d "extract packages form package.json file"
     # grep -Po '(:\s\{\n\s+)?"(.*?)":\s"\^?\d+\.\d+\.\d+"' package.json | sed "s/\^//g" | string replace -r -a '[\d]{1,3}\.[\d]{1,3}\.[\d]{1,3}' '' | sed "s/\"//g" | sed "s/\://g" | sed ':a;N;$!ba;s/\n//g'
@@ -840,7 +926,6 @@ function nuke -d "delete current directory"
     end
 end
 
-
 function downsite -d "download website source code"
     wget2 --mirror \
         --page-requisites \
@@ -850,6 +935,19 @@ function downsite -d "download website source code"
         --if-modified-since \
         --execute robots=off \
         --max-threads 5 \
+        # --domains $argv \
+        $argv
+end
+function downsiteNoMedia -d "download website source code"
+    wget2 --mirror \
+        --page-requisites \
+        --adjust-extension \
+        --no-parent \
+        --convert-links \
+        --if-modified-since \
+        --execute robots=off \
+        --max-threads 5 \
+        --reject "*.png,*.gif,*.jpg,*.jpeg,*.svg,*.ico,*.webp" \
         # --domains $argv \
         $argv
 end
@@ -918,7 +1016,6 @@ function kittermux -d "convert kitty themes into termux themes"
     end
 end
 
-
 function fzf-aliases-functions
     set aliasPoint (alias)
     set CMD ( printf  $aliasPoint | fzf | cut -d '=' -f1)
@@ -939,4 +1036,16 @@ end
 
 function mdp -d "preview markdown in browser"
     nvim $argv[1] +"LivePreview start"
+end
+
+function dl_simple
+    aria2c \
+        --continue=true \
+        --split=8 \
+        --max-connection-per-server=8 \
+        --dir=~/Downloads \
+        --auto-file-renaming=true \
+        --check-certificate=true \
+        --console-log-level=info \
+        $argv
 end

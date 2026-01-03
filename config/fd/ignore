@@ -173,8 +173,32 @@ fish/fish_variables
  .obsidian/*
  */My\ obsidian/*
  *storage/shared/*
-
-
+# for now no media
+/storage/**/*.png
+/storage/**/*.jpeg
+/storage/**/*.jpg
+/storage/**/*.mp4
+/storage/**/*.pdf
+# fd ignore file - excludes storage directory and common Android files
+/storage/**/*.apk
+/storage/**/*.obb
+/storage/**/*.so
+/storage/**/*.mp4
+/storage/**/*.mkv
+/storage/**/*.avi
+/storage/**/*.mov
+/storage/**/*.wmv
+/storage/**/*.flv
+/storage/**/*.webm
+/storage/**/*.mp3
+/storage/**/*.flac
+/storage/**/*.wav
+/storage/**/*.aac
+/storage/**/*.m4a
+/storage/**/*.ogg
+/storage/**/.android_secure/
+/storage/**/.secure/
+/storage/**/.thumbnails/
 
  *.git/
 *.venv/
@@ -201,3 +225,4 @@ node_modules/
 vendor/
 venv/
 
+.google-cloud-sdk/

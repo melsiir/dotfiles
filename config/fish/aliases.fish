@@ -1,6 +1,4 @@
-
 # aliases
-
 
 function shrug
     echo "¯\_(ツ)_/¯"
@@ -117,9 +115,11 @@ function debs
         cd $HOME/../../cache/apt/archives
     end
 end
+function u -d "update and upgrade packages"
+    apt update && apt upgrade -y
+end
 
-
-function uu -d "update and upgrade packages"
+function uu -d "update and upgrade packages with neovim"
     apt update && apt upgrade -y
     nvim --headless "+Lazy! update" +qa
 end
@@ -203,7 +203,6 @@ function rmd -d "Remove a directory and all files"
     /bin/rm --recursive --force --verbose $argv
 end
 
-
 # grep	alias. Colorize grep output (good for log files)
 function grep
     command grep --color=auto $argv
@@ -218,7 +217,6 @@ function rg
     command rg -p $argv
 end
 # alias ip='ip -c[auto]'
-
 
 # Use eza instead of ls.
 if type -q eza
@@ -333,7 +331,6 @@ function topcpuf
 
 end
 
-
 function rmrf -d "force remove"
     command rm -rfd $argv
 end
@@ -348,7 +345,6 @@ end
 function checkcommand -d "To see if a command is aliased, a file, or a built-in command"
     type -t $argv
 end
-
 
 # Alias's to show disk space and space used in a folder
 function diskspace -d "show disk space and space used in a folder"
@@ -377,7 +373,6 @@ function free
     command free -m $argv
 end # show sizes in MB
 
-
 #  * `sizeof` command to show size of file or directory
 function sizeof
     command du -hs $argv
@@ -390,7 +385,6 @@ end
 # Show all logs in /var/log
 # alias logs="find /data/data/com.termux/files/usr/var/log -type f -exec $file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/://g' | grep -v '[0-9]' | xargs tail -f"
 # alias logs="bash (find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/://g' | grep -v '[0-9]' | xargs tail -f)"
-
 
 # Alias; s for archives
 function mktar
@@ -415,7 +409,6 @@ function mkzip
     zip -r $argv[1].zip $argv
 end
 
-
 # SHA1
 function sha1
     openssl sha1 $argv | cut -f 2 -d " "
@@ -427,12 +420,9 @@ function sha256
     openssl sha256 $argv | cut -f 2 -d " "
 end
 
-
 function py
     python $argv
 end
-
-
 
 abbr pp pnpm
 
@@ -452,12 +442,14 @@ function dev
     pnpm dev $argv
 end
 
-
 function vito
     vite --port 8080 --open $argv
 end
 
-
 function joke
     curl https://icanhazdadjoke.com
+end
+
+function gsh
+    gcloud cloud-shell ssh $argv
 end

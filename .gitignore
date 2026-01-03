@@ -80,3 +80,22 @@ lazy-lock.json
 *.lock
 
 TabNine
+
+
+###google sdk
+.google-cloud-sdk/
+
+
+# Google Cloud SDK (gcloud)
+.gcloud/
+gcloud/
+
+# Default gcloud config locations
+**/.config/gcloud/
+**/.gcloud/
+
+# Explicit sensitive files (paranoid but correct)
+**/credentials.db
+**/access_tokens.db
+**/config_sentinel
+**/application_default_credentials.json

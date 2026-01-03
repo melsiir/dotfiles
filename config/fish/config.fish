@@ -67,6 +67,16 @@ set -x LESS_TERMCAP_us $(printf "\e[1;32m")
 
 # set -lx LESS '-rsF -m +Gg'
 
+#titus
+# Automatically do an ls after each cd, z, or zoxide
+function cd
+    if test (count $argv) -gt 0
+        builtin cd $argv; and ls
+    else
+        builtin cd ~; and ls
+    end
+end
+
 command -qv nvim && alias vim nvim
 set -gx EDITOR nvim
 function edit
@@ -95,13 +105,14 @@ function vim-update
 end
 
 function vimswitch -d "switch bitween neovim configs"
-    set selectedConfig (command ls ~/.dotfiles | grep -E '(myvim|lazyvim|stockLazyVim|lightvim|beta)' | fzf --tac --border rounded --border-label="neovim configs")
+    set vimConfigs ~/.dotfiles/vimConfigs
+    set selectedConfig (command ls $vimConfigs  | fzf --tac --border rounded --border-label="neovim configs")
     if test -z $selectedConfig
         echo "no config selected"
         return
     end
     rm -rf ~/.config/nvim
-    ln -svf ~/.dotfiles/$selectedConfig ~/.config/nvim
+    ln -svf $vimConfigs/$selectedConfig ~/.config/nvim
     echo
     echo -e $GREEN"successfully selected $selectedConfig"$RC
 end
@@ -145,6 +156,19 @@ set -gx gate /storage/emulated/0/Documents/gate
 set -gx downloads /storage/emulated/0/Download
 set -gx obsidian /storage/emulated/0/Documents/obsidian
 
+set -l layout "--cycle --layout=reverse --border  --preview-window=right:70% "
+set -x FZF_DEFAULT_OPTS "$layout --color=bg+:-1,\
+fg:gray,\
+fg+:white,\
+border:gray,\
+spinner:0,\
+hl:blue,\
+header:blue,\
+info:green,\
+pointer:blue,\
+marker:blue,\
+prompt:gray,\
+hl+:magenta"
 #: `fzf` defaults configuration.
 # set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow'
 # set -gx FZF_DEFAULT_OPTS '--layout=reverse --border'
@@ -152,11 +176,11 @@ set -gx obsidian /storage/emulated/0/Documents/obsidian
 #
 
 # FZF options
-# set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git --exclude node_modules'
-# set fzf_history_opts --sort --exact --history-size=30000
-# set fzf_fd_opts --hidden --follow --exclude=.git
-# set fzf_preview_dir_cmd eza -la --git --group-directories-first --icons --color=always
-# set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
+set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git --exclude node_modules'
+set fzf_history_opts --sort --exact --history-size=30000
+set fzf_fd_opts --hidden --follow --exclude=.git
+set fzf_preview_dir_cmd eza -la --git --group-directories-first --icons --color=always
+set fzf_directory_opts --bind "ctrl-o:execute($EDITOR {} &> /dev/tty)"
 
 if type -q bat
     # you can use theme=ansi to inhert terminal colors
@@ -192,3 +216,8 @@ if not string match -q -- $PNPM_HOME $PATH
     set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/data/data/com.termux/files/home/y/google-cloud-sdk/path.fish.inc' ]
+    . '/data/data/com.termux/files/home/y/google-cloud-sdk/path.fish.inc'
+end

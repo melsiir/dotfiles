@@ -1,6 +1,12 @@
 function cdf -d "cd to directory with assistance from fzf"
+    if test -z $argv
+        set maxDepth 3
+    else
+        set maxDepth $argv[1]
+    end
+
     set -l wire1 w1
-    set -l selected_dir (fd --max-depth 3 --type directory --hidden | fzf)
+    set -l selected_dir (fd --max-depth $maxDepth --type directory --hidden | fzf)
 
     # set -l selected_dir (find . -type d \( -name node_modules -o -name .git -o -name .local -o -name .cache -o -name .npm  \) -prune -o -name '*' -type d   -print | fzf)
 

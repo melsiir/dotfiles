@@ -1,41 +1,53 @@
-#! /bin/bash
-#https://github.com/HSwift/downgit
+#!/bin/bash
+# Fixed version of downgit script that properly handles JSON parsing
 if [[ $# -eq 0 ]]; then
-	echo "Please provide url!"
-	exit
+  echo "Please provide url!"
+  exit 1
 fi
 
 repoExp='^https://github.com/([^/]+)/([^/]+)(/(tree|blob)/([^/]+)(/(.*))?)?'
-cnt=0
-cur=1
 
 downloadFile() {
-	echo "download $2 [$cur/$cnt]"
-	cur=$(($cur + 1))
-	wget -q $1 -nc -O $2
+  echo "download $2 [$cur/$cnt]"
+  cur=$(($cur + 1))
+  wget2 --max-threads -q "$1" -nc -O "$2"
 }
 
 downloadDir() {
-	mkdir -p $2
-	content=$(curl $1 -s | jq '.[] | [.type,.path,.download_url,.url]' -c)
-	t=$(wc -l <<<$content)
-	echo "dir $2 [$t]"
-	cnt=$(($cnt + $t))
-	for line in $content; do
-		type=$(echo $line | cut -d\" -f2)
-		path=$(echo $line | cut -d\" -f4)
-		url=$(echo $line | cut -d\" -f6)
-		if [[ $type == "dir" ]]; then
-			downloadDir $url $path
-		else
-			downloadFile $url $path
-		fi
-	done
+  mkdir -p "$2"
+  content=$(curl -s "$1" | jq -c '.[]')
+  t=$(echo "$content" | wc -l)
+  echo "dir $2 [$t]"
+  cnt=$(($cnt + $t))
+  
+  # Properly iterate through each JSON object
+  while IFS= read -r line; do
+    if [ -n "$line" ]; then  # Skip empty lines
+      type=$(echo "$line" | jq -r '.type')
+      path=$(echo "$line" | jq -r '.path')
+      url=$(echo "$line" | jq -r 'if .type == "dir" then .url else .download_url end')
+      
+      if [[ $type == "dir" ]]; then
+        downloadDir "$url" "$path"
+      else
+        # Get just the filename from the path for the local file
+        filename=$(basename "$path")
+        downloadFile "$url" "$filename"
+      fi
+    fi
+  done <<< "$(echo "$content")"
 }
+
 if [[ $1 =~ $repoExp ]]; then
-	author=${BASH_REMATCH[1]}
-	project=${BASH_REMATCH[2]}
-	branch=${BASH_REMATCH[5]}
-	path=${BASH_REMATCH[7]}
-	downloadDir https://api.github.com/repos/$author/$project/contents/$path $path
+  author=${BASH_REMATCH[1]}
+  project=${BASH_REMATCH[2]}
+  branch=${BASH_REMATCH[5]}
+  path=${BASH_REMATCH[7]}
+  
+  # If no path is specified, default to root
+  if [ -z "$path" ]; then
+    path=""
+  fi
+  
+  downloadDir "https://api.github.com/repos/$author/$project/contents/$path?ref=$branch" "$path"
 fi

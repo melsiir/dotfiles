@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+command -v fzf >/dev/null 2>&1 || {
+  echo "fzf is required"
+  exit 1
+}
+
+LOG_FILE="replacement.log"
+: >"$LOG_FILE" # start fresh each run
+
+# Always show log on exit
+trap 'echo; echo "=== Replacement log ==="; cat "$LOG_FILE"' EXIT
+
+# Select source directory
+SOURCE_DIR=$(find . -maxdepth 1 -type d ! -name "." | sed 's|^\./||' | fzf --prompt="Select SOURCE directory: ")
+[ -z "${SOURCE_DIR:-}" ] && exit 0
+
+# Select destination directory
+DEST_DIR=$(find . -maxdepth 1 -type d ! -name "." | sed 's|^\./||' | fzf --prompt="Select DESTINATION directory: ")
+[ -z "${DEST_DIR:-}" ] && exit 0
+
+while true; do
+  # Destination first
+  DEST_FILE=$(find "$DEST_DIR" -type f | sed "s|^$DEST_DIR/||" | fzf --prompt="Pick DEST file to replace (ESC to quit): ")
+  [ -z "${DEST_FILE:-}" ] && break
+
+  DEST_EXT="${DEST_FILE##*.}"
+
+  # Source filtered by extension
+  SRC_FILE=$(find "$SOURCE_DIR" -type f -name "*.$DEST_EXT" | sed "s|^$SOURCE_DIR/||" | fzf --prompt="Pick SOURCE (*.$DEST_EXT): ")
+  [ -z "${SRC_FILE:-}" ] && break
+
+  # Immediate, atomic replacement
+  cp -f "$SOURCE_DIR/$SRC_FILE" "$DEST_DIR/$DEST_FILE"
+
+  # Log immediately
+  printf '%s ← %s\n' \
+    "$DEST_DIR/$DEST_FILE" \
+    "$SOURCE_DIR/$SRC_FILE" >>"$LOG_FILE"
+done

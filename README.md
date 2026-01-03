@@ -1,4 +1,5 @@
 # dots
+
 my frankenstein dots 🔮
 
 > [!CAUTION]
@@ -7,5 +8,5 @@ my frankenstein dots 🔮
 # one line install
 
 ```shell
-curl -sSL https://raw.githubusercontent.com/melsiir/dotfiles/main/install.sh | bash
+curl -sSL https://github.com/melsiir/dotfiles/raw/main/install.sh | bash
 ```
