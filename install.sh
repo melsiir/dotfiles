@@ -20,11 +20,6 @@
       termux-setup-storage
     fi
 
-    apt update
-    apt install git -y
-
-    git clone https://github.com/melsiir/dotfiles
-
     echo -e "${GREEN}installing required packages...${RC}"
     packagesToInstall="git fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq which"
     if command_exists pacman; then
@@ -36,7 +31,8 @@
       apt install -y $packagesToInstall
       apt install gh -y
     fi
-
+    git clone https://github.com/melsiir/dotfiles
+    chsh -s fish
   }
 
   # if you prefer copying dotfiles
@@ -52,13 +48,12 @@
     mv dotfiles ~/.dotfiles
     rm -rf ~/.config
     ln -svf ~/.dotfiles/config ~/.config
-    # ln -svf ~/.dotfiles/myvim ~/.config/nvim
+    ln -svf ~/.dotfiles/myvim ~/.config/nvim
     # ln -svf ~/.dotfiles/lazyvim ~/.config/nvim
     ln -svf ~/.dotfiles/.npmrc ~/
     ln -svf ~/.dotfiles/.bashrc ~/
     ln -svf ~/.dotfiles/.bash_prompt ~/
     ln -svf ~/.dotfiles/.gitignore ~/
-    cp ~/.dotfiles/.gitconfig ~/
   }
 
   pnpmSetup() {
@@ -84,15 +79,14 @@
         echo "git config --global user.email gitEmail"
       }
     fi
-    # git config --global core.excludesfile ~/.gitignore
-    # git config --global init.defaultBranch main
-    # git config --global push.default upstream
-    # git config --global credential.helper store
-    # git config --global alias.l "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short --color --decorate"
+    git config --global core.excludesfile ~/.gitignore
+    git config --global init.defaultBranch main
+    git config --global push.default upstream
+    git config --global credential.helper store
+    git config --global alias.l "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate --date=short --color --decorate"
   }
 
   additional() {
-    chsh -s fish
     fish -c "restoressh"
     fish -c "vsbin"
 
@@ -138,7 +132,7 @@
   installPackagesAndClone
   # copyConfig
   linkConfig
-  #pnpmSetup
+  pnpmSetup
   gitConfig
   additional
   suggestions
