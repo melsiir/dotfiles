@@ -21,7 +21,7 @@
     fi
 
     apt update
-    apt install git
+    apt install git -y
 
     git clone https://github.com/melsiir/dotfiles
 
