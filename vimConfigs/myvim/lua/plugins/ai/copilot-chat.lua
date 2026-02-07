@@ -25,23 +25,24 @@ return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
+    enabled = false,
     dependencies = {
       { "nvim-lua/plenary.nvim" },
     },
     cmd = {
-      'CopilotChat',
-      'CopilotChatToggle',
-      'CopilotChatDocs',
-      'CopilotChatExplain',
-      'CopilotChatFix',
-      'CopilotChatFixDiagnostic',
-      'CopilotChatCommit',
-      'CopilotChatCommitStaged',
-      'CopilotChatLoad',
-      'CopilotChatOptimize',
-      'CopilotChatReview',
-      'CopilotChatSave',
-      'CopilotChatTests',
+      "CopilotChat",
+      "CopilotChatToggle",
+      "CopilotChatDocs",
+      "CopilotChatExplain",
+      "CopilotChatFix",
+      "CopilotChatFixDiagnostic",
+      "CopilotChatCommit",
+      "CopilotChatCommitStaged",
+      "CopilotChatLoad",
+      "CopilotChatOptimize",
+      "CopilotChatReview",
+      "CopilotChatSave",
+      "CopilotChatTests",
     },
     opts = function()
       local user = vim.env.USER or "User"
@@ -54,15 +55,15 @@ return {
         error_header = "󰒡  Error ",
         prompts = prompts,
         -- model = 'gpt-4o', -- model to use, :CopilotChatModels for available models
-        history_path = vim.fn.stdpath('data') .. '/copilot_chat_history', -- Default path to stored history
+        history_path = vim.fn.stdpath("data") .. "/copilot_chat_history", -- Default path to stored history
         window = {
           width = 0.4,
         },
       }
     end,
     keys = {
-      { "<c-s>",     "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
-      { "<leader>a", "",     desc = "+ai",        mode = { "n", "v" } },
+      { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
+      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
       {
         "<leader>ap",
         function()
@@ -78,11 +79,11 @@ return {
         desc = "CopilotChat - Prompt actions",
       },
       -- Code related commands
-      { "<leader>ae", "<cmd>CopilotChatExplain<cr>",       desc = "CopilotChat - Explain code" },
-      { "<leader>at", "<cmd>CopilotChatTests<cr>",         desc = "CopilotChat - Generate tests" },
-      { "<leader>ar", "<cmd>CopilotChatReview<cr>",        desc = "CopilotChat - Review code" },
-      { "<leader>aR", "<cmd>CopilotChatRefactor<cr>",      desc = "CopilotChat - Refactor code" },
-      { "<leader>as", '<cmd>CopilotChatSave<cr>',          desc = 'Save Chat' },
+      { "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
+      { "<leader>at", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+      { "<leader>ar", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
+      { "<leader>aR", "<cmd>CopilotChatRefactor<cr>", desc = "CopilotChat - Refactor code" },
+      { "<leader>as", "<cmd>CopilotChatSave<cr>", desc = "Save Chat" },
       { "<leader>an", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Naming" },
       -- Chat with Copilot in visual mode
       {
@@ -125,19 +126,17 @@ return {
         desc = "CopilotChat - Quick chat",
       },
       -- Debug
-      { "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>",     desc = "CopilotChat - Debug Info" },
+      { "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", desc = "CopilotChat - Debug Info" },
       -- Fix the issue with diagnostic
       { "<leader>af", "<cmd>CopilotChatFixDiagnostic<cr>", desc = "CopilotChat - Fix Diagnostic" },
       -- Clear buffer and chat history
-      { "<leader>al", "<cmd>CopilotChatReset<cr>",         desc = "CopilotChat - Clear buffer and chat history" },
+      { "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
       -- Toggle Copilot Chat Vsplit
-      { "<leader>aa", "<cmd>CopilotChatToggle<cr>",        desc = "CopilotChat - Toggle" },
+      { "<leader>aa", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
       -- Copilot Chat Models
-      { "<leader>a?", "<cmd>CopilotChatModels<cr>",        desc = "CopilotChat - Select Models" },
+      { "<leader>a?", "<cmd>CopilotChatModels<cr>", desc = "CopilotChat - Select Models" },
       -- Copilot Chat Agents
-      { "<leader>av", "<cmd>CopilotChatAgents<cr>",        desc = "CopilotChat - Select Agents" },
-
-
+      { "<leader>av", "<cmd>CopilotChatAgents<cr>", desc = "CopilotChat - Select Agents" },
     },
     config = function(_, opts)
       local chat = require("CopilotChat")
@@ -176,13 +175,14 @@ return {
         chat.ask(args.args, { selection = select.buffer })
       end, { nargs = "*", range = true })
     end,
-  }, {
-  "folke/which-key.nvim",
-  optional = true,
-  opts = {
-    spec = {
-      { "<leader>a", group = "ai", icon = { icon = "", color = "green" } },
+  },
+  {
+    "folke/which-key.nvim",
+    optional = true,
+    opts = {
+      spec = {
+        { "<leader>a", group = "ai", icon = { icon = "", color = "green" } },
+      },
     },
   },
-},
 }

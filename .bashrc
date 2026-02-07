@@ -489,3 +489,7 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+export SSL_CERT_FILE=$PREFIX/etc/tls/cert.pem
+export JDTLS="$HOME/.java-lsp"
+export PATH=$JDTLS/bin:$PATH
+export PATH=${PATH}:${ANDROID_HOME}/gradle/bin

@@ -1,53 +1,109 @@
-#!/bin/bash
-# Fixed version of downgit script that properly handles JSON parsing
+#!/usr/bin/env bash
+
+#thanks for
+#https://github.com/HSwift/downgit
+set -u
+
+# ================= CONFIG =================
+JOBS=8
+GITHUB_TOKEN="${GITHUB_TOKEN:-}"
+# =========================================
+
 if [[ $# -eq 0 ]]; then
-  echo "Please provide url!"
+  echo "Usage: $0 https://github.com/user/repo[/tree/branch/path]"
   exit 1
 fi
 
-repoExp='^https://github.com/([^/]+)/([^/]+)(/(tree|blob)/([^/]+)(/(.*))?)?'
+URL="$1"
+repoExp='^https://github.com/([^/]+)/([^/]+)(/(tree|blob)/([^/]+)(/(.*))?)?$'
 
-downloadFile() {
-  echo "download $2 [$cur/$cnt]"
-  cur=$(($cur + 1))
-  wget2 --max-threads -q "$1" -nc -O "$2"
+[[ ! $URL =~ $repoExp ]] && {
+  echo "Invalid GitHub URL"
+  exit 1
 }
 
-downloadDir() {
-  mkdir -p "$2"
-  content=$(curl -s "$1" | jq -c '.[]')
-  t=$(echo "$content" | wc -l)
-  echo "dir $2 [$t]"
-  cnt=$(($cnt + $t))
-  
-  # Properly iterate through each JSON object
-  while IFS= read -r line; do
-    if [ -n "$line" ]; then  # Skip empty lines
-      type=$(echo "$line" | jq -r '.type')
-      path=$(echo "$line" | jq -r '.path')
-      url=$(echo "$line" | jq -r 'if .type == "dir" then .url else .download_url end')
-      
-      if [[ $type == "dir" ]]; then
-        downloadDir "$url" "$path"
-      else
-        # Get just the filename from the path for the local file
-        filename=$(basename "$path")
-        downloadFile "$url" "$filename"
-      fi
-    fi
-  done <<< "$(echo "$content")"
-}
+AUTHOR="${BASH_REMATCH[1]}"
+PROJECT="${BASH_REMATCH[2]}"
+BRANCH="${BASH_REMATCH[5]:-main}"
+PATH_IN_REPO="${BASH_REMATCH[7]:-}"
 
-if [[ $1 =~ $repoExp ]]; then
-  author=${BASH_REMATCH[1]}
-  project=${BASH_REMATCH[2]}
-  branch=${BASH_REMATCH[5]}
-  path=${BASH_REMATCH[7]}
-  
-  # If no path is specified, default to root
-  if [ -z "$path" ]; then
-    path=""
+[[ -z "$PATH_IN_REPO" ]] && PATH_IN_REPO=""
+
+AUTH_HEADER=()
+[[ -n "$GITHUB_TOKEN" ]] && AUTH_HEADER=(-H "Authorization: token $GITHUB_TOKEN")
+
+warned_rate_limit=0
+
+# -------- API helper --------
+api_get() {
+  local url="$1"
+  local resp status body
+
+  resp=$(curl -sS -w "%{http_code}" "${AUTH_HEADER[@]}" "$url")
+  status="${resp: -3}"
+  body="${resp::-3}"
+
+  if [[ "$status" == "403" && -z "$GITHUB_TOKEN" && $warned_rate_limit -eq 0 ]]; then
+    warned_rate_limit=1
+    echo >&2
+    echo "⚠️ GitHub API rate limit reached. Consider setting GITHUB_TOKEN to avoid this."
+    echo
   fi
-  
-  downloadDir "https://api.github.com/repos/$author/$project/contents/$path?ref=$branch" "$path"
+
+  if [[ "$status" != "200" ]]; then
+    echo >&2 "GitHub API error $status"
+    return 1
+  fi
+
+  echo "$body"
+}
+
+# -------- Fast scan using Git Trees API --------
+scan_tree_fast() {
+  api_get "https://api.github.com/repos/$AUTHOR/$PROJECT/git/trees/$BRANCH?recursive=1" |
+    jq -r --arg p "$PATH_IN_REPO" '
+        .tree[]
+        | select(.type=="blob")
+        | select(.path | startswith($p))
+        | .path
+    '
+}
+
+# -------- Scan repository --------
+echo "Scanning repository..."
+mapfile -t FILES < <(scan_tree_fast)
+
+TOTAL="${#FILES[@]}"
+if ((TOTAL == 0)); then
+  echo "No files found."
+  exit 0
 fi
+
+echo "Found $TOTAL files. Preparing download..."
+echo
+
+# -------- Generate aria2 input --------
+ARIA_INPUT="$(mktemp)"
+for path in "${FILES[@]}"; do
+  RAW_URL="https://raw.githubusercontent.com/$AUTHOR/$PROJECT/$BRANCH/$path"
+  echo "$RAW_URL" >>"$ARIA_INPUT"
+  echo "  out=$path" >>"$ARIA_INPUT"
+done
+
+# Ensure root directories exist
+for path in "${FILES[@]}"; do
+  mkdir -p "$(dirname "$path")"
+done
+
+# -------- Download with aria2 --------
+aria2c --file-allocation=none \
+  -i "$ARIA_INPUT" \
+  -j "$JOBS" \
+  -x 1 -s 1 \
+  --continue=false \
+  --summary-interval=1
+
+rm -f "$ARIA_INPUT"
+
+echo
+echo "Download completed ✔"

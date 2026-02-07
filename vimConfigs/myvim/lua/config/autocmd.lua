@@ -27,7 +27,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end,
 })
 
@@ -138,7 +138,7 @@ vim.filetype.add({
             and path
             and vim.fn.getfsize(path) > vim.g.bigfile_size
             and "bigfile"
-            or nil
+          or nil
       end,
     },
   },
@@ -191,8 +191,8 @@ vim.api.nvim_create_autocmd({ "BufReadPre" }, {
         local old_disabled = module_config.disable
         module_config.disable = function(lang, buf)
           return disable_cb(lang, buf)
-              or (type(old_disabled) == "table" and vim.tbl_contains(old_disabled, lang))
-              or (type(old_disabled) == "function" and old_disabled(lang, buf))
+            or (type(old_disabled) == "table" and vim.tbl_contains(old_disabled, lang))
+            or (type(old_disabled) == "function" and old_disabled(lang, buf))
         end
       end
       vim.notify("Large buffer detected", vim.diagnostic.severity.WARN)
@@ -253,7 +253,6 @@ vim.api.nvim_create_user_command("LiveServerStop", function()
   vim.g.liveserver_bufnr = nil
 end, { desc = "Stop live-server" })
 
-
 -- lsp loading in winbar
 -- vim.api.nvim_create_autocmd("LspProgress", {
 --   callback = function(o)
@@ -261,7 +260,6 @@ end, { desc = "Stop live-server" })
 --     vim.wo.winbar = p and ("%#Green#" .. ("▔"):rep(math.floor((p * vim.o.columns) / 100))) or ""
 --   end
 -- })
-
 
 -- disable auto comment in newline
 if vim.g.autocomment then

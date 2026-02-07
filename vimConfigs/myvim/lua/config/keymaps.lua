@@ -270,7 +270,8 @@ map("n", "<leader>us", function()
 end, { desc = "toggle live-server" })
 
 -- nerdfont
-map("n", "<leader>f,", "<cmd>Telescope nerdy<cr>", { desc = "Nerd font icons" })
+-- map("n", "<leader>f,", "<cmd>Telescope nerdy<cr>", { desc = "Nerd font icons" })
+map("n", "<leader>f,", "<cmd>Fzflua nerdy<cr>", { desc = "Nerd font icons" })
 
 --run code
 map("n", "<leader>rc", function()

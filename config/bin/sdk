@@ -1,0 +1,84 @@
+#!/data/data/com.termux/files/usr/bin/fish
+
+set RC '\e[0m'
+set BLACK '\e[30m'
+set RED '\e[31m'
+set GREEN '\e[32m'
+set YELLOW '\e[33m'
+set BLUE '\e[34m'
+set MAGENTA '\e[35m'
+set CYAN '\e[36m'
+set WHITE '\e[37m'
+set BOLD '\e[1m'
+set FAINT '\e[2m'
+set ITALIC '\e[3m'
+set UNDERLINE '\e[4m'
+set FILL '\e[7m'
+set CROSSLINE '\e[9m'
+
+echo -e "   $GREEN== Updating packages ==$RC"
+apt update -y
+apt install -y unzip openjdk-21
+
+echo -e "   $GREEN== Java check ==$RC"
+set -Ux JAVA_HOME $PREFIX/lib/jvm/java-21-openjdk
+set -U fish_user_paths $JAVA_HOME/bin $fish_user_paths
+java -version
+
+echo -e "   $GREEN== Android SDK setup ==$RC"
+builtin cd $HOME
+set SDK_DIR $HOME/.android-sdk
+echo -e "   $GREEN== Downloading android-sdk-custom ==$RC"
+
+curl -OL https://github.com/HomuHomu833/android-sdk-custom/releases/download/36.0.0/android-sdk-aarch64-linux-musl.tar.xz
+tar -xf android-sdk-aarch64-linux-musl.tar.xz
+mv android-sdk .android-sdk
+rm android-sdk-aarch64-linux-musl.tar.xz
+
+echo
+echo -e "   $GREEN== Setting fish environment variables ==$RC"
+set -Ux ANDROID_HOME $HOME/.android-sdk
+set -Ux ANDROID_SDK_ROOT $ANDROID_HOME
+# Add to PATH safely via fish_user_paths
+set -U fish_user_paths $fish_user_paths \
+    $ANDROID_HOME/cmdline-tools/bin \
+    $ANDROID_HOME/platform-tools
+echo -e "   $GREEN== Verification ==$RC"
+echo
+which sdkmanager
+which adb
+
+echo
+echo -e "  $GREEN Forcing Gradle to use the ARM64 AAPT2. Add the following to your globle \$HOME/.gradle/gradle.properties or  gradle.properties (project root):$RC"
+echo
+echo "# Force AGP to fall back to SDK AAPT2 instead of Maven’s x86 binary
+    android.aapt2FromMavenOverride=/opt/android-sdk-custom/android-sdk/build-tools/36.1.0/aapt2
+
+# Disable aggressive caching and parallelism that can poison builds on Android
+    org.gradle.caching=false
+    org.gradle.parallel=false
+    org.gradle.configureondemand=false"
+
+echo
+
+echo "here my globle gradle config if you interested
+org.gradle.caching=true
+org.gradle.configuration-cache=true
+android.aapt2FromMavenOverride=/data/data/com.termux/files/home/.android-sdk/build-tools/36.1.0/aapt2
+org.gradle.daemon.idletimeout=300000
+org.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=512m -XX:+UseParallelGC
+org.gradle.parallel=false
+kotlin.compiler.execution.strategy=in-process
+"
+echo
+echo "
+In app/build.gradle.kts, pin the versions to ensure compatibility:
+
+  android {
+    compileSdk = 36
+    buildToolsVersion = \"36.1.0\" # add this line
+  }"
+
+echo
+echo "== DONE =="
+echo "Restart Termux or run: exec fish"

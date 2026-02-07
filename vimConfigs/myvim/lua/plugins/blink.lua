@@ -22,13 +22,8 @@ return {
         version = "*",
       },
     },
-    event = "InsertEnter",
+    event = { "InsertEnter", "CmdlineEnter" },
     opts = {
-      -- snippets = {
-      --   expand = function(snippet, _)
-      --     return LazyVim.cmp.expand(snippet)
-      --   end,
-      -- },
       appearance = {
         -- sets the fallback highlight groups to nvim-cmp's highlight groups
         -- useful for when your theme doesn't support blink.cmp
@@ -58,33 +53,6 @@ return {
               { "label", "label_description", gap = 1 },
               { "kind_icon", "kind" },
             },
-
-            -- components = {
-            --   kind_icon = {
-            --     highlight = function(ctx)
-            --       local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-            --       return hl
-            --     end,
-            --   },
-            --   label = {
-            --     text = function(item)
-            --       return item.label
-            --     end,
-            --     highlight = function(ctx)
-            --       local _, hl, _ = require('mini.icons').get('lsp', ctx.label)
-            --       return hl
-            --     end,
-            --   },
-            --   kind = {
-            --     text = function(item)
-            --       return item.kind
-            --     end,
-            --     highlight = function(ctx)
-            --       local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-            --       return hl
-            --     end,
-            --   },
-            -- }
           },
         },
         documentation = {

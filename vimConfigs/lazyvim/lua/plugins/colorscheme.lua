@@ -1,60 +1,33 @@
+--- lazyvim take care of lazyloading and prioratizings
 return {
   {
     "folke/tokyonight.nvim",
     opts = {
       transparent = vim.g.transparent_enabled,
-      style = "night",
       styles = {
-        -- comments = { italic = false },
-        keywords = { italic = false },
         sidebars = "transparent",
         floats = "transparent",
       },
     },
   },
   {
-    -- Theme inspired by Atom
-    "navarasu/onedark.nvim",
-    priority = 1000,
-    -- config = function()
-    --   vim.cmd.colorscheme("onedark")
-    -- end,
+    "catppuccin/nvim",
+    opts = {
+      transparent_background = vim.g.transparent_enabled,
+      float = {
+        transparent = vim.g.transparent_enabled, -- enable transparent floating windows
+        -- solid = false, -- use solid styling for floating windows, see |winborder|
+      },
+      no_italic = true, -- Force no italic
+    },
   },
-  -- {
-  --   "svrana/neosolarized.nvim",
-  --   -- enabled = false,
-  --   -- priority = 1000, -- make sure to load this before all the other start plugins
-  --
-  --   dependencies = { "tjdevries/colorbuddy.nvim" },
-  -- },
+  { "rose-pine/neovim", name = "rose-pine" },
   {
-    "projekt0n/github-nvim-theme",
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require("github-theme").setup({
-        -- ...
-      })
-
-      -- vim.cmd('colorscheme github_dark')
-    end,
+    "whatyouhide/vim-gotham",
   },
 
-  -- {
-  --   "rebelot/kanagawa.nvim",
-  -- },
-
-  {
-    "AlexvZyl/nordic.nvim",
-  },
-  {
-    "Rigellute/rigel",
-    lazy = false,
-  },
   {
     "gbprod/nord.nvim",
-    -- lazy = true,
-    priority = 1000,
     config = function()
       require("nord").setup({
         diff = { mode = "fg" },
@@ -72,73 +45,53 @@ return {
           NeoTreeGitUntracked = { italic = false },
           NeoTreeMessage = { italic = false },
           errors = { italic = false },
-          bufferline = {
-            current = { bold = false },
-            modified = { bold = false, italic = true },
-          },
         },
-        on_highlights = function(highlights, colors)
-          highlights["@variable.parameter.bash"] = { link = "@variable" }
-          highlights.TelescopeNormal = {
-            bg = colors.polar_night.bright,
-            -- fg = colors.aurora.green,
-          }
-          highlights.TelescopeBorder = {
-            bg = colors.polar_night.bright,
-            fg = colors.polar_night.bright,
-          }
-          highlights.TelescopePromptNormal = {
-            bg = colors.polar_night.brightest,
-          }
-          highlights.TelescopePromptBorder = {
-            bg = colors.polar_night.brightest,
-            fg = colors.polar_night.brightest,
-          }
-          highlights.TelescopePromptTitle = {
-            bg = colors.polar_night.brightest,
-            fg = colors.polar_night.brightest,
-            -- bg = colors.frost.ice,
-            -- fg = colors.frost.artic_icean,
-          }
-          highlights.TelescopePreviewTitle = {
-            bg = colors.polar_night.bright,
-            -- fg = colors.aurora.green,
-          }
-          highlights.TelescopeResultsTitle = {
-            -- bg = colors.snow_storm.origin,
-            bg = colors.polar_night.bright,
-            fg = colors.polar_night.bright,
-          }
-          highlights.TelescopePromptCounter = {
-            fg = colors.snow_storm.origin,
-          }
-          highlights.TelescopePromptPrefix = {
-            fg = colors.frost.ice,
-          }
-          highlights.TelescopeSelection = {
-            bg = colors.polar_night.brightest,
-          }
-          highlights.TelescopePreview = {
-            bg = colors.polar_night.bright,
-          }
-        end,
       })
     end,
   },
-  { "catppuccin/nvim",  name = "catppuccin", priority = 1000, lazy = false },
-  { "rose-pine/neovim", name = "rose-pine" },
+
+  -- {
+  --   "gbprod/nord.nvim",
+  --   config = function()
+  --     require("nord").setup({
+  --       transparent = vim.g.transparent_enabled,
+  --     })
+  --   end,
+  -- },
   {
-    "whatyouhide/vim-gotham",
+    "jpwol/thorn.nvim",
+    opts = {
+      transparent = vim.g.transparent_enabled,
+    },
   },
-  {
-    "EdenEast/nightfox.nvim",
-    lazy = false,
-    priority = 1000,
-  },
+  -- {
+  --   "shaunsingh/nord.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Example config in lua
+  --     vim.g.nord_contrast = true
+  --     vim.g.nord_borders = false
+  --     vim.g.nord_disable_background = true
+  --     vim.g.nord_italic = false
+  --     vim.g.nord_uniform_diff_background = true
+  --     vim.g.nord_bold = false
+  --
+  --     -- Load the colorscheme
+  --
+  --     vim.g.nord_disable_background = vim.g.transparent_enabled
+  --   end,
+  -- },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-night",
+      -- colorscheme = "catppuccin-macchiato",
+      icons = {
+        diagnostics = {
+          --   󰌵  󱠃    󱠂
+          Hint = "󰌵 ",
+        },
+      },
     },
   },
 }

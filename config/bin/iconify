@@ -1,0 +1,165 @@
+#!/bin/bash
+
+# Script to extract SVG icons from iconify JSON files and create individual SVG files
+# Usage:
+#   ./extract_svgs.sh                    # Process all JSON files in current directory
+#   ./extract_svgs.sh all               # Same as above, process all JSON files
+#   ./extract_svgs.sh <filename.json>   # Process only the specified JSON file
+
+# Function to display usage information
+usage() {
+    echo "Usage:"
+    echo "  $0                      # Process all JSON files in current directory"
+    echo "  $0 all                 # Same as above, process all JSON files"
+    echo "  $0 <filename.json>     # Process only the specified JSON file"
+    exit 1
+}
+
+# Set the main output directory
+OUTPUT_BASE_DIR="svg_output"
+
+# Determine which files to process based on command line arguments
+if [ $# -eq 0 ] || [ "$1" = "all" ]; then
+    # Process all JSON files in current directory
+    JSON_FILES=$(find . -maxdepth 1 -name "*.json" -type f)
+
+    if [ -z "$JSON_FILES" ]; then
+        echo "No JSON files found in current directory!"
+        exit 1
+    fi
+elif [ -f "$1" ]; then
+    # Process only the specified JSON file
+    JSON_FILES="$1"
+else
+    echo "Error: File $1 not found!"
+    usage
+fi
+
+echo "Found JSON files:"
+echo "$JSON_FILES"
+echo
+
+# Create the main output directory
+mkdir -p "$OUTPUT_BASE_DIR"
+
+# Process each JSON file
+for json_file in $JSON_FILES; do
+    # Get the filename without path and extension for the subdirectory name
+    dir_name=$(basename "$json_file" .json)
+    output_dir="$OUTPUT_BASE_DIR/$dir_name"
+
+    echo "Processing: $json_file -> $output_dir"
+
+    # Create output subdirectory for this JSON file if it doesn't exist
+    mkdir -p "$output_dir"
+
+    # Extract all icon data in one go to avoid multiple jq calls per icon
+    # This creates a temporary file with all icon data
+    temp_file=$(mktemp)
+
+    # Extract icon data with all needed information in one pass
+    jq -r '
+        .width as $global_width |
+        .height as $global_height |
+        .info.height as $info_height |
+        .icons | to_entries[] |
+        "\(.key)\t\(.value.body)\t\(.value.width // null)\t\(.value.height // null)\t\($global_width // null)\t\($global_height // null)\t\($info_height // null)"
+    ' "$json_file" > "$temp_file"
+
+    # Process each line from the temp file
+    while IFS=$'\t' read -r icon_name icon_body icon_width icon_height global_width global_height info_height; do
+        # Convert "null" strings to empty values
+        [ "$icon_width" = "null" ] && icon_width=""
+        [ "$icon_height" = "null" ] && icon_height=""
+        [ "$global_width" = "null" ] && global_width=""
+        [ "$global_height" = "null" ] && global_height=""
+        [ "$info_height" = "null" ] && info_height=""
+
+        # Use icon-specific dimensions if available, otherwise use global JSON dimensions, otherwise use info section, otherwise default
+        if [ -n "$icon_width" ]; then
+            width=$icon_width
+            if [ -n "$icon_height" ]; then
+                height=$icon_height
+            else
+                height=$icon_width  # Square if only width is specified
+            fi
+            # Use the icon's actual dimensions for viewBox
+            viewBox="0 0 $width $height"
+        else
+            # Check for global width/height in the JSON first
+            if [ -n "$global_width" ]; then
+                width=$global_width
+                if [ -n "$global_height" ]; then
+                    height=$global_height
+                else
+                    height=$global_width  # Square if only width is specified
+                fi
+                viewBox="0 0 $width $height"
+            else
+                # Fallback to info section or default
+                width=${info_height:-24}
+                height=$width
+                viewBox="0 0 24 24"
+            fi
+        fi
+
+        # If the icon body contains viewBox attribute, preserve it instead of using calculated one
+        if echo "$icon_body" | grep -q "viewBox="; then
+            # Extract the viewBox from the icon body and use it
+            viewBox=$(echo "$icon_body" | sed -n 's/.*viewBox="\([^"]*\)".*/\1/p')
+            # Update width and height based on the original SVG's width and height if present
+            if echo "$icon_body" | grep -q "width="; then
+                width=$(echo "$icon_body" | sed -n 's/.*width="\([^"]*\)".*/\1/p')
+            fi
+            if echo "$icon_body" | grep -q "height="; then
+                height=$(echo "$icon_body" | sed -n 's/.*height="\([^"]*\)".*/\1/p')
+            fi
+        fi
+
+        # Determine if the icon already has stroke or fill properties in its body
+        if echo "$icon_body" | grep -q "stroke="; then
+            # If the icon already has stroke properties, don't add default ones
+            svg_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"$width\" height=\"$height\" viewBox=\"$viewBox\">
+  $icon_body
+</svg>"
+        elif echo "$icon_body" | grep -q "fill="; then
+            # If the icon has fill properties (like fill icons), use a template without default stroke
+            svg_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"$width\" height=\"$height\" viewBox=\"$viewBox\">
+  $icon_body
+</svg>"
+        else
+            # For icons without stroke or fill properties, use the default template
+            svg_content="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"$width\" height=\"$height\" viewBox=\"$viewBox\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">
+  $icon_body
+</svg>"
+        fi
+
+        # Write the SVG content to a file
+        echo "$svg_content" > "$output_dir/$icon_name.svg"
+    done < "$temp_file"
+
+    # Clean up the temporary file
+    rm "$temp_file"
+
+    echo "Completed processing: $json_file"
+    echo
+done
+
+echo "All extraction complete! Check the $OUTPUT_BASE_DIR directory for SVG files."
+
+# Show summary of extracted icons
+echo
+echo "Summary of extracted icons:"
+for dir in "$OUTPUT_BASE_DIR"/*/; do
+    if [ -d "$dir" ]; then
+        dir_name=$(basename "$dir")
+        count=$(find "$dir" -name "*.svg" | wc -l)
+        echo "  - $dir_name: $count files"
+    fi
+done
+
+total_count=$(find "$OUTPUT_BASE_DIR" -name "*.svg" | wc -l)
+echo "  - Total: $total_count SVG files extracted"

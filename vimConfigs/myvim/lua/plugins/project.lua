@@ -23,7 +23,7 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
-    optional = true,
+    -- optional = true,
     keys = {
       { "<leader>fp", pick, desc = "Projects" },
     },

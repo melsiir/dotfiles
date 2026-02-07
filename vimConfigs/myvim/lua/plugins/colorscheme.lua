@@ -203,11 +203,11 @@ return {
     config = function()
       local config = {
         -- Main options --
-        style = "dark",                          -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+        style = "dark", -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
         transparent = vim.g.transparent_enabled, -- Show/hide background
-        term_colors = true,                      -- Change terminal color as per the selected theme style
-        ending_tildes = false,                   -- Show the end-of-buffer tildes. By default they are hidden
-        cmp_itemkind_reverse = false,            -- reverse item kind highlights in cmp menu
+        term_colors = true, -- Change terminal color as per the selected theme style
+        ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
+        cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
         -- toggle theme style ---
         -- toggle_style_key = "<leader>th",                                                     -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
@@ -232,13 +232,13 @@ return {
         -- Custom Highlights --
         colors = {
           -- purple = '#56b6c2',
-        },               -- Override default colors
+        }, -- Override default colors
         highlights = {}, -- Override highlight groups
 
         -- Plugins Config --
         diagnostics = {
-          darker = true,     -- darker colors for diagnostic
-          undercurl = true,  -- use undercurl instead of underline for diagnostics
+          darker = true, -- darker colors for diagnostic
+          undercurl = true, -- use undercurl instead of underline for diagnostics
           background = true, -- use background color for virtual text
         },
       }
@@ -276,7 +276,7 @@ return {
     lazy = false,
     config = function()
       require("rose-pine").setup({
-        variant = "moon",      -- auto, main, moon, or dawn
+        variant = "moon", -- auto, main, moon, or dawn
         dark_variant = "main", -- main, moon, or dawn
         dim_inactive_windows = false,
         extend_background_behind_borders = true,
@@ -285,7 +285,7 @@ return {
         enable = {
           terminal = true,
           legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
-          migrations = true,        -- Handle deprecated options automatically
+          migrations = true, -- Handle deprecated options automatically
         },
 
         styles = {
@@ -324,7 +324,7 @@ return {
         end,
       })
       -- vim.cmd("colorscheme rose-pine")
-    end
+    end,
   },
   {
     "catppuccin/nvim",
@@ -359,13 +359,13 @@ return {
     end,
   },
 
-  'JoosepAlviste/palenightfall.nvim',
+  "JoosepAlviste/palenightfall.nvim",
   {
     "Vallen217/eidolon.nvim",
     lazy = false,
     priority = 1000,
     config = function()
       -- vim.cmd [[colorscheme eidolon]]
-    end
+    end,
   },
 }

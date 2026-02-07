@@ -1,9 +1,10 @@
 local statusline = {}
 local groupid = vim.api.nvim_create_augroup("StatusLine", {})
-local spinner_end_keep = 2000    -- ms
-local spinner_status_keep = 600  -- ms
+local spinner_end_keep = 2000 -- ms
+local spinner_status_keep = 600 -- ms
 local spinner_progress_keep = 80 -- ms
 local spinner_timer = vim.uv.new_timer()
+local spinner_spinning = false
 
 local spinner_icons
 local spinner_icon_done
@@ -63,6 +64,8 @@ statusline.autocmd = function()
     callback = function(info)
       if spinner_timer then
         spinner_timer:start(spinner_progress_keep, spinner_progress_keep, vim.schedule_wrap(vim.cmd.redrawstatus))
+
+        spinner_spinning = true
       end
 
       local id = info.data.client_id
@@ -82,6 +85,7 @@ statusline.autocmd = function()
           if vim.tbl_isempty(server_info) and spinner_timer then
             spinner_timer:stop()
           end
+          spinner_spinning = false
           vim.cmd.redrawstatus()
         end
       end, spinner_end_keep)
@@ -161,6 +165,10 @@ statusline.lsp = function()
   end
 
   return ""
+end
+
+function statusline.is_spinning()
+  return spinner_spinning
 end
 
 return statusline

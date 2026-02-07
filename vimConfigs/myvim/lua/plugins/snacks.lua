@@ -19,7 +19,7 @@ return {
     bigfile = { enabled = true },
     dashboard = {
       enabled = vim.g.dashboard,
-      width = 40,
+      width = 35,
       preset = {
         pick = "telescope",
         keys = {

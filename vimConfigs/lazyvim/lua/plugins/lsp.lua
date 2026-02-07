@@ -1,19 +1,28 @@
+-- local signs = {
+--   [vim.diagnostic.severity.ERROR] = " ",
+--   [vim.diagnostic.severity.WARN] = " ",
+--   [vim.diagnostic.severity.HINT] = "󰠠 ",
+--   [vim.diagnostic.severity.INFO] = " ",
+-- }
+--
+-- vim.diagnostic.config({
+--   signs = {
+--     text = signs,
+--   },
+-- })
+
 return {
   {
     "neovim/nvim-lspconfig",
     opts = {
-
-      -- disable in favor of rustaceanvim
-      setup = {
-        rust_analyzer = function()
-          return true
-        end,
-      },
-
       servers = {
         html = {
           enabled = true,
           mason = true,
+        },
+        jdtls = {
+          -- enabled = true,
+          mason = false,
         },
         emmet_language_server = {
           enabled = true,
@@ -33,50 +42,35 @@ return {
           enabled = true,
           mason = false,
         },
-        lua_ls = {
-          enabled = true,
-          --do not install with mason
-          mason = false,
-        },
-
-        marksman = {
-          --do not install with mason
-          enabled = false,
-          mason = false,
-        },
-        markdownlint_cli2 = {
-          enabled = false,
-        },
         clangd = {
           --do not install with mason
           mason = false,
         },
         ruff = {
-          --do not install with mason
           mason = false,
-          enabled = false,
         },
         -- shfmt = {
         --   mason = false,
         -- },
-        lua_ls = {
-          --do not install with mason
-          enabled = true,
+        stylua = {
           mason = false,
         },
-        --
-        -- codelldb = {
-        --   mason = false,
-        -- },
-
-        -- rust_analyzer = {
-        --   mason = false,
-        --   keys = {
-        --     { "<leader>cc", "<cmd>RustRunnables<cr>", desc = "Run rust" },
-        --     { "<leader>ck", "<cmd>!cd %;!cargo run --bin %<cr>", desc = "Rust last runs" },
-        --   },
-        -- },
+        lua_ls = {
+          --do not install with mason
+          mason = false,
+        },
+        marksman = {
+          mason = false,
+        },
       },
+    },
+  },
+
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      -- automaticlly enable every lsp downloaded by mason even if not configured
+      -- automatic_enable = false,
     },
   },
 }

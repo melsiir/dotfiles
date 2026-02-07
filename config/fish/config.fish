@@ -88,7 +88,7 @@ function vi
     nvim $argv
 end
 
-function vcl
+function vcl -d "use neovim with no config"
     nvim --clean $argv
 end
 
@@ -121,9 +121,9 @@ function vim-reset -d "delete all neovim plugind"
     rm -rf ~/.local/share/nvim && rm -rf ~/.config/nvim/lazy-lock.json
 end
 
-function wget
-    wget2 --force-progress $argv
-end
+# function wget
+#     wget2 --force-progress $argv
+# end
 
 abbr -ag nv nvim
 abbr -ag v vim
@@ -218,6 +218,7 @@ end
 # pnpm end
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/data/data/com.termux/files/home/y/google-cloud-sdk/path.fish.inc' ]
-    . '/data/data/com.termux/files/home/y/google-cloud-sdk/path.fish.inc'
-end
+# if [ -f '/data/data/com.termux/files/home/.google-cloud-sdk/path.fish.inc' ]
+#     . '/data/data/com.termux/files/home/.google-cloud-sdk/path.fish.inc'
+# end
+# set -gx SSL_CERT_FILE $PREFIX/etc/tls/cert.pem

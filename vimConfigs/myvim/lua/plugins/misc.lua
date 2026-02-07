@@ -26,10 +26,11 @@ return {
   },
   {
     "2kabhishek/nerdy.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     dependencies = {
       "stevearc/dressing.nvim",
-      "nvim-telescope/telescope.nvim",
+      -- "nvim-telescope/telescope.nvim",
+      "ibhagwan/fzf-lua",
     },
     cmd = "Nerdy",
   },
@@ -61,11 +62,11 @@ return {
     "watzon/goshot.nvim",
     cmd = "Goshot",
     opts = {
-      binary = "goshot",   -- Path to goshot binary (default: "goshot")
+      binary = "goshot", -- Path to goshot binary (default: "goshot")
       auto_install = true, -- Automatically install goshot if not found (default: false)
     },
     keys = {
-      { "<leader>bS", "<cmd>Goshot<cr>",      mode = { "n" }, desc = "Take screenshot" },
+      { "<leader>bS", "<cmd>Goshot<cr>", mode = { "n" }, desc = "Take screenshot" },
       { "<leader>bS", "<cmd>'<,'>Goshot<cr>", mode = { "v" }, desc = "Take screenshot of selection" },
     },
   },
@@ -73,42 +74,42 @@ return {
   {
     "ficcdaf/academic.nvim",
     -- optional: only load for certain filetypes
-    ft = { "markdown", "tex" }
-  }
-  , {
-  "xzbdmw/colorful-menu.nvim",
-  config = function()
-    -- You don't need to set these options.
-    require("colorful-menu").setup({
-      ft = {
-        lua = {
-          -- Maybe you want to dim arguments a bit.
-          auguments_hl = "@comment",
+    ft = { "markdown", "tex" },
+  },
+  {
+    "xzbdmw/colorful-menu.nvim",
+    config = function()
+      -- You don't need to set these options.
+      require("colorful-menu").setup({
+        ft = {
+          lua = {
+            -- Maybe you want to dim arguments a bit.
+            auguments_hl = "@comment",
+          },
+          typescript = {
+            -- Or "vtsls", their information is different, so we
+            -- need to know in advance.
+            ls = "typescript-language-server",
+          },
+          rust = {
+            -- such as (as Iterator), (use std::io).
+            extra_info_hl = "@comment",
+          },
+          c = {
+            -- such as "From <stdio.h>"
+            extra_info_hl = "@comment",
+          },
         },
-        typescript = {
-          -- Or "vtsls", their information is different, so we
-          -- need to know in advance.
-          ls = "typescript-language-server",
-        },
-        rust = {
-          -- such as (as Iterator), (use std::io).
-          extra_info_hl = "@comment",
-        },
-        c = {
-          -- such as "From <stdio.h>"
-          extra_info_hl = "@comment",
-        }
-      },
-      -- If the built-in logic fails to find a suitable highlight group,
-      -- this highlight is applied to the label.
-      fallback_highlight = "@variable",
-      -- If provided, the plugin truncates the final displayed text to
-      -- this width (measured in display cells). Any highlights that extend
-      -- beyond the truncation point are ignored. Default 60.
-      max_width = 60,
-    })
-  end,
-},
+        -- If the built-in logic fails to find a suitable highlight group,
+        -- this highlight is applied to the label.
+        fallback_highlight = "@variable",
+        -- If provided, the plugin truncates the final displayed text to
+        -- this width (measured in display cells). Any highlights that extend
+        -- beyond the truncation point are ignored. Default 60.
+        max_width = 60,
+      })
+    end,
+  },
   { -- color previews & color picker
     "uga-rosa/ccc.nvim",
     lazy = true,
@@ -124,7 +125,7 @@ return {
         highlight_mode = "background",
         highlighter = {
           auto_enable = true,
-          filetypes = spec.ft,   -- uses lazy.nvim's ft spec
+          filetypes = spec.ft, -- uses lazy.nvim's ft spec
           max_byte = 200 * 1024, -- 200kb
           update_insert = false,
         },
@@ -135,7 +136,7 @@ return {
           ccc.picker.css_name,
           ccc.picker.ansi_escape(),
         },
-        alpha_show = "hide",           -- needed when highlighter.lsp is set to true
+        alpha_show = "hide", -- needed when highlighter.lsp is set to true
         recognize = { output = true }, -- automatically recognize color format under cursor
         inputs = { ccc.input.hsl },
         outputs = {
@@ -186,16 +187,16 @@ return {
         return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()), ":t")
       end,
       no_line_number = true,
-    }
+    },
   },
   {
-    'comfysage/evergarden',
+    "comfysage/evergarden",
     priority = 1000, -- Colorscheme plugin is loaded first before any other plugins
     opts = {
       transparent_background = true,
-      variant = 'medium', -- 'hard'|'medium'|'soft'
-      overrides = {},     -- add custom overrides
-    }
+      variant = "medium", -- 'hard'|'medium'|'soft'
+      overrides = {}, -- add custom overrides
+    },
   },
   -- {
   --   "neo451/feed.nvim",

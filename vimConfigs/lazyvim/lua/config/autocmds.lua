@@ -1,46 +1,32 @@
 -- Autocmds are automatically loaded on the VeryLazy event
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
+--
 -- Add any additional autocmds here
-
--- Disable autoformat for lua files
--- vim.api.nvim_create_autocmd({ "FileType" }, {
---   pattern = { "lua" },
---   callback = function()
---     vim.b.autoformat = false
+-- with `vim.api.nvim_create_autocmd`
+--
+-- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
+-- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+-- vim.api.nvim_create_autocmd("LspProgress", {
+--   ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+--   callback = function(ev)
+--     local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+--     vim.notify(vim.lsp.status(), "info", {
+--       id = "lsp_progress",
+--       title = "LSP Progress",
+--       opts = function(notif)
+--         notif.icon = ev.data.params.value.kind == "end" and " "
+--           or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+--       end,
+--     })
 --   end,
 -- })
 
--- nvim_create_augroup("TrimWhiteSpaceGrp", { clear = true })
--- vim.api.nvim_create_autocmd("BufWritePre", {
--- pattern = { "r", "rmd" },
---   command = [[:%s/\s\+$//e]],
---   group = TrimWhiteSpaceGrp,
--- })
-
-vim.api.nvim_create_autocmd("BufDelete", {
-  group = vim.api.nvim_create_augroup("bufdelpost_autocmd", {}),
-  desc = "BufDeletePost User autocmd",
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "snacks_notif_history",
   callback = function()
-    vim.schedule(function()
-      vim.api.nvim_exec_autocmds("User", {
-        pattern = "BufDeletePost",
-      })
-    end)
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
   end,
 })
 
-vim.api.nvim_create_autocmd("User", {
-  pattern = "BufDeletePost",
-  group = vim.api.nvim_create_augroup("dashboard_delete_buffers", {}),
-  desc = "Open Dashboard when no available buffers",
-  callback = function(ev)
-    local deleted_name = vim.api.nvim_buf_get_name(ev.buf)
-    local deleted_ft = vim.api.nvim_get_option_value("filetype", { buf = ev.buf })
-    local deleted_bt = vim.api.nvim_get_option_value("buftype", { buf = ev.buf })
-    local dashboard_on_empty = deleted_name == "" and deleted_ft == "" and deleted_bt == ""
-
-    if dashboard_on_empty then
-      vim.cmd([[:Alpha | bd#]])
-    end
-  end,
-})
+-- vim.keymap.set("n", "<leader>nh", require("snacks").history(), { desc = "Notification History" })

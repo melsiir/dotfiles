@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ $# -eq 0 ]; then
+  echo "No arguments specified."
+  echo "Usage:"
+  echo "  transfer <file|directory>"
+  echo "  ... | transfer <file_name>"
+  exit 1
+fi
+
+serviceUrl="https://transfer.whalebone.io"
+if tty -s; then
+  file="$1"
+  file_name="$(basename "$file")"
+
+  if [ ! -e "$file" ]; then
+    echo "$file: No such file or directory" >&2
+    exit 1
+  fi
+
+  if [ -d "$file" ]; then
+    file_name="${file_name}.zip"
+    (
+      cd "$file" || exit 1
+      zip -r -q - .
+    ) | curl --progress-bar --upload-file "-" \
+      "$serviceUrl/$file_name" -w "\n" |
+      tee /dev/null
+  else
+    curl --progress-bar --upload-file "$file" \
+      "$serviceUrl/$file_name" -w "\n" |
+      tee /dev/null
+  fi
+else
+  file_name="$1"
+  curl --progress-bar --upload-file "-" \
+    "$serviceUrl/$file_name" -w "\n" |
+    tee /dev/null
+fi

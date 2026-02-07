@@ -16,7 +16,6 @@ local function fg(name)
   return color and { fg = color } or nil
 end
 
-
 local function cwd()
   local dir_name = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t") .. " "
   return dir_name
@@ -65,7 +64,7 @@ return {
       local reg = vim.fn.reg_recording()
       if reg == "" then
         return ""
-      end   -- not recording
+      end -- not recording
       return " " .. " " .. reg
       -- return true
     end
@@ -90,8 +89,8 @@ return {
 
     local filename = {
       "filename",
-      file_status = true,   -- displays file status (readonly status, modified status)
-      path = 0,             -- 0 = just filename, 1 = relative path, 2 = absolute path
+      file_status = true, -- displays file status (readonly status, modified status)
+      path = 0, -- 0 = just filename, 1 = relative path, 2 = absolute path
       cond = hide_in_width,
     }
 
@@ -127,7 +126,7 @@ return {
 
       options = {
         icons_enabled = true,
-        theme = "auto",   -- Set theme based on environment variable
+        theme = "auto", -- Set theme based on environment variable
         --           
         section_separators = "",
         component_separators = "",
@@ -147,12 +146,12 @@ return {
             cond = function()
               return vim.fn.expand("%:t") ~= "" and vim.fn.winwidth(0) > 80
             end,
-            color = fg("special")
+            color = fg("special"),
           },
           filename,
           {
             isRecording,
-            color = fg("DiagnosticSignError")
+            color = fg("DiagnosticSignError"),
           },
 
           {
@@ -171,9 +170,15 @@ return {
           },
           diagnostics,
           {
-            function() return "  " .. require("dap").status() end,
-            cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-            color = function() return fg("Debug") end,
+            function()
+              return "  " .. require("dap").status()
+            end,
+            cond = function()
+              return package.loaded["dap"] and require("dap").status() ~= ""
+            end,
+            color = function()
+              return fg("Debug")
+            end,
           },
 
           {
@@ -212,19 +217,24 @@ return {
         },
         lualine_y = { "location" },
         lualine_z = {
-          "progress",
+          {
+            "progress",
+            cond = function()
+              return next(vim.lsp.get_clients()) ~= nil and not lsp_progress.is_spinning()
+            end,
+          },
           {
             function()
               -- return "     "
               return " "
             end,
             cond = function()
-              return next(vim.lsp.get_clients()) ~= nil
+              return next(vim.lsp.get_clients()) ~= nil and not lsp_progress.is_spinning()
             end,
             padding = { right = 1 },
             color = { gui = "bold" },
-          }
-          , { lsp_progress.lsp_progress, padding = 0 }
+          },
+          { lsp_progress.lsp_progress, padding = { left = 1 } },
         },
       },
       inactive_sections = {

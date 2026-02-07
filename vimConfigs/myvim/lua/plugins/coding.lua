@@ -1,18 +1,17 @@
 return {
+  -- Configures LuaLS to support auto-completion and type checking
+  -- while editing your Neovim configuration.
   {
     "folke/lazydev.nvim",
     ft = "lua",
     cmd = "LazyDev",
     opts = {
       library = {
-        { path = "luvit-meta/library", words = { "vim%.uv" } },
-        { path = "LazyVim", words = { "LazyVim" } },
-        { path = "lazy.nvim", words = { "LazyVim" } },
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
       },
     },
   },
-  -- Manage libuv types with lazy. Plugin will never be loaded
-  { "Bilal2453/luvit-meta", lazy = true },
   -- Add lazydev source to cmp
   {
     "nvim-cmp",

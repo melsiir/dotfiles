@@ -24,6 +24,10 @@ end
 function ealiases
     vi ~/.config/fish/aliases.fish
 end
+function w -d "go to my projects directory"
+    cd ~/projects
+    cdf 1
+end
 function epaks
     vi ~/.config/fish/onDemand/packages.fish
 end
@@ -63,7 +67,7 @@ function vl -d "open last file"
 end
 
 function pvim -d "plain nvim"
-    nvim -u NONE -i NONE -n -N -n
+    nvim -u NONE -i NONE -n -N -n $argv
 end
 
 function nman
@@ -151,7 +155,7 @@ function mkdir
     command mkdir -p $argv
 end
 function ps
-    command ps auxf
+    command ps auxf $argv
 end
 function ping
     command ping -c 10 $argv
@@ -314,9 +318,10 @@ function h -d "Search command line history"
 end
 
 # Search running processes
-function p -d "Search running processes"
+function pf -d "Search running processes"
     ps aux | grep $argv
 end
+
 function topcpu
     /bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10
 end
@@ -453,3 +458,15 @@ end
 function gsh
     gcloud cloud-shell ssh $argv
 end
+
+function gradlew
+    if not test -x ./gradlew
+        chmod +x ./gradlew
+        ./gradlew $argv
+    else
+        ./gradlew $argv
+    end
+end
+
+abbr gb gradlew assembledebug
+abbr rgb gradlew build

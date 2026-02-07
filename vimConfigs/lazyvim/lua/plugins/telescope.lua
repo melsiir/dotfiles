@@ -1,9 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  dependencies = {
-    "nvim-telescope/telescope-ui-select.nvim",
-    lazy = false,
-  },
+  optional = true,
   -- to add ignore list add it to your home .gitignore
   -- change some options
   opts = {

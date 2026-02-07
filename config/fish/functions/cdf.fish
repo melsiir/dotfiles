@@ -1,6 +1,6 @@
 function cdf -d "cd to directory with assistance from fzf"
     if test -z $argv
-        set maxDepth 3
+        set maxDepth 5
     else
         set maxDepth $argv[1]
     end

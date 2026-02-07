@@ -1,0 +1,6 @@
+require("core.options")
+require("core.lazy")
+require("core.keymaps")
+require("core.autocmd")
+vim.cmd([[highlight FlashLabel guibg=none]])
+vim.cmd([[highlight FlashMatch guibg=none]])

@@ -92,6 +92,7 @@ function copyClip -d "copy content to clipboard"
 end
 
 function reload --description 'Reloads shell (i.e. invoke as a login shell)'
+    # termux-reload-settings
     exec $SHELL -l
 end
 
@@ -261,8 +262,12 @@ function master
 end
 
 function undogit -d "delete last commit"
+    set -l gtime $argv[1]
+    if test -z "$argv"
+        set gtime 1
+    end
     if confirmed
-        git reset HEAD~1
+        git reset HEAD~$gtime
         echo
         echo -e "$GREEN successfully deleted the latest commit$RC"
     end
@@ -316,6 +321,10 @@ end
 function gl
     git log --oneline --decorate --color $argv
 end
+function gcom -d "add . and commmit"
+    git add .
+    git commit -m $argv
+end
 function commit
     git add . && git commit -m "$argv"
 end
@@ -328,7 +337,9 @@ function gforce
 end
 
 function gnuke
-    git clean -df && git reset --hard $argv
+    if confirmed
+        git clean -df && git reset --hard $argv
+    end
 end
 
 function deleteRemoteGitRepo -d "remove repo form github.com"
@@ -416,6 +427,14 @@ end
 
 function gcl
     git clone $argv
+end
+
+function gcls -d "shallow clone"
+    git clone --depth 1 $argv
+end
+
+function cloneMyRepo -d "donwload my remote repository"
+    git clone https://github.com/(gh repo list --json nameWithOwner --jq '.[].nameWithOwner' 2>/dev/null | fzf)
 end
 
 function gitlog --description "git commit browser. uses fzf"
@@ -871,6 +890,35 @@ function tscr -d "compile and run typescript code"
     node dist/*.js
 end
 
+function jj -d "compile and run java file"
+    # Check if a filename was provided as an argument
+    if test (count $argv) -eq 0
+        java *.java
+    else
+        java $argv[1]
+    end
+    # if test (count $argv) -eq 0
+    #     echo "Usage: jr <filename.java>"
+    #     return 1
+    # end
+    #
+    # set file $argv[1]
+    # set name (basename $file .java)
+    #
+    # # Compile the Java file
+    # # echo "Compiling $file..."
+    # javac $file
+    #
+    # # Check if compilation was successful (javac returns 0 on success)
+    # if test $status -eq 0
+    #     # Run the compiled Java class
+    #     echo "Running $name..."
+    #     java $name
+    # else
+    #     echo "Compilation failed."
+    # end
+end
+
 function pp
     pnpm $argv
 end
@@ -917,12 +965,15 @@ function nuke -d "delete current directory"
         echo "home directory cannot be deleted!"
         return
     else
-        set -l deleted (pwd | awk -F/ '{nlast = NF -0;print $nlast}')
-
-        cd ..
-        rm -rf $curdir
-
-        echo "the directory $deleted has been nuked"
+        if confirmed
+            echo
+            set -l deleted (pwd | awk -F/ '{nlast = NF -0;print $nlast}')
+            builtin cd ../
+            rm -rf $curdir
+            ls
+            echo
+            echo -e "$GREEN  the directory $BOLD$deleted$RC$GREEN has been nuked$RC"
+        end
     end
 end
 
@@ -993,10 +1044,19 @@ function gate
 end
 
 function fe -d "goto to function defenetion from"
-    set -l rawResult (type $argv[1])[2]
-    set -l funcPath (string split " " $rawResult)[4]
-    set -l funcLine (string split " " $rawResult)[-1]
-    nvim $funcPath +$funcLine
+    set -l type_output (type $argv[1])
+
+    # Check if it's a Fish function with line number info
+    if test (count $type_output) -ge 2
+        set -l rawResult $type_output[2]
+        set -l funcPath (string split " " $rawResult)[4]
+        set -l funcLine (string split " " $rawResult)[-1]
+        nvim $funcPath +$funcLine
+    else
+        # It's a bin script - extract path from first line
+        set -l funcPath (string match -r '/.*' $type_output[1])
+        nvim $funcPath
+    end
 end
 
 function kittermux -d "convert kitty themes into termux themes"

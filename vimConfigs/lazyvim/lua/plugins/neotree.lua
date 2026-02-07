@@ -9,6 +9,7 @@ end
 -- use <  and  > to navigate tabs
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  optional = true,
   opts = {
     close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
     -- popup_border_style = Utils.ui.borderchars("thick", "tl-t-tr-r-br-b-bl-l"),
@@ -67,6 +68,6 @@ return {
     },
   },
   keys = {
-      { "-", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
-  }
+    { "-", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+  },
 }

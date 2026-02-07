@@ -1,0 +1,2 @@
+#!/bin/bash
+java -jar ~/android-sdk/android-xml-formatter.jar "$@"
