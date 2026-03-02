@@ -14,7 +14,11 @@
   command_exists() {
     command -v "$1" >/dev/null 2>&1
   }
-
+ setup_termux() {
+ if command_exists termux-setup-storage; then
+      termux-setup-storage
+    fi
+ }
   clone_dotfiles() {
     if command_exists pacman; then
       pacman -Syu --noconfirm
@@ -27,9 +31,6 @@
   }
 
   install_packages() {
-    if command_exists termux-setup-storage; then
-      termux-setup-storage
-    fi
 
     echo -e "${GREEN}installing required packages...${RC}"
     packagesToInstall="fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq which gh"
@@ -155,6 +156,7 @@
     fi
   }
 
+  setup_termux
   clone_dotfiles
   install_packages
   # copyConfig
