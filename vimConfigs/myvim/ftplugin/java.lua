@@ -13,7 +13,7 @@ local path_to_jdebug_package = path_to_mason_packages .. "java-debug-adapter/"
 local path_to_jtest_package = path_to_mason_packages .. "java-test/"
 
 local path_to_config = vim.fn.has("Android") == 1 and path_to_jdtls_package .. "/config_linux_arm"
-  or path_to_jdtls_package .. "/config_linux"
+    or path_to_jdtls_package .. "/config_linux"
 
 -- [CRITICAL]
 local jdtls_launcher_glob = path_to_jdtls_package .. "plugins/org.eclipse.equinox.launcher_*.jar"
@@ -43,7 +43,7 @@ local workspace_dir = home .. "/.cache/nvim/jdtls/workspace" .. project_name
 
 local bundles = {}
 local jdebug_jars =
-  vim.fn.glob(path_to_jdebug_package .. "extension/server/com.microsoft.java.debug.plugin-*.jar", true, true)
+    vim.fn.glob(path_to_jdebug_package .. "extension/server/com.microsoft.java.debug.plugin-*.jar", true, true)
 if not vim.tbl_isempty(jdebug_jars) then
   vim.list_extend(bundles, jdebug_jars)
 else

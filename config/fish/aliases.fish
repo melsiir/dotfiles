@@ -25,7 +25,7 @@ function ealiases
     vi ~/.config/fish/aliases.fish
 end
 function w -d "go to my projects directory"
-    cd ~/projects
+    builtin cd ~/projects
     cdf 1
 end
 function epaks
@@ -154,6 +154,11 @@ end
 function mkdir
     command mkdir -p $argv
 end
+
+function mtop -d "top for small screen"
+    top -ho PID,%CPU,%MEM,RES,ARGS $argv
+end
+
 function ps
     command ps auxf $argv
 end

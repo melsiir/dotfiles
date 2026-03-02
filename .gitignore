@@ -18,9 +18,8 @@ henry/
 fishd.*
 fish/config.fish.backup
 .config/fish/fish_history
-fish/fish_history
-fish/fish_variables
-
+fish_variables
+fish_history
 #github credential
 
 */gh/hosts.yml

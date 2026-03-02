@@ -62,11 +62,11 @@ return {
     "watzon/goshot.nvim",
     cmd = "Goshot",
     opts = {
-      binary = "goshot", -- Path to goshot binary (default: "goshot")
+      binary = "goshot",   -- Path to goshot binary (default: "goshot")
       auto_install = true, -- Automatically install goshot if not found (default: false)
     },
     keys = {
-      { "<leader>bS", "<cmd>Goshot<cr>", mode = { "n" }, desc = "Take screenshot" },
+      { "<leader>bS", "<cmd>Goshot<cr>",      mode = { "n" }, desc = "Take screenshot" },
       { "<leader>bS", "<cmd>'<,'>Goshot<cr>", mode = { "v" }, desc = "Take screenshot of selection" },
     },
   },
@@ -125,7 +125,7 @@ return {
         highlight_mode = "background",
         highlighter = {
           auto_enable = true,
-          filetypes = spec.ft, -- uses lazy.nvim's ft spec
+          filetypes = spec.ft,   -- uses lazy.nvim's ft spec
           max_byte = 200 * 1024, -- 200kb
           update_insert = false,
         },
@@ -136,7 +136,7 @@ return {
           ccc.picker.css_name,
           ccc.picker.ansi_escape(),
         },
-        alpha_show = "hide", -- needed when highlighter.lsp is set to true
+        alpha_show = "hide",           -- needed when highlighter.lsp is set to true
         recognize = { output = true }, -- automatically recognize color format under cursor
         inputs = { ccc.input.hsl },
         outputs = {
@@ -195,7 +195,7 @@ return {
     opts = {
       transparent_background = true,
       variant = "medium", -- 'hard'|'medium'|'soft'
-      overrides = {}, -- add custom overrides
+      overrides = {},     -- add custom overrides
     },
   },
   -- {

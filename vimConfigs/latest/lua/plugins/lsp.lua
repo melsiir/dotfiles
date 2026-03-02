@@ -21,7 +21,9 @@ vim.diagnostic.config({
   float = {
     border = "rounded",
     source = true,
+    style = "minimal",
     focusable = false,
+    header = { "  Diagnostics", "Bold" },
   },
   update_in_insert = false,
   underline = true,
@@ -35,6 +37,7 @@ vim.diagnostic.config({
     },
   },
 })
+
 
 -- ========================
 -- Plugins

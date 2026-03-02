@@ -1,3 +1,6 @@
+if true then
+  return {}
+end
 local jdtls_ok, jdtls = pcall(require, "jdtls")
 if not jdtls_ok then
   return
@@ -8,12 +11,13 @@ local jdtls_setup = require("jdtls.setup")
 local home = os.getenv("HOME")
 
 local path_to_mason_packages = home .. "/.local/share/nvim/mason/packages/"
-local path_to_jdtls_package = home .. "/.jdtls/"
+-- local path_to_jdtls_package = home .. "/.jdtls/"
+local path_to_jdtls_package = path_to_mason_packages .. "jdtls/"
 local path_to_jdebug_package = path_to_mason_packages .. "java-debug-adapter/"
 local path_to_jtest_package = path_to_mason_packages .. "java-test/"
 
 local path_to_config = vim.fn.has("Android") == 1 and path_to_jdtls_package .. "/config_linux_arm"
-  or path_to_jdtls_package .. "/config_linux"
+    or path_to_jdtls_package .. "/config_linux"
 
 -- [CRITICAL]
 local jdtls_launcher_glob = path_to_jdtls_package .. "plugins/org.eclipse.equinox.launcher_*.jar"
@@ -43,7 +47,7 @@ local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
 
 local bundles = {}
 local jdebug_jars =
-  vim.fn.glob(path_to_jdebug_package .. "extension/server/com.microsoft.java.debug.plugin-*.jar", true, true)
+    vim.fn.glob(path_to_jdebug_package .. "extension/server/com.microsoft.java.debug.plugin-*.jar", true, true)
 if not vim.tbl_isempty(jdebug_jars) then
   vim.list_extend(bundles, jdebug_jars)
 else
@@ -66,13 +70,14 @@ local config = {
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
-    "-Xmx1g",
+    "-Xmx512",
     "-javaagent:" .. lombok_path,
     "--add-modules=ALL-SYSTEM",
     "--add-opens",
     "java.base/java.util=ALL-UNNAMED",
     "--add-opens",
     "java.base/java.lang=ALL-UNNAMED",
+    -- "-Djava.import.gradle.enabled=false",
 
     "-jar",
     path_to_jar,

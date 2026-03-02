@@ -70,8 +70,8 @@ return {
           -- ["<C-e>"] = { "hide", "fallback" },
         },
         cmdline = {
-          -- enabled = false,
-          -- completion = { menu = { auto_show = true } },
+          enabled = true,
+          completion = { menu = { auto_show = true } },
           keymap = {
             ["<CR>"] = { "accept_and_enter", "fallback" },
           },
@@ -86,7 +86,7 @@ return {
               padding = 1,
               -- gap = 4,
               columns = {
-                { "label", "label_description", gap = 1 },
+                { "label",     "label_description", gap = 1 },
                 { "kind_icon", "kind" },
               },
             },

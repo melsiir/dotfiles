@@ -1,39 +1,39 @@
 return {
-  "akinsho/bufferline.nvim",
-  opts = {
-    options = {
-      -- 🔹 Compact layout
-      mode = "buffers",
-      numbers = "none",
-      indicator = {
-        style = "none", -- simpler than icon
-      },
-
-      -- 🔹 Termux-friendly
-      diagnostics = false, -- reduces clutter
-      separator_style = "thin",
-      always_show_bufferline = true,
-
-      -- 🔹 Icons (important for Termux)
-      -- show_buffer_icons = false,
-      show_buffer_close_icons = false,
-      show_close_icon = false,
-
-      -- 🔹 Width control
-      max_name_length = 18,
-      max_prefix_length = 12,
-      truncate_names = true,
-
-      -- 🔹 Scrolling behavior
-      scroll_icon = "",
-
-      -- 🔹 Performance
-      -- hover = { enabled = false },
-
-      -- 🔹 Sorting (stable, predictable)
-      sort_by = "insert_after_current",
-    },
-  },
+  -- "akinsho/bufferline.nvim",
+  -- opts = {
+  --   options = {
+  --     -- 🔹 Compact layout
+  --     mode = "buffers",
+  --     numbers = "none",
+  --     indicator = {
+  --       style = "none", -- simpler than icon
+  --     },
+  --
+  --     -- 🔹 Termux-friendly
+  --     diagnostics = false, -- reduces clutter
+  --     separator_style = "thin",
+  --     always_show_bufferline = true,
+  --
+  --     -- 🔹 Icons (important for Termux)
+  --     -- show_buffer_icons = false,
+  --     show_buffer_close_icons = false,
+  --     show_close_icon = false,
+  --
+  --     -- 🔹 Width control
+  --     max_name_length = 18,
+  --     max_prefix_length = 12,
+  --     truncate_names = true,
+  --
+  --     -- 🔹 Scrolling behavior
+  --     scroll_icon = "",
+  --
+  --     -- 🔹 Performance
+  --     -- hover = { enabled = false },
+  --
+  --     -- 🔹 Sorting (stable, predictable)
+  --     sort_by = "insert_after_current",
+  --   },
+  -- },
 }
 -- return {
 --   "akinsho/bufferline.nvim",

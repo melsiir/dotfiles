@@ -807,7 +807,7 @@ function startheme -d "change starship theme with fuzzy finder"
     end
 
     if test -e ~/.config/starship/$selectedTheme
-        cp --update=all ~/.config/starship/$selectedTheme ~/.config/starship.toml
+        cp --update=all --force ~/.config/starship/$selectedTheme ~/.config/starship.toml
     else
         starship preset $selectedTheme >~/.config/starship.toml
     end

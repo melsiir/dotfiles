@@ -21,7 +21,7 @@ return {
           mason = true,
         },
         jdtls = {
-          -- enabled = true,
+          enabled = false,
           mason = false,
         },
         emmet_language_server = {

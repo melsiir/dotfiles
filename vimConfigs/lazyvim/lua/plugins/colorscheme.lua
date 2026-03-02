@@ -83,9 +83,29 @@ return {
   --   end,
   -- },
   {
+    "vague-theme/vague.nvim",
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other plugins
+    config = function()
+      -- NOTE: you do not need to call setup if you don't want to.
+      require("vague").setup({
+        -- optional configuration here
+      })
+      -- vim.cmd("colorscheme vague")
+    end
+  },
+  {
+    'https://gitlab.com/shmerl/neogotham.git',
+    lazy = false,    -- to make sure it's loaded on startup
+    priority = 1000, -- to load before other plugins
+    -- config = function()
+    --   vim.cmd.colorscheme('neogotham')
+    -- end
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      -- colorscheme = "catppuccin-macchiato",
+      colorscheme = "catppuccin-macchiato",
       icons = {
         diagnostics = {
           --   󰌵  󱠃    󱠂
