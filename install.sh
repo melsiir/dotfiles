@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # Prevent execution if this script was only partially downloaded
 {
@@ -17,8 +17,10 @@
 
   clone_dotfiles() {
     if command_exists pacman; then
+      pacman -Syu --noconfirm
       pacman -S git --noconfirm
     else
+      apt update -y
       apt install git -y
     fi
     git clone https://github.com/melsiir/dotfiles
@@ -30,16 +32,15 @@
     fi
 
     echo -e "${GREEN}installing required packages...${RC}"
-    packagesToInstall="fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq which"
+    packagesToInstall="fish lua54 neovim fzf eza make cmake zip tree fd bat nodejs starship openssl-tool wget2 unzip unrar ripgrep iproute2 aria2 jq which gh"
     if command_exists pacman; then
-      pacman -Syu
+      
       pacman -S $packagesToInstall --noconfirm
-      pacman -S gh --noconfirm
     else
-      apt update
-      DEBIAN_FRONTEND=noninteractive apt upgrade -y
+      DEBIAN_FRONTEND=noninteractive \
+      apt upgrade -y \
+      -o Dpkg::Options::="--force-confnew"
       DEBIAN_FRONTEND=noninteractive apt install -y $packagesToInstall
-      DEBIAN_FRONTEND=noninteractive apt install gh -y
     fi
     chsh -s fish
   }
