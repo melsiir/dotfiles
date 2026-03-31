@@ -919,6 +919,29 @@ function jj -d "compile and run java file"
     # end
 end
 
+function kk -d "run kotlin file"
+    if test -z "$argv"
+        echo "Usage: k <file.kt>"
+        return 1
+    end
+
+    set file $argv[1]
+
+    # Check if file exists
+    if not test -f "$file"
+        echo "Error: File '$file' not found"
+        return 1
+    end
+
+    # Get filename without .kt extension
+    set jarfile (string replace '.kt' '.jar' "$file")
+
+    # Compile and run
+    kotlinc "$file" -include-runtime -d "$jarfile"
+    echo
+    java -jar "$jarfile"
+end
+
 function pp
     pnpm $argv
 end

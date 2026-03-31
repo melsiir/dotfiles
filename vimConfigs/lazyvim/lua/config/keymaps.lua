@@ -44,24 +44,6 @@ end, { desc = "duplicate line and comment copy" })
 
 -- live-server
 
-map("n", "<leader>us", function()
-  if vim.g.liveserver_bufnr == nil then
-    if vim.o.filetype == "markdown" then
-      vim.cmd("LivePreview start")
-      vim.g.liveserver_bufnr = vim.api.nvim_get_current_buf()
-    else
-      vim.cmd("LiveServer")
-    end
-  else
-    if vim.o.filetype == "markdown" then
-      vim.cmd("LivePreview close")
-      vim.g.liveserver_bufnr = nil
-    else
-      vim.cmd("LiveServerStop")
-    end
-  end
-end, { desc = "toggle live-server" })
-
 map("n", "<leader>fx", function()
   local file = vim.fn.expand("%:p")
   if file == "" then

@@ -1,0 +1,128 @@
+local Actions = require "snacks.explorer.actions"
+local Tree = require "snacks.explorer.tree"
+
+local M = {}
+
+---Source code adapted from: https://github.com/folke/snacks.nvim/discussions/1306#discussioncomment-12248922
+---@type snacks.picker.Config
+M.explorer = {
+    layout = {
+        -- This is the intended setting to keep the input automatically hidden if un-focused,
+        -- but for some weird reason after confirming the filter, it's stuck in insert mode,
+        -- so for now keep it commented out.
+        -- auto_hide = { "input" },
+
+        hidden = { "input" },
+    },
+    on_show = function(picker)
+        local window_gap = 1
+
+        local root = picker.layout.root
+
+        ---@param win snacks.win
+        local update = function(win)
+            win.opts.row = vim.api.nvim_win_get_position(root.win)[1]
+            win.opts.col = vim.api.nvim_win_get_width(root.win) + window_gap
+            win.opts.height = 0.85
+            win.opts.width = 0.5
+            win:update()
+        end
+
+        local preview_win = Snacks.win.new {
+            relative = "editor",
+            external = false,
+            focusable = false,
+            border = "rounded",
+            backdrop = false,
+            show = false,
+            bo = {
+                filetype = "snacks_float_preview",
+                buftype = "nofile",
+                buflisted = false,
+                swapfile = false,
+                undofile = false,
+            },
+            on_win = function(win)
+                update(win)
+                picker:show_preview()
+            end,
+        }
+
+        root:on("WinResized", function()
+            update(preview_win)
+        end)
+
+        root:on("WinLeave", function()
+            vim.schedule(function()
+                if not picker:is_focused() then
+                    picker.preview.win:close()
+                end
+            end)
+        end)
+
+        picker.preview.win = preview_win
+        picker.main = preview_win.win
+    end,
+    on_close = function(picker)
+        picker.preview.win:close()
+    end,
+    actions = {
+        toggle_preview = function(picker)
+            picker.preview.win:toggle()
+        end,
+        open = function(picker, ...)
+            local explorer_actions = require "snacks.explorer.actions"
+            picker.preview.win:close()
+            explorer_actions.actions.confirm(picker, ...)
+        end,
+        expand_recursive = function(picker, item)
+            local item_node = Tree:node(item.file)
+            if not item_node then
+                return
+            end
+
+            Tree:walk(item_node, function(node)
+                if node.dir then
+                    Tree:open(node.path)
+                    Tree:expand(node)
+                end
+            end, { all = true })
+
+            Actions.update(picker, { refresh = true })
+        end,
+        collapse_recursive = function(picker, item)
+            local item_node = Tree:node(item.file)
+            if not item_node then
+                return
+            end
+
+            Tree:walk(item_node, function(node)
+                if node.dir then
+                    Tree:close(node.path)
+                end
+            end, { all = true })
+
+            Actions.update(picker, { refresh = true })
+        end,
+    },
+    win = {
+        list = {
+            keys = {
+                ["-"] = "explorer_up",
+                ["o"] = "open",
+                ["="] = "open",
+                ["+"] = "open",
+                ["O"] = "explorer_open",
+                ["?"] = "toggle_help_list",
+                ["L"] = "expand_recursive",
+                ["H"] = "collapse_recursive",
+                ["<C-t>"] = "tab",
+                ["<C-f>"] = "focus_input",
+                ["<M-h>"] = false,
+                ["/"] = false,
+            },
+        },
+    },
+}
+
+return M

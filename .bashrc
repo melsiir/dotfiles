@@ -77,14 +77,14 @@ export LS_COLORS='no=00:fi=00:di=00;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 #export GREP_OPTIONS='--color=auto' #deprecated
 
 # Check if ripgrep is installed
-if command -v rg &>/dev/null; then
-  # Alias grep to rg if ripgrep is installed
-  alias grep='rg'
-else
-  # Alias grep to /usr/bin/grep with GREP_OPTIONS if ripgrep is not installed
-  alias grep="/usr/bin/grep $GREP_OPTIONS"
-fi
-unset GREP_OPTIONS
+# if command -v rg &>/dev/null; then
+#   # Alias grep to rg if ripgrep is installed
+#   alias grep='rg'
+# else
+#   # Alias grep to /usr/bin/grep with GREP_OPTIONS if ripgrep is not installed
+#   alias grep="/usr/bin/grep $GREP_OPTIONS"
+# fi
+# unset GREP_OPTIONS
 
 # Color for manpages in less makes manpages a little easier to read
 export LESS_TERMCAP_mb=$'\E[01;31m'
@@ -493,3 +493,15 @@ export SSL_CERT_FILE=$PREFIX/etc/tls/cert.pem
 export JDTLS="$HOME/.java-lsp"
 export PATH=$JDTLS/bin:$PATH
 export PATH=${PATH}:${ANDROID_HOME}/gradle/bin
+
+check_system_java() {
+  if command -v java &>/dev/null; then
+    local version
+    version=$(java -version 2>&1 | head -1 | cut -d'"' -f2 | cut -d'.' -f1)
+    if [ "$version" -ge 21 ]; then
+      echo "$version"
+      return 0
+    fi
+  fi
+  return 1
+}

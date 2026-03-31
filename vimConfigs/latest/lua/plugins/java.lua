@@ -4,7 +4,6 @@ end
 
 local M = {}
 
-
 -- Read .java-language-server.json file if it exists
 local function read_project_config()
   local file = vim.fn.findfile(".java-language-server.json", ".;")
@@ -43,15 +42,15 @@ return {
           local root_dir = require("jdtls.setup").find_root(root_markers)
           -- calculate workspace dir
           local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-          local workspace_dir = vim.fn.stdpath "data" .. "/site/java/workspace-root/" .. project_name
+          local workspace_dir = vim.fn.stdpath("data") .. "/site/java/workspace-root/" .. project_name
           os.execute("mkdir " .. workspace_dir)
           -- get the mason install path
           -- local install_path = require("mason-registry").get_package("jdtls"):get_install_path()
           local install_path = "~/.local/share/nvim/mason/packages/jdtls" -- get the current OS
           local os
-          if vim.fn.has "macunix" then
+          if vim.fn.has("macunix") then
             os = "mac"
-          elseif vim.fn.has "win32" then
+          elseif vim.fn.has("win32") then
             os = "win"
           else
             os = "linux"
@@ -120,16 +119,16 @@ return {
   --   }
   -- },
   {
-    'NickJAllen/java-helpers.nvim',
+    "NickJAllen/java-helpers.nvim",
     cmd = {
-      'JavaHelpersNewFile',
-      'JavaHelpersPickStackTraceLine',
-      'JavaHelpersGoToStackTraceLine',
-      'JavaHelpersGoUpStackTrace',
-      'JavaHelpersGoDownStackTrace',
-      'JavaHelpersGoToBottomOfStackTrace',
-      'JavaHelpersGoToTopOfStackTrace',
-      'JavaHelpersSendStackTraceToQuickfix',
+      "JavaHelpersNewFile",
+      "JavaHelpersPickStackTraceLine",
+      "JavaHelpersGoToStackTraceLine",
+      "JavaHelpersGoUpStackTrace",
+      "JavaHelpersGoDownStackTrace",
+      "JavaHelpersGoToBottomOfStackTrace",
+      "JavaHelpersGoToTopOfStackTrace",
+      "JavaHelpersSendStackTraceToQuickfix",
     },
 
     -- Default options are shown here. If opts is missing or left empty then these defaults will be used.
@@ -148,29 +147,27 @@ return {
       ---If true then newly created Java files will be formatted
       ---@type boolean
       should_format = true,
-
     },
 
     -- Example keys - change these as you like
     keys = {
-      { '<leader>jn', ':JavaHelpersNewFile<cr>',                  desc = 'New Java Type' },
-      { '<leader>jc', ':JavaHelpersNewFile Class<cr>',            desc = 'New Java Class' },
-      { '<leader>ji', ':JavaHelpersNewFile Interface<cr>',        desc = 'New Java Interface' },
-      { '<leader>ja', ':JavaHelpersNewFile Abstract Class<cr>',   desc = 'New Abstract Java Class' },
-      { '<leader>jr', ':JavaHelpersNewFile Record<cr>',           desc = 'New Java Record' },
-      { '<leader>je', ':JavaHelpersNewFile Enum<cr>',             desc = 'New Java Enum' },
-      { '<leader>sj', ':JavaHelpersPickStackTraceLine<cr>',       desc = 'Pick Java stack trace line' },
-      { '<leader>js', ':JavaHelpersGoToStackTraceLine<cr>',       desc = 'Go to Java stack trace line' },
-      { '[j',         ':JavaHelpersGoUpStackTrace<cr>',           desc = 'Go up Java stack trace' },
-      { ']j',         ':JavaHelpersGoDownStackTrace<cr>',         desc = 'Go down Java stack trace' },
-      { '<leader>[j', ':JavaHelpersGoToTopOfStackTrace<cr>',      desc = 'Go to top of Java stack trace' },
-      { '<leader>]j', ':JavaHelpersGoToBottomOfStackTrace<cr>',   desc = 'Go to bottom of Java stack trace' },
-      { '<leader>jq', ':JavaHelpersSendStackTraceToQuickfix<cr>', desc = 'Send Java stack trace to quickfix list' },
+      { "<leader>jn", ":JavaHelpersNewFile<cr>", desc = "New Java Type" },
+      { "<leader>jc", ":JavaHelpersNewFile Class<cr>", desc = "New Java Class" },
+      { "<leader>ji", ":JavaHelpersNewFile Interface<cr>", desc = "New Java Interface" },
+      { "<leader>ja", ":JavaHelpersNewFile Abstract Class<cr>", desc = "New Abstract Java Class" },
+      { "<leader>jr", ":JavaHelpersNewFile Record<cr>", desc = "New Java Record" },
+      { "<leader>je", ":JavaHelpersNewFile Enum<cr>", desc = "New Java Enum" },
+      { "<leader>sj", ":JavaHelpersPickStackTraceLine<cr>", desc = "Pick Java stack trace line" },
+      { "<leader>js", ":JavaHelpersGoToStackTraceLine<cr>", desc = "Go to Java stack trace line" },
+      { "[j", ":JavaHelpersGoUpStackTrace<cr>", desc = "Go up Java stack trace" },
+      { "]j", ":JavaHelpersGoDownStackTrace<cr>", desc = "Go down Java stack trace" },
+      { "<leader>[j", ":JavaHelpersGoToTopOfStackTrace<cr>", desc = "Go to top of Java stack trace" },
+      { "<leader>]j", ":JavaHelpersGoToBottomOfStackTrace<cr>", desc = "Go to bottom of Java stack trace" },
+      { "<leader>jq", ":JavaHelpersSendStackTraceToQuickfix<cr>", desc = "Send Java stack trace to quickfix list" },
     },
 
     dependencies = {
-      { 'nvim-lua/plenary.nvim' },
+      { "nvim-lua/plenary.nvim" },
     },
   },
-
 }

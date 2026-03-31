@@ -43,6 +43,7 @@ set -Ux ANDROID_SDK_ROOT $ANDROID_HOME
 set -U fish_user_paths $fish_user_paths \
     $ANDROID_HOME/cmdline-tools/bin \
     $ANDROID_HOME/platform-tools
+yes | sdkmanager --licenses --sdk_root=$ANDROID_HOME/cmdline-tools
 echo -e "   $GREEN== Verification ==$RC"
 echo
 which sdkmanager

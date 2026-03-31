@@ -3,8 +3,8 @@ return {
   opts = {
     dashboard = {
       enabled = not vim.g.default_screen,
-      width   = 35,
-      preset  = {
+      width = 35,
+      preset = {
         -- header = "MELSIIR",
         header = [[
  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
@@ -17,6 +17,25 @@ return {
     },
     picker = {
       prompt = " ",
-    }
+    },
+    explorer = require("config.explorer").explorer,
+    styles = {
+      notification = {
+        wo = {
+          wrap = true,
+        },
+        relative = "editor",
+      },
+      notification_history = {
+        width = 0.75,
+        height = 0.75,
+        relative = "editor",
+      },
+      scratch = {
+        width = 0.70,
+        height = 0.65,
+        relative = "editor",
+      },
+    },
   },
 }

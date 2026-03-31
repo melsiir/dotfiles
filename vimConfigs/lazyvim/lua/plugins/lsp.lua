@@ -16,14 +16,22 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        kotlin_lsp = {
+          cmd = { "kotlin-lsp", "--stdio" },
+          filetypes = { "kotlin" },
+          settings = {},
+        },
+        kotlin_language_server = {
+          enabled = false,
+        },
         html = {
           enabled = true,
           mason = true,
         },
-        jdtls = {
-          enabled = false,
-          mason = false,
-        },
+        -- jdtls = {
+        --   enabled = true,
+        --   mason = true,
+        -- },
         emmet_language_server = {
           enabled = true,
           mason = true,

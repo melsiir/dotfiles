@@ -98,3 +98,6 @@ gcloud/
 **/access_tokens.db
 **/config_sentinel
 **/application_default_credentials.json
+
+config/JetBrains/
+config/aria2/aria2.log

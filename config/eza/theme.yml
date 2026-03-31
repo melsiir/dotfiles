@@ -1,0 +1,15 @@
+filenames:
+  # Custom filename-based overrides
+  # Cargo.toml: {icon: {glyph: 🦀}}
+  ignore: { icon: { glyph:  } }
+  .gitignore: { icon: { glyph:  } }
+  .dotfiles: { icon: { glyph:  } }
+  .android: { icon: { glyph:  } }
+  Downloads: { icon: { glyph: 󰉍 } }
+  sandbox: { icon: { glyph:  } }
+  other: { icon: { glyph:  } }
+
+extensions:
+  # Custom extension-based overrides
+  # rs: {filename: {foreground: Red}, icon: {glyph: 🦀}}
+  bak: { icon: { glyph: 󰁯 } }
